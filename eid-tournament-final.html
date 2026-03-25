@@ -279,7 +279,8 @@ body{background:#000;min-height:100vh;display:flex;justify-content:center;align-
 
 /* SF SHIMMER EFFECT */
 .sf-sil{width:clamp(90px,16vw,160px);height:auto;margin-bottom:16px;transition:filter 0.3s}
-#sf-overlay.active .sf-sil{animation:sf-sil-enter 1s cubic-bezier(0.22,1,0.36,1) forwards,sf-shimmer 2s ease-out 0.5s forwards;clip-path:polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)}
+#sf-overlay.active .sf-sil{animation:sf-sil-enter 1s cubic-bezier(0.22,1,0.36,1) forwards,sf-shimmer 2s ease-out 0.5s forwards}
+.sf-sil{clip-path:polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)}
 @keyframes sf-sil-enter{0%{clip-path:polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%);filter:brightness(1)}50%{clip-path:polygon(0% 40%, 100% 40%, 100% 100%, 0% 100%);filter:brightness(2.5)}55%{filter:brightness(1.2)}100%{clip-path:polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);filter:brightness(1)}}
 @keyframes sf-shimmer{0%{filter:url(#elecShimmer) drop-shadow(0 0 22px var(--shimmer-color,#4488FF));opacity:0.7}100%{filter:drop-shadow(0 0 22px var(--shimmer-color,#4488FF)) drop-shadow(0 0 50px var(--shimmer-color,#4488FF));opacity:1}}
 
@@ -988,10 +989,20 @@ function openSFOverlay(){
     sil.innerHTML = f.svg;
     sil.style.setProperty('--shimmer-color',f.hex);
     sil.style.filter = `drop-shadow(0 0 22px ${f.hex}) drop-shadow(0 0 50px ${f.hex}88)`;
-    // Set portrait image
+    // Set portrait image — replay fade-in once loaded (handles GitHub CDN latency)
     const portrait=document.getElementById('sf-portrait-'+side);
+    portrait.style.opacity='0';
+    portrait.style.animation='none';
     portrait.src = (zombieFighter===fId) ? f.zombieImg : f.img1;
     portrait.alt = f.name;
+    const doFadeIn=()=>{
+      portrait.style.animation=''; void portrait.offsetWidth;
+      portrait.style.animation='fade-in 0.4s ease-out forwards';
+      // After fade-in done, clear inline animation so CSS class rules (.victor/.knocked) take over cleanly
+      setTimeout(()=>{ portrait.style.animation=''; portrait.style.opacity='1'; }, 500);
+    };
+    if(portrait.complete && portrait.naturalWidth>0){ setTimeout(doFadeIn,800); }
+    else { portrait.onload=()=>setTimeout(doFadeIn,100); }
     // Names start hidden — typewriter reveals them later
     document.getElementById('sf-name-'+side).textContent = '';
     document.getElementById('sf-name-'+side).className = 'sf-name '+f.color;
@@ -1021,6 +1032,17 @@ function openSFOverlay(){
   resizeSFCanvas();
 
   // === CINEMATIC ENTRANCE SEQUENCE ===
+  // Lock in opacity+clipPath after walk-in animation completes (forwards fill workaround)
+  setTimeout(()=>{
+    if(!sfOpen) return;
+    ['A','B'].forEach(s=>{
+      const el=document.getElementById('sf-fighter-'+s);
+      el.style.opacity='1';
+      const sil=document.getElementById('sf-sil-'+s);
+      sil.style.clipPath='polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)';
+    });
+  }, 1600);
+
   // 0.5s: Fighter A lands -> ground slam + name typewriter + aura
   const fA=FIGHTERS[state.A], fB=FIGHTERS[state.B];
   setTimeout(()=>{
