@@ -432,7 +432,7 @@ body{background:#000;min-height:100vh;display:flex;justify-content:center;align-
 @keyframes select-glow{0%,100%{box-shadow:0 0 10px rgba(212,175,55,0.4)}50%{box-shadow:0 0 25px rgba(212,175,55,0.8),0 0 50px rgba(255,220,50,0.3)}}
 .sf-side-badge{display:none;position:absolute;top:-8px;right:-8px;z-index:10;font-family:'Black Ops One',Impact,'Arial Black',sans-serif;font-size:11px;letter-spacing:2px;padding:3px 10px;border-radius:12px;pointer-events:none}
 .sf-side-badge.show{display:block;animation:badge-pop 0.3s cubic-bezier(0.22,1,0.36,1)}
-@keyframes badge-pop{0%{transform:scale(0);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes badge-pop{0%{opacity:0;letter-spacing:6px}100%{opacity:1;letter-spacing:2px}}
 .sf-side-badge.you{background:rgba(0,120,255,0.8);color:#fff;box-shadow:0 0 12px rgba(68,136,255,0.6)}
 .sf-side-badge.cpu{background:rgba(180,0,0,0.7);color:rgba(255,255,255,0.7);box-shadow:0 0 8px rgba(200,0,0,0.4)}
 
@@ -516,7 +516,7 @@ body{background:#000;min-height:100vh;display:flex;justify-content:center;align-
     <!-- Fighter B — mirrored -->
     <div class="sf-fighter" id="sf-fighter-B" style="transform:scaleX(-1)">
       <div class="sf-aura" id="sf-aura-B"></div>
-      <div class="sf-side-badge" id="sf-badge-B"></div>
+      <div class="sf-side-badge" id="sf-badge-B" style="transform:scaleX(-1)"></div>
       <div class="sf-ground-slam" id="sf-slam-B"></div>
       <img class="sf-portrait" id="sf-portrait-B" src="" style="transform:scaleX(-1)" alt="">
       <div class="sf-progress-wrap" id="sf-progress-B" style="transform:scaleX(-1)">
@@ -1146,6 +1146,7 @@ function cancelSFOverlay(){
 // Tap Battle: tap a fighter to ATTACK them — their health goes down
 function handleTap(side){
   if(!tapActive || !sfOpen) return;
+  if(side===humanSide) return; // can't tap yourself
   vib(12);
   lastHumanTapTime=Date.now();
   applyTap(side);
