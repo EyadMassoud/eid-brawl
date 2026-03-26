@@ -42,12 +42,14 @@ body{background:#000;min-height:100vh;display:flex;justify-content:center;align-
 .corner-bl{bottom:8px;left:8px;transform:scaleY(-1)}.corner-br{bottom:8px;right:8px;transform:scale(-1,-1)}
 
 /* LIGHTNING — constrained height to belt zone, behind all content */
-#lightning-canvas{position:absolute;top:0;left:0;width:100%;height:50%;z-index:2;pointer-events:none}
+#lightning-canvas{position:absolute;top:0;left:0;width:100%;height:30%;z-index:2;pointer-events:none}
 
 /* BELT HEADER */
 .belt-header{position:relative;z-index:4;padding:16px 14px 6px}
 .belt-svg{width:100%;height:auto;filter:drop-shadow(0 0 18px rgba(212,175,55,0.45)) drop-shadow(0 6px 22px rgba(0,0,0,0.95));animation:belt-breathe 3s ease-in-out infinite}
 @keyframes belt-breathe{0%,100%{filter:drop-shadow(0 0 18px rgba(212,175,55,0.35)) drop-shadow(0 6px 22px rgba(0,0,0,0.95))}50%{filter:drop-shadow(0 0 28px rgba(212,175,55,0.6)) drop-shadow(0 0 50px rgba(255,220,50,0.25)) drop-shadow(0 6px 22px rgba(0,0,0,0.95))}}
+.belt-svg.belt-swap{animation:belt-swap-pulse 0.6s cubic-bezier(0.22,1,0.36,1)}
+@keyframes belt-swap-pulse{0%{transform:scale(1)}30%{transform:scale(1.08);filter:brightness(1.5) drop-shadow(0 0 30px rgba(212,175,55,0.8))}100%{transform:scale(1)}}
 
 /* DIVIDERS */
 .gold-rule{position:relative;z-index:4;display:flex;align-items:center;gap:6px;padding:6px 24px}
@@ -334,6 +336,11 @@ body{background:#000;min-height:100vh;display:flex;justify-content:center;align-
 @keyframes rumble-in{0%{opacity:0}100%{opacity:1}}
 #rumble-canvas{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
 
+/* RUMBLE GROUP SHOT */
+.rumble-group-img{max-width:90%;max-height:50vh;object-fit:contain;position:relative;z-index:4;opacity:0;animation:rumble-group-in 1s ease-out forwards;filter:drop-shadow(0 0 30px rgba(255,220,50,0.5))}
+@keyframes rumble-group-in{0%{opacity:0;transform:scale(0.85)}100%{opacity:1;transform:scale(1)}}
+#rumble-fighters.fade-out{transition:opacity 0.8s ease-out;opacity:0}
+
 /* PERSONAL BELT OVERLAY */
 #personal-belt{display:none;position:fixed;inset:0;z-index:2000;background:#0a0a0f;flex-direction:column;align-items:center;justify-content:center;padding:20px}
 #personal-belt.active{display:flex;animation:belt-reveal 0.6s ease-out}
@@ -407,7 +414,9 @@ body{background:#000;min-height:100vh;display:flex;justify-content:center;align-
 .sf-esc-hint{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);z-index:20;font-family:'Barlow Condensed','Arial Narrow',Arial,sans-serif;font-weight:700;font-size:11px;letter-spacing:3px;color:rgba(255,255,255,0.18);text-transform:uppercase}
 
 /* SF FIGHTER PORTRAIT */
-.sf-portrait{width:clamp(90px,18vw,140px);height:clamp(90px,18vw,140px);object-fit:contain;border:3px solid var(--gold);border-radius:10px;background:rgba(0,0,0,0.6);padding:5px;margin-bottom:6px;opacity:0;filter:drop-shadow(0 0 12px rgba(212,175,55,0.4))}
+.sf-portrait{width:clamp(90px,18vw,140px);height:clamp(90px,18vw,140px);object-fit:contain;border:3px solid var(--gold);border-radius:10px;background:rgba(0,0,0,0.6);padding:5px;margin-bottom:6px;opacity:0;filter:drop-shadow(0 0 12px rgba(212,175,55,0.4));transition:border-color 0.3s,box-shadow 0.3s}
+.sf-portrait.hurt{border-color:#FF0000!important;box-shadow:0 0 16px rgba(255,0,0,0.7),0 0 40px rgba(255,0,0,0.3),inset 0 0 20px rgba(255,0,0,0.15)!important;animation:hurt-pulse 0.6s ease-in-out infinite!important}
+@keyframes hurt-pulse{0%,100%{box-shadow:0 0 16px rgba(255,0,0,0.7),0 0 40px rgba(255,0,0,0.3),inset 0 0 20px rgba(255,0,0,0.15)}50%{box-shadow:0 0 24px rgba(255,0,0,1),0 0 60px rgba(255,0,0,0.5),inset 0 0 30px rgba(255,0,0,0.25)}}
 #sf-overlay.active .sf-portrait{animation:fade-in 0.3s 1s ease-out forwards}
 
 /* TAP BATTLE PROGRESS — sits directly under portrait */
@@ -436,6 +445,14 @@ body{background:#000;min-height:100vh;display:flex;justify-content:center;align-
 .sf-side-badge.you{background:rgba(0,120,255,0.8);color:#fff;box-shadow:0 0 12px rgba(68,136,255,0.6)}
 .sf-side-badge.cpu{background:rgba(180,0,0,0.7);color:rgba(255,255,255,0.7);box-shadow:0 0 8px rgba(200,0,0,0.4)}
 
+/* COMBO BADGE */
+#combo-badge{display:none;position:absolute;top:38%;left:50%;transform:translate(-50%,-50%);z-index:12;font-family:'Black Ops One',Impact,'Arial Black',sans-serif;font-size:clamp(40px,8vw,70px);pointer-events:none;white-space:nowrap;text-shadow:0 0 20px currentColor,0 0 40px currentColor,4px 4px 0 #000}
+#combo-badge.pop{display:block;animation:combo-pop 0.6s cubic-bezier(0.22,1,0.36,1) forwards}
+@keyframes combo-pop{0%{transform:translate(-50%,-50%) scale(1.8);opacity:1}60%{transform:translate(-50%,-50%) scale(1);opacity:1}100%{transform:translate(-50%,-50%) scale(0.9);opacity:0}}
+#combo-badge.combo-blue{color:#4488FF}
+#combo-badge.combo-gold{color:#FFE066}
+#combo-badge.combo-fire{color:#FF2200;text-shadow:0 0 20px #FF4400,0 0 40px #FF0000,0 0 60px rgba(255,100,0,0.8),4px 4px 0 #000}
+
 /* TAP PULSE */
 .sf-fighter.tap-pulse-a{animation:tap-pulse-a 0.1s ease-out}
 @keyframes tap-pulse-a{0%{transform:scale(1.08)}100%{transform:scale(1)}}
@@ -454,8 +471,10 @@ body{background:#000;min-height:100vh;display:flex;justify-content:center;align-
 #loading-screen.done{opacity:0;pointer-events:none}
 .load-title{font-family:'Black Ops One',Impact,'Arial Black',sans-serif;font-size:clamp(24px,6vw,40px);color:var(--gold2);text-shadow:0 0 20px rgba(255,220,50,0.6);letter-spacing:4px;margin-bottom:16px;animation:load-pulse 1.2s ease-in-out infinite}
 @keyframes load-pulse{0%,100%{opacity:0.7;transform:scale(1)}50%{opacity:1;transform:scale(1.03)}}
-.load-bar-wrap{width:clamp(180px,50vw,300px);height:6px;background:rgba(255,255,255,0.08);border-radius:3px;overflow:hidden;border:1px solid rgba(212,175,55,0.2)}
-.load-bar-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:3px;transition:width 0.15s linear}
+.load-logos{display:flex;gap:clamp(12px,4vw,24px);align-items:center;justify-content:center;margin-bottom:12px}
+.load-logo{width:clamp(50px,12vw,80px);height:clamp(50px,12vw,80px);object-fit:contain;opacity:0.15;filter:grayscale(1) brightness(0.5);transition:opacity 0.4s,filter 0.4s}
+.load-logo.lit{opacity:1;filter:none;animation:logo-glow-pop 0.5s cubic-bezier(0.22,1,0.36,1)}
+@keyframes logo-glow-pop{0%{transform:scale(0.8);filter:brightness(3)}40%{transform:scale(1.15);filter:brightness(1.5)}100%{transform:scale(1);filter:none}}
 .load-sub{font-family:'Barlow Condensed','Arial Narrow',Arial,sans-serif;font-weight:700;font-size:10px;letter-spacing:4px;color:rgba(255,255,255,0.2);text-transform:uppercase;margin-top:10px}
 .poster-scaler{display:none}
 .poster-scaler.ready{display:block}
@@ -466,7 +485,12 @@ body{background:#000;min-height:100vh;display:flex;justify-content:center;align-
 <!-- LOADING SCREEN -->
 <div id="loading-screen">
   <div class="load-title">EID BRAWL</div>
-  <div class="load-bar-wrap"><div class="load-bar-fill" id="load-bar"></div></div>
+  <div class="load-logos">
+    <img class="load-logo" id="load-logo-kidchaos" src="https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/kidchaos-logo.png" alt="Kid Chaos">
+    <img class="load-logo" id="load-logo-elloco" src="https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/elloco-logo.png" alt="El Loco">
+    <img class="load-logo" id="load-logo-hero" src="https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/hero-logo.png" alt="Hero">
+    <img class="load-logo" id="load-logo-lasambosa" src="https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/lasambosa-logo.png" alt="La Sambosa">
+  </div>
   <div class="load-sub">Loading fighters...</div>
 </div>
 
@@ -529,6 +553,7 @@ body{background:#000;min-height:100vh;display:flex;justify-content:center;align-
       <div class="sf-tap-hint" style="transform:scaleX(-1)">TAP! TAP! TAP!</div>
     </div>
   </div>
+  <div id="combo-badge"></div>
   <div class="sf-choose-text" id="sf-choose-text">CHOOSE YOUR FIGHTER</div>
   <div class="sf-fight-flash" id="sf-fight-flash">FIGHT!</div>
   <div class="sf-ko" id="sf-ko">K.O.</div>
@@ -721,7 +746,8 @@ const FIGHTERS = {
          <line x1="75" y1="68" x2="78" y2="100" stroke="white" stroke-width="7" stroke-linecap="round"/>
          <line x1="42" y1="52" x2="12" y2="56" stroke="white" stroke-width="7" stroke-linecap="round"/>
          <line x1="12" y1="56" x2="4" y2="80" stroke="white" stroke-width="7" stroke-linecap="round"/>`,
-    zombieImg:'https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/KidchoasZombie.png' },
+    zombieImg:'https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/KidchoasZombie.png',
+    belt:'kidchoasbelt.png' },
   elloco:    { name:'El Loco',    role:'The Madman',     color:'red',  hex:'#FF5555',
     img1:'https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/elloco-1.png', img2:'https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/elloco-2.png', img3:'https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/elloco-3.png',
     svg:`<circle cx="44" cy="12" r="10"/>
@@ -735,7 +761,8 @@ const FIGHTERS = {
          <line x1="14" y1="82" x2="4" y2="116" stroke="white" stroke-width="7" stroke-linecap="round"/>
          <line x1="40" y1="56" x2="64" y2="80" stroke="white" stroke-width="7" stroke-linecap="round"/>
          <line x1="64" y1="80" x2="72" y2="114" stroke="white" stroke-width="7" stroke-linecap="round"/>`,
-    zombieImg:'https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/ElLocoZombie.png' },
+    zombieImg:'https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/ElLocoZombie.png',
+    belt:'ellocobelt.png' },
   hero:      { name:'Hero',       role:'The Veteran',    color:'grey', hex:'#CCCCCC',
     img1:'https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/hero-1.png', img2:'https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/hero-2.png', img3:'https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/hero-3.png',
     svg:`<circle cx="40" cy="10" r="10"/>
@@ -750,7 +777,8 @@ const FIGHTERS = {
          <line x1="24" y1="86" x2="18" y2="116" stroke="white" stroke-width="7" stroke-linecap="round"/>
          <line x1="40" y1="58" x2="56" y2="86" stroke="white" stroke-width="7" stroke-linecap="round"/>
          <line x1="56" y1="86" x2="62" y2="116" stroke="white" stroke-width="7" stroke-linecap="round"/>`,
-    zombieImg:'https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/HeroZombie.png' },
+    zombieImg:'https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/HeroZombie.png',
+    belt:'herobelt.png' },
   lasambosa: { name:'La Sambosa', role:'The Final Boss', color:'gold', hex:'#FFE066',
     img1:'https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/lasambosa-1.png', img2:'https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/lasambosa-2.png', img3:'https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/lasambosa-3.png',
     svg:`<circle cx="40" cy="10" r="10"/>
@@ -765,7 +793,8 @@ const FIGHTERS = {
          <line x1="16" y1="86" x2="6" y2="118" stroke="white" stroke-width="7" stroke-linecap="round"/>
          <line x1="40" y1="60" x2="64" y2="86" stroke="white" stroke-width="7" stroke-linecap="round"/>
          <line x1="64" y1="86" x2="74" y2="118" stroke="white" stroke-width="7" stroke-linecap="round"/>`,
-    zombieImg:'https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/lasambosazombie.png' }
+    zombieImg:'https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/lasambosazombie.png',
+    belt:'lasambosabelt.png' }
 };
 
 const BELT_COLORS = {
@@ -789,6 +818,9 @@ const TAP_MULTIPLIER={kidchaos:1.35, lasambosa:1.3, elloco:1.0, hero:1.0};
 
 // CPU auto-tap state
 let cpuInterval=null, cpuSide=null, humanSide=null, lastHumanTapTime=0, cpuAfkInterval=null;
+
+// Combo counter state
+let comboCount=0, lastComboTime=0;
 
 // =============================================
 // W/L RECORDS (localStorage persisted)
@@ -861,8 +893,7 @@ function resetSemi(semi){
     }
     eliminated[semi]=null;
   }
-  // Reset elimCount + zombie for this semi's fighters
-  pairs[semi].fighters.forEach(f=>{ elimCount[f]=0; });
+  // Keep elimCount across resets — zombie requires 5 total eliminations, not 5 consecutive
   if(zombieFighter && pairs[semi].fighters.includes(zombieFighter)) zombieFighter=null;
   state[semi]=null;
   const fs=document.getElementById('final-'+semi);
@@ -970,6 +1001,8 @@ function openSFOverlay(){
 
   // Reset tap battle state
   tapA=0; tapB=0; tapActive=false;
+  comboCount=0; lastComboTime=0;
+  const comboBadge=document.getElementById('combo-badge'); if(comboBadge){comboBadge.className='';comboBadge.style.display='none';}
   stopCPU();
   humanSide=null; cpuSide=null; lastHumanTapTime=0; selectPhase=false;
   document.getElementById('sf-choose-text').classList.remove('show');
@@ -993,6 +1026,7 @@ function openSFOverlay(){
     const portrait=document.getElementById('sf-portrait-'+side);
     portrait.style.opacity='0';
     portrait.style.animation='none';
+    portrait.classList.remove('hurt');
     portrait.src = (zombieFighter===fId) ? f.zombieImg : f.img1;
     portrait.alt = f.name;
     const doFadeIn=()=>{
@@ -1086,8 +1120,8 @@ function openSFOverlay(){
 function selectFighter(chosenSide){
   if(!selectPhase||!sfOpen) return;
   selectPhase=false;
-  // Player DEFENDS the chosen fighter — attacks the OTHER one
-  humanSide=chosenSide==='A'?'B':'A';
+  // Player chose this side — they tap the OTHER side to attack it. CPU taps their side.
+  humanSide=chosenSide;
   cpuSide=chosenSide;
   // Show badges
   const badgeH=document.getElementById('sf-badge-'+chosenSide);
@@ -1126,7 +1160,9 @@ function closeSFOverlay(){
       document.getElementById('sf-aura-'+s).style.opacity='0';
       document.getElementById('sf-slam-'+s).classList.remove('fire');
       document.getElementById('sf-fighter-'+s).style.opacity='';
+      document.getElementById('sf-fighter-'+s).style.animationPlayState='';
       document.getElementById('sf-portrait-'+s).style.animation='';
+      document.getElementById('sf-portrait-'+s).classList.remove('hurt');
     });
     // Reset corruption layers
     const c=document.getElementById('sf-corrupt');
@@ -1149,6 +1185,17 @@ function handleTap(side){
   if(side===humanSide) return; // can't tap yourself
   vib(12);
   lastHumanTapTime=Date.now();
+  // Combo tracking
+  const now=Date.now();
+  if(now-lastComboTime<350){ comboCount++; } else { comboCount=1; }
+  lastComboTime=now;
+  if(comboCount>=3 && [3,5,7,10,15,20,25,30].includes(comboCount)){
+    const badge=document.getElementById('combo-badge');
+    badge.textContent='x'+comboCount+'!';
+    badge.className=comboCount>=10?'combo-fire':comboCount>=5?'combo-gold':'combo-blue';
+    void badge.offsetWidth;
+    badge.classList.add('pop');
+  }
   applyTap(side);
 }
 
@@ -1172,6 +1219,8 @@ function applyTap(side){
   const pct=Math.min(score/TAP_TARGET*100,100);
   document.getElementById('sf-fill-'+side).style.width=(100-pct)+'%';
   document.getElementById('sf-count-'+side).textContent=Math.ceil(remaining)+' / '+TAP_TARGET;
+  // HURT FACE — red pulse on portrait when HP below 30%
+  if(pct>=70) document.getElementById('sf-portrait-'+side).classList.add('hurt');
   // RAGE TRANSFORMATION at halfway damage — fighter transforms!
   if(score>=RAGE_THRESHOLD && !rageTriggered[side]){
     rageTriggered[side]=true;
@@ -1494,7 +1543,16 @@ function triggerTapWin(winningSide){
   record[state[losingSide]].l++; record[state[losingSide]].streak=0;
   addHistory(FIGHTERS[state[winningSide]].name,FIGHTERS[state[losingSide]].name,'KO');
   saveRecords(); updateAllRecords();
-  setTimeout(()=>document.getElementById('sf-overlay').classList.add('show-ko'),600);
+  // KO FLASH + FREEZE FRAME
+  const flash=document.getElementById('rigged-flash');
+  flash.style.transition='none'; flash.style.opacity='0.9';
+  setTimeout(()=>{ flash.style.transition='opacity 0.4s'; flash.style.opacity='0'; },80);
+  // Freeze both fighters for 400ms
+  ['A','B'].forEach(s=>{ document.getElementById('sf-fighter-'+s).style.animationPlayState='paused'; });
+  setTimeout(()=>{
+    ['A','B'].forEach(s=>{ document.getElementById('sf-fighter-'+s).style.animationPlayState=''; });
+    document.getElementById('sf-overlay').classList.add('show-ko');
+  },400);
   setTimeout(()=>{
     closeSFOverlay();
     finalChampion=winningSide;
@@ -1559,7 +1617,7 @@ function triggerTapWin(winningSide){
     document.getElementById('champion-reveal').classList.add('show');
     // Show swipe hint for personal belt (not for rigged/zombie)
     if(!zombieFighter && finalChampion!=='rigged'){
-      setTimeout(()=>{ document.getElementById('swipe-hint').classList.add('show'); },3000);
+      setTimeout(()=>{ if(finalChampion && finalChampion!=='rigged' && finalChampion!=='zombie') document.getElementById('swipe-hint').classList.add('show'); },3000);
     }
     // Gold spark burst (skip for zombie — has its own green sparks)
     if(!zombieFighter) setTimeout(()=>{
@@ -1823,10 +1881,24 @@ function triggerRoyalRumble(){
     requestAnimationFrame(rumbleLoop);
   }
   rumbleLoop();
+  // At 2s: fade out stick figures, fade in group photo
+  setTimeout(()=>{
+    const fighters=document.getElementById('rumble-fighters');
+    fighters.classList.add('fade-out');
+    const groupImg=document.createElement('img');
+    groupImg.className='rumble-group-img';
+    groupImg.src='https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/Group.png';
+    groupImg.alt='All Fighters Group Shot';
+    ov.appendChild(groupImg);
+  },2000);
+  // Extended duration: 5s total
   setTimeout(()=>{
     rumbleActive=false;
     ov.classList.remove('active');
-  },3000);
+    // Clean up group image
+    const gi=ov.querySelector('.rumble-group-img'); if(gi) gi.remove();
+    document.getElementById('rumble-fighters').classList.remove('fade-out');
+  },5000);
 }
 
 // =============================================
@@ -1875,6 +1947,20 @@ function showPersonalBelt(){
   const f=FIGHTERS[winnerId];
   const bc=BELT_COLORS[winnerId];
   const content=document.getElementById('personal-belt-content');
+  // At 5+ wins, show the real personalized belt PNG instead of SVG
+  if(record[winnerId].w>=5 && f.belt){
+    content.innerHTML=`
+      <img src="https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/${f.belt}" alt="${f.name} Championship Belt" style="width:100%;max-width:560px;filter:drop-shadow(0 0 30px ${bc.primary}60)">
+      <div style="font-family:'Black Ops One',sans-serif;font-size:clamp(18px,4vw,28px);color:${bc.primary};text-shadow:0 0 20px ${bc.primary};margin-top:12px">${f.name}</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:12px;letter-spacing:6px;color:rgba(255,255,255,0.4);margin-top:4px">MASSOUD FAMILY CHAMPION \u00b7 2026</div>
+    `;
+    const ov=document.getElementById('personal-belt');
+    ov.classList.add('active');
+    const shareBtn=document.getElementById('share-belt-btn');
+    if(navigator.share){ shareBtn.style.display='block'; shareBtn.onclick=()=>{ navigator.share({title:'Eid Brawl 2026 Champion',text:f.name+' is the Eid Brawl Champion! \uD83C\uDFC6',url:window.location.href}).catch(()=>{}); }; }
+    else { shareBtn.style.display='none'; }
+    return;
+  }
   content.innerHTML=`
     <svg viewBox="0 0 700 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;filter:drop-shadow(0 0 30px ${bc.primary}60)">
       <defs>
@@ -1974,18 +2060,39 @@ function makeBr(pts,depth,color){
   }
   return br;
 }
-const PCOLS=['#FF2200','#CC00FF','#FF6600','#ffffff','#AA00FF'];
+const PCOLS=['#FFE066','#FFD700','#FFFFFF','#FFF0A0','#D4AF37'];
 const bolts=[];
+const impacts=[];
 function spawnBolt(){
   const x=rand(40,canvas.width-40), col=PCOLS[Math.floor(Math.random()*PCOLS.length)];
   const pts=buildPts(x+rand(-10,10),0,x,canvas.height,28,6);
   bolts.push({pts,color:col,width:rand(3.5,6),alpha:rand(0.7,1),decay:rand(0.045,0.065),branches:makeBr(pts,1,col)});
+  // impact flash circle at bolt endpoint
+  const last=pts[pts.length-1];
+  impacts.push({x:last[0],y:last[1],r:rand(8,18),alpha:0.85,color:col});
 }
 function flash(col){ ctx.save(); ctx.globalAlpha=0.13; ctx.fillStyle=col; ctx.fillRect(0,0,canvas.width,canvas.height); ctx.globalAlpha=0.06; ctx.fillStyle='#000'; ctx.fillRect(0,0,canvas.width,canvas.height); ctx.restore(); }
+function drawImpacts(){
+  for(let i=impacts.length-1;i>=0;i--){
+    const im=impacts[i];
+    ctx.save(); ctx.globalAlpha=im.alpha*0.8; ctx.beginPath(); ctx.arc(im.x,im.y,im.r,0,Math.PI*2);
+    const g=ctx.createRadialGradient(im.x,im.y,0,im.x,im.y,im.r);
+    g.addColorStop(0,'#ffffff'); g.addColorStop(0.4,im.color); g.addColorStop(1,'transparent');
+    ctx.fillStyle=g; ctx.shadowColor=im.color; ctx.shadowBlur=16; ctx.fill(); ctx.restore();
+    im.alpha-=0.12; im.r+=2;
+    if(im.alpha<=0) impacts.splice(i,1);
+  }
+}
 function posterLoop(){
   ctx.clearRect(0,0,canvas.width,canvas.height);
-  if(Math.random()<0.035){ spawnBolt(); flash(bolts[bolts.length-1]?.color||'#fff'); }
-  for(let i=bolts.length-1;i>=0;i--){ drawBolt(bolts[i]); bolts[i].alpha-=bolts[i].decay; if(bolts[i].alpha<=0) bolts.splice(i,1); }
+  // draw some bolts behind content (lower z-index feel — drawn first)
+  const mid=Math.floor(bolts.length/2);
+  for(let i=0;i<mid;i++){ drawBolt(bolts[i]); }
+  drawImpacts();
+  // draw remaining bolts in front
+  for(let i=mid;i<bolts.length;i++){ drawBolt(bolts[i]); }
+  if(Math.random()<0.035){ spawnBolt(); flash(bolts[bolts.length-1]?.color||'#FFD700'); }
+  for(let i=bolts.length-1;i>=0;i--){ bolts[i].alpha-=bolts[i].decay; if(bolts[i].alpha<=0) bolts.splice(i,1); }
   requestAnimationFrame(posterLoop);
 }
 [0,600,1400,2400].forEach(t=>setTimeout(spawnBolt,t));
@@ -2042,33 +2149,66 @@ updateAllRecords();
 // PRELOADER — decode all images + fonts before showing poster
 // =============================================
 (function(){
-  const bar=document.getElementById('load-bar');
   const poster=document.querySelector('.poster');
   const scaler=document.querySelector('.poster-scaler');
   const screen=document.getElementById('loading-screen');
+  const fighterIds=['kidchaos','elloco','hero','lasambosa'];
 
-  // Collect ALL image sources from FIGHTERS + static images
-  const srcs=[];
-  Object.values(FIGHTERS).forEach(f=>{
-    if(f.img1) srcs.push(f.img1);
-    if(f.img2) srcs.push(f.img2);
-    if(f.img3) srcs.push(f.img3);
-    if(f.zombieImg) srcs.push(f.zombieImg);
+  // Build per-fighter image groups
+  const groups={};
+  fighterIds.forEach(id=>{
+    const f=FIGHTERS[id];
+    groups[id]={srcs:[],loaded:0};
+    if(f.img1) groups[id].srcs.push(f.img1);
+    if(f.img2) groups[id].srcs.push(f.img2);
+    if(f.img3) groups[id].srcs.push(f.img3);
+    if(f.zombieImg) groups[id].srcs.push(f.zombieImg);
   });
-  // Also preload static images (belt header + logos)
-  document.querySelectorAll('img[src]').forEach(el=>{ if(el.src && !srcs.includes(el.src)) srcs.push(el.src); });
-  const total=srcs.length+1; // +1 for fonts
-  let loaded=0;
 
-  function tick(){
+  // Static images (belt, logos etc) go into a separate bucket
+  const staticSrcs=[];
+  document.querySelectorAll('img[src]').forEach(el=>{
+    if(el.src && !Object.values(groups).some(g=>g.srcs.includes(el.src)) && !staticSrcs.includes(el.src)) staticSrcs.push(el.src);
+  });
+
+  const totalImages=Object.values(groups).reduce((s,g)=>s+g.srcs.length,0)+staticSrcs.length;
+  const total=totalImages+1; // +1 for fonts
+  let loaded=0;
+  let revealed=false;
+
+  function lightLogo(id){
+    const el=document.getElementById('load-logo-'+id);
+    if(el && !el.classList.contains('lit')) el.classList.add('lit');
+  }
+
+  function tick(fighterId){
     loaded++;
-    bar.style.width=Math.min(loaded/total*100,100)+'%';
-    if(loaded>=total) reveal();
+    if(fighterId && groups[fighterId]){
+      groups[fighterId].loaded++;
+      if(groups[fighterId].loaded>=groups[fighterId].srcs.length) lightLogo(fighterId);
+    }
+    if(loaded>=total) finishLoading();
+  }
+
+  function finishLoading(){
+    if(revealed) return;
+    // Light up any unlit logos
+    fighterIds.forEach(lightLogo);
+    // Wait for full render before revealing (rAF double-nested + readyState)
+    function whenReady(){
+      requestAnimationFrame(()=>{
+        requestAnimationFrame(()=>{
+          if(document.readyState==='complete') reveal();
+          else window.addEventListener('load',reveal,{once:true});
+        });
+      });
+    }
+    if(document.readyState==='complete') whenReady();
+    else window.addEventListener('load',whenReady,{once:true});
   }
 
   function reveal(){
-    // All assets loaded — show the poster with intro animation
-    bar.style.width='100%';
+    if(revealed) return; revealed=true;
     setTimeout(()=>{
       scaler.classList.add('ready');
       poster.classList.add('loaded');
@@ -2077,23 +2217,32 @@ updateAllRecords();
     },200);
   }
 
-  // Preload images by decoding them
-  srcs.forEach(src=>{
+  // Preload fighter images
+  fighterIds.forEach(id=>{
+    groups[id].srcs.forEach(src=>{
+      const img=new Image();
+      img.onload=img.onerror=()=>tick(id);
+      img.src=src;
+    });
+  });
+
+  // Preload static images
+  staticSrcs.forEach(src=>{
     const img=new Image();
-    img.onload=img.onerror=tick;
+    img.onload=img.onerror=()=>tick(null);
     img.src=src;
   });
 
   // Wait for fonts
   if(document.fonts && document.fonts.ready){
-    document.fonts.ready.then(tick);
+    document.fonts.ready.then(()=>tick(null));
   } else {
-    tick(); // fallback if font API not supported
+    tick(null);
   }
 
   // Safety timeout — if anything hangs, show after 5s
   setTimeout(()=>{
-    if(!scaler.classList.contains('ready')) reveal();
+    if(!revealed) reveal();
   },5000);
 })();
 </script>
