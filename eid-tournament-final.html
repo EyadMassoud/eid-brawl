@@ -453,6 +453,29 @@ body{background:#000;min-height:100vh;display:flex;justify-content:center;align-
 #combo-badge.combo-gold{color:#FFE066}
 #combo-badge.combo-fire{color:#FF2200;text-shadow:0 0 20px #FF4400,0 0 40px #FF0000,0 0 60px rgba(255,100,0,0.8),4px 4px 0 #000}
 
+/* ARENA MODE — portraits shrink, stick figures enlarge */
+#sf-overlay.arena-mode .sf-fighters{flex-wrap:wrap;justify-content:center;gap:0;padding:0 10px}
+#sf-overlay.arena-mode .sf-fighter{flex:0 0 45%;padding:10px 5px;transition:all 0.4s ease}
+#sf-overlay.arena-mode .sf-portrait{width:40px;height:40px;padding:2px;border-width:2px;margin-bottom:0;position:absolute;top:0;z-index:5}
+#sf-overlay.arena-mode #sf-fighter-A .sf-portrait{left:0}
+#sf-overlay.arena-mode #sf-fighter-B .sf-portrait{left:0}
+#sf-overlay.arena-mode .sf-progress-wrap{max-width:100%;margin-top:0;margin-bottom:4px}
+#sf-overlay.arena-mode .sf-sil{width:clamp(120px,28vw,220px);margin-bottom:8px;transition:width 0.4s ease}
+#sf-overlay.arena-mode .sf-name{font-size:clamp(16px,3.5vw,26px);margin-bottom:2px}
+#sf-overlay.arena-mode .sf-role{font-size:9px;letter-spacing:3px}
+#sf-overlay.arena-mode .sf-tap-hint{display:none}
+#sf-overlay.arena-mode .sf-title{margin-bottom:8px}
+#sf-overlay.arena-mode .sf-title .sf-fight-text{font-size:clamp(30px,7vw,50px)}
+#sf-overlay.arena-mode .sf-vs-center{display:none}
+
+/* SLOW-MO COMBO PHASE — dramatic finishing sequence */
+#sf-overlay.slow-mo::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 50%,transparent 0%,rgba(0,0,0,0.5) 100%);z-index:2;pointer-events:none;animation:slowmo-vignette 0.5s ease-out forwards}
+@keyframes slowmo-vignette{0%{opacity:0}100%{opacity:1}}
+#sf-overlay.slow-mo .sf-fighters{z-index:4}
+#sf-overlay.slow-mo .sf-title{z-index:4}
+.combo-flash{position:absolute;inset:0;background:rgba(255,255,255,0.15);z-index:3;pointer-events:none;animation:combo-flash-out 0.15s ease-out forwards}
+@keyframes combo-flash-out{0%{opacity:1}100%{opacity:0}}
+
 /* TAP PULSE */
 .sf-fighter.tap-pulse-a{animation:tap-pulse-a 0.1s ease-out}
 @keyframes tap-pulse-a{0%{transform:scale(1.08)}100%{transform:scale(1)}}
@@ -478,6 +501,92 @@ body{background:#000;min-height:100vh;display:flex;justify-content:center;align-
 .load-sub{font-family:'Barlow Condensed','Arial Narrow',Arial,sans-serif;font-weight:700;font-size:10px;letter-spacing:4px;color:rgba(255,255,255,0.2);text-transform:uppercase;margin-top:10px}
 .poster-scaler{display:none}
 .poster-scaler.ready{display:block}
+/* CLASSIC MODE */
+#classic-overlay{display:none;position:fixed;inset:0;z-index:1000;background:#0a0a12;flex-direction:column;overflow:hidden;opacity:1;transition:opacity 0.5s ease-out}
+#classic-overlay.active{display:flex}
+#classic-overlay.fading-out{opacity:0;pointer-events:none}
+#classic-overlay::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 50% at 50% 100%,rgba(60,0,0,0.3) 0%,transparent 70%);z-index:0;pointer-events:none}
+#classic-unlock-banner{display:none;position:fixed;top:0;left:0;right:0;z-index:900;text-align:center;padding:14px 20px;background:linear-gradient(90deg,transparent,rgba(212,175,55,0.2),rgba(212,175,55,0.3),rgba(212,175,55,0.2),transparent);border-bottom:1px solid var(--gold);pointer-events:none}
+#classic-unlock-banner.show{display:block;animation:unlock-banner-in 0.5s ease-out,unlock-banner-out 0.5s ease-in 3.5s forwards}
+@keyframes unlock-banner-in{0%{opacity:0;transform:translateY(-100%)}100%{opacity:1;transform:translateY(0)}}
+@keyframes unlock-banner-out{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-100%)}}
+.unlock-banner-text{font-family:'Black Ops One',Impact,'Arial Black',sans-serif;font-size:clamp(14px,3vw,22px);color:var(--gold2);text-shadow:0 0 20px rgba(255,220,50,0.8);letter-spacing:4px}
+#classic-mode-btn{display:none;position:relative;z-index:4;margin:0 auto 8px;padding:10px 24px;font-family:'Black Ops One',Impact,'Arial Black',sans-serif;font-size:clamp(12px,2.5vw,16px);letter-spacing:4px;color:var(--gold2);background:linear-gradient(135deg,rgba(139,0,0,0.4),rgba(212,175,55,0.15));border:1px solid var(--gold);cursor:pointer;text-transform:uppercase;text-align:center;transition:all 0.3s;text-shadow:0 0 12px rgba(255,220,50,0.5)}
+#classic-mode-btn.unlocked{display:block;animation:classic-btn-pulse 2s ease-in-out infinite}
+#classic-mode-btn:hover{box-shadow:0 0 20px rgba(212,175,55,0.4);border-color:var(--gold2)}
+@keyframes classic-btn-pulse{0%,100%{box-shadow:0 0 8px rgba(212,175,55,0.2)}50%{box-shadow:0 0 20px rgba(212,175,55,0.5)}}
+.classic-hud{position:relative;z-index:3;display:flex;align-items:center;justify-content:space-between;padding:12px 16px 8px;width:100%}
+.classic-hp-wrap{flex:1;display:flex;flex-direction:column;gap:2px}
+.classic-hp-wrap.right{align-items:flex-end}
+.classic-hp-wrap.right .classic-hp-bar{direction:rtl}
+.classic-hp-name{font-family:'Black Ops One',Impact,'Arial Black',sans-serif;font-size:clamp(12px,2.5vw,18px);text-transform:uppercase;letter-spacing:2px;text-shadow:0 0 10px currentColor}
+.classic-hp-name.you-label::after{content:' (YOU)';font-size:0.7em;opacity:0.6}
+.classic-hp-name.cpu-label::after{content:' (CPU)';font-size:0.7em;opacity:0.6}
+.classic-hp-bar{width:100%;height:clamp(10px,2vw,16px);background:rgba(255,255,255,0.08);border-radius:3px;overflow:hidden;border:1px solid rgba(255,255,255,0.15)}
+.classic-hp-fill{height:100%;width:100%;border-radius:3px;transition:width 0.15s ease-out;background:linear-gradient(90deg,var(--hp-color,#4488FF),#fff)}
+.classic-hp-fill.low{background:linear-gradient(90deg,#FF2200,#FF6644)!important;animation:hp-low-pulse 0.5s ease-in-out infinite}
+@keyframes hp-low-pulse{0%,100%{opacity:1}50%{opacity:0.7}}
+.classic-center{flex-shrink:0;display:flex;flex-direction:column;align-items:center;padding:0 12px;min-width:70px}
+.classic-timer{font-family:'Bebas Neue',Impact,sans-serif;font-size:clamp(28px,5vw,44px);color:#fff;text-shadow:0 0 12px rgba(255,255,255,0.4);line-height:1}
+.classic-timer.urgent{color:#FF2200;text-shadow:0 0 16px rgba(255,0,0,0.8);animation:timer-flash 0.5s ease-in-out infinite}
+@keyframes timer-flash{0%,100%{opacity:1}50%{opacity:0.6}}
+.classic-round{font-family:'Barlow Condensed','Arial Narrow',Arial,sans-serif;font-weight:900;font-size:clamp(9px,1.5vw,12px);letter-spacing:3px;color:rgba(212,175,55,0.6);text-transform:uppercase}
+.classic-round-pips{display:flex;gap:4px;margin-top:2px}
+.classic-round-pip{width:8px;height:8px;border-radius:50%;border:1px solid rgba(212,175,55,0.3);background:transparent;transition:background 0.3s,border-color 0.3s}
+.classic-round-pip.won-left{background:var(--hp-left-color,#4488FF);border-color:var(--hp-left-color,#4488FF)}
+.classic-round-pip.won-right{background:var(--hp-right-color,#FF5555);border-color:var(--hp-right-color,#FF5555)}
+.classic-arena{position:relative;z-index:2;flex:1;display:flex;align-items:flex-end;justify-content:center;width:100%;max-width:900px;margin:0 auto;padding:0 20px}
+.classic-arena::after{content:'';position:absolute;bottom:0;left:5%;right:5%;height:2px;background:linear-gradient(90deg,transparent,rgba(212,175,55,0.3),rgba(212,175,55,0.5),rgba(212,175,55,0.3),transparent)}
+.classic-fighter{display:flex;flex-direction:column;align-items:center;position:relative;flex:1;max-width:200px}
+.classic-fighter svg{width:clamp(100px,20vw,180px);height:auto;filter:drop-shadow(0 0 16px var(--fighter-color,#4488FF));margin-bottom:10px}
+.classic-fighter.right-side svg{transform:scaleX(-1)}
+.classic-fighter-name{font-family:'Black Ops One',Impact,'Arial Black',sans-serif;font-size:clamp(10px,2vw,14px);letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.5);text-align:center}
+.classic-arena-vs{flex-shrink:0;padding:0 clamp(10px,3vw,30px);margin-bottom:40px}
+.classic-controls{position:relative;z-index:3;display:flex;align-items:center;justify-content:center;gap:clamp(8px,2vw,16px);padding:12px 16px 20px;width:100%}
+.classic-btn{position:relative;width:clamp(60px,14vw,80px);height:clamp(60px,14vw,80px);border-radius:50%;border:2px solid;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:all 0.15s;user-select:none;-webkit-tap-highlight-color:transparent;overflow:hidden}
+.classic-btn:active:not(.on-cooldown){transform:scale(0.92)}
+.classic-btn.on-cooldown{opacity:0.35;cursor:default}
+.classic-btn-icon{font-size:clamp(20px,4vw,28px);line-height:1;pointer-events:none}
+.classic-btn-label{font-family:'Barlow Condensed','Arial Narrow',Arial,sans-serif;font-weight:900;font-size:clamp(8px,1.5vw,10px);letter-spacing:1px;text-transform:uppercase;pointer-events:none;margin-top:2px}
+.classic-btn-key{font-family:'Barlow Condensed','Arial Narrow',Arial,sans-serif;font-size:8px;letter-spacing:1px;color:rgba(255,255,255,0.2);pointer-events:none}
+.classic-btn.punch{border-color:#4488FF;background:rgba(68,136,255,0.15);color:#88bbff}
+.classic-btn.kick{border-color:#FF8800;background:rgba(255,136,0,0.15);color:#ffaa44}
+.classic-btn.block-btn{border-color:#888;background:rgba(136,136,136,0.15);color:#ccc}
+.classic-btn.taunt{border-color:var(--gold);background:rgba(212,175,55,0.15);color:var(--gold2)}
+.classic-btn-cooldown{position:absolute;inset:0;border-radius:50%;pointer-events:none;opacity:0;background:conic-gradient(rgba(255,255,255,0.25) var(--cd-pct,100%),transparent 0%)}
+.classic-btn.on-cooldown .classic-btn-cooldown{opacity:1}
+.classic-btn.on-cooldown{pointer-events:none}
+.classic-btn.hit-flash{animation:btn-hit-flash 0.2s ease-out}
+@keyframes btn-hit-flash{0%{filter:brightness(2)}100%{filter:brightness(1)}}
+.classic-dmg-pop{position:absolute;font-family:'Black Ops One',Impact,sans-serif;font-weight:900;font-size:clamp(24px,5vw,36px);color:#ff4444;text-shadow:0 0 10px rgba(255,0,0,0.5),0 2px 4px rgba(0,0,0,0.8);pointer-events:none;z-index:20;animation:dmg-float 0.8s ease-out forwards;white-space:nowrap}
+.classic-dmg-pop.blocked{color:#888;font-size:clamp(16px,3vw,24px)}
+.classic-dmg-pop.crit{color:#FFD700;font-size:clamp(30px,6vw,44px);text-shadow:0 0 15px rgba(255,215,0,0.6),0 2px 6px rgba(0,0,0,0.8)}
+@keyframes dmg-float{0%{opacity:1;transform:translateY(0) scale(1)}60%{opacity:1;transform:translateY(-40px) scale(1.1)}100%{opacity:0;transform:translateY(-60px) scale(0.8)}}
+.classic-combo-badge{position:absolute;top:35%;left:50%;transform:translate(-50%,-50%);font-family:'Black Ops One',Impact,sans-serif;font-size:clamp(28px,6vw,44px);color:#FFD700;text-shadow:0 0 20px rgba(255,215,0,0.5),0 2px 6px rgba(0,0,0,0.8);pointer-events:none;z-index:25;animation:combo-pop 0.6s ease-out forwards;letter-spacing:2px}
+@keyframes combo-pop{0%{opacity:0;transform:translate(-50%,-50%) scale(0.3)}30%{opacity:1;transform:translate(-50%,-50%) scale(1.2)}60%{transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-50%) scale(0.9) translateY(-20px)}}
+#classic-ko-flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none;transition:opacity 0.15s;z-index:50}
+.classic-close-btn{position:absolute;top:12px;right:16px;z-index:20;font-size:32px;color:rgba(255,255,255,0.3);cursor:pointer;font-family:sans-serif;line-height:1;transition:color 0.2s}
+.classic-close-btn:hover{color:#fff}
+.classic-select{position:absolute;inset:0;z-index:10;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(10,10,18,0.95);padding:20px}
+.classic-select.hidden{display:none}
+.classic-select-title{font-family:'Black Ops One',Impact,'Arial Black',sans-serif;font-size:clamp(20px,5vw,36px);color:var(--gold2);text-shadow:0 0 30px rgba(255,220,50,1);letter-spacing:3px;margin-bottom:24px}
+.classic-select-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;max-width:400px;width:100%}
+.classic-select-card{display:flex;flex-direction:column;align-items:center;padding:16px 12px;background:rgba(255,255,255,0.04);border:2px solid rgba(255,255,255,0.1);border-radius:8px;cursor:pointer;transition:all 0.2s;user-select:none}
+.classic-select-card:hover,.classic-select-card:active{border-color:var(--card-color,#4488FF);box-shadow:0 0 20px var(--card-color-alpha,rgba(68,136,255,0.3));transform:scale(1.03)}
+.classic-select-card svg{width:70px;height:auto;filter:drop-shadow(0 0 12px var(--card-color,#4488FF));margin-bottom:8px}
+.classic-select-card-name{font-family:'Black Ops One',Impact,'Arial Black',sans-serif;font-size:14px;color:var(--card-color,#fff);text-shadow:0 0 10px var(--card-color,#fff);letter-spacing:2px}
+.classic-select-card-record{font-family:'Barlow Condensed','Arial Narrow',Arial,sans-serif;font-weight:700;font-size:10px;letter-spacing:2px;color:rgba(255,255,255,0.3);margin-top:4px}
+.classic-announce{display:none;position:absolute;top:40%;left:50%;transform:translate(-50%,-50%);z-index:15;font-family:'Black Ops One',Impact,'Arial Black',sans-serif;pointer-events:none;white-space:nowrap;text-align:center}
+.classic-announce.show{display:block}
+.classic-announce-main{font-size:clamp(48px,10vw,80px);color:#FF2200;text-shadow:0 0 40px rgba(255,0,0,1),0 0 80px rgba(255,0,0,0.5),6px 6px 0 #000;animation:classic-announce-slam 0.5s cubic-bezier(0.22,1,0.36,1) both}
+.classic-announce-sub{font-size:clamp(14px,3vw,22px);color:var(--gold2);text-shadow:0 0 16px rgba(255,220,50,0.8);letter-spacing:4px;margin-top:4px;opacity:0;animation:fade-in 0.3s 0.3s ease-out forwards}
+@keyframes classic-announce-slam{0%{transform:scale(3);opacity:0}100%{transform:scale(1);opacity:1}}
+.classic-result{display:none;position:absolute;inset:0;z-index:12;background:rgba(0,0,0,0.85);flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px}
+.classic-result.show{display:flex;animation:fade-in 0.3s ease-out}
+.classic-result-title{font-family:'Black Ops One',Impact,'Arial Black',sans-serif;font-size:clamp(32px,7vw,56px);letter-spacing:4px;margin-bottom:8px}
+.classic-result-sub{font-family:'Barlow Condensed','Arial Narrow',Arial,sans-serif;font-weight:900;font-size:clamp(12px,2.5vw,18px);letter-spacing:4px;color:rgba(255,255,255,0.5);text-transform:uppercase;margin-bottom:24px}
+.classic-result-btn{font-family:'Bebas Neue',Impact,sans-serif;font-size:16px;letter-spacing:5px;color:var(--gold2);background:transparent;border:1px solid var(--gold);padding:10px 30px;cursor:pointer;text-transform:uppercase;transition:all 0.3s}
+.classic-result-btn:hover{box-shadow:0 0 16px rgba(212,175,55,0.4)}
 </style>
 </head>
 <body>
@@ -567,6 +676,87 @@ body{background:#000;min-height:100vh;display:flex;justify-content:center;align-
   <div class="sf-zombie-takeover" id="sf-zombie-takeover"></div>
   <div class="sf-esc-hint">ESC to cancel</div>
 </div>
+
+
+<!-- CLASSIC MODE OVERLAY -->
+<div id="classic-overlay">
+  <div class="classic-close-btn" onclick="closeClassicMode()">&times;</div>
+  <div id="classic-ko-flash"></div>
+  <!-- Fighter Selection -->
+  <div class="classic-select" id="classic-select">
+    <div class="classic-select-title">CHOOSE YOUR FIGHTER</div>
+    <div class="classic-select-grid" id="classic-select-grid"></div>
+  </div>
+  <!-- HUD -->
+  <div class="classic-hud">
+    <div class="classic-hp-wrap" id="classic-hp-left">
+      <div class="classic-hp-name" id="classic-name-left" style="color:#4488FF">---</div>
+      <div class="classic-hp-bar"><div class="classic-hp-fill" id="classic-fill-left"></div></div>
+    </div>
+    <div class="classic-center">
+      <div class="classic-timer" id="classic-timer">60</div>
+      <div class="classic-round" id="classic-round-label">ROUND 1</div>
+      <div class="classic-round-pips"><div class="classic-round-pip" id="classic-pip-0"></div><div class="classic-round-pip" id="classic-pip-1"></div><div class="classic-round-pip" id="classic-pip-2"></div></div>
+    </div>
+    <div class="classic-hp-wrap right" id="classic-hp-right">
+      <div class="classic-hp-name" id="classic-name-right" style="color:#FF5555">---</div>
+      <div class="classic-hp-bar"><div class="classic-hp-fill" id="classic-fill-right"></div></div>
+    </div>
+  </div>
+  <!-- Arena -->
+  <div class="classic-arena">
+    <div class="classic-fighter" id="classic-fighter-left">
+      <svg id="classic-sil-left" viewBox="0 0 80 120" fill="white" xmlns="http://www.w3.org/2000/svg"></svg>
+      <div class="classic-fighter-name" id="classic-fname-left"></div>
+    </div>
+    <div class="classic-arena-vs"></div>
+    <div class="classic-fighter right-side" id="classic-fighter-right">
+      <svg id="classic-sil-right" viewBox="0 0 80 120" fill="white" xmlns="http://www.w3.org/2000/svg"></svg>
+      <div class="classic-fighter-name" id="classic-fname-right"></div>
+    </div>
+  </div>
+  <!-- Controls -->
+  <div class="classic-controls" id="classic-controls">
+    <div class="classic-btn punch" id="classic-btn-punch" onclick="classicMove('punch')">
+      <div class="classic-btn-cooldown" id="classic-cd-punch"></div>
+      <div class="classic-btn-icon">&#9724;</div>
+      <div class="classic-btn-label">Punch</div>
+      <div class="classic-btn-key">[A]</div>
+    </div>
+    <div class="classic-btn kick" id="classic-btn-kick" onclick="classicMove('kick')">
+      <div class="classic-btn-cooldown" id="classic-cd-kick"></div>
+      <div class="classic-btn-icon">&#9711;</div>
+      <div class="classic-btn-label">Kick</div>
+      <div class="classic-btn-key">[S]</div>
+    </div>
+    <div class="classic-btn block-btn" id="classic-btn-block" onclick="classicMove('block')">
+      <div class="classic-btn-cooldown" id="classic-cd-block"></div>
+      <div class="classic-btn-icon">&#9650;</div>
+      <div class="classic-btn-label">Block</div>
+      <div class="classic-btn-key">[D]</div>
+    </div>
+    <div class="classic-btn taunt" id="classic-btn-taunt" onclick="classicMove('taunt')">
+      <div class="classic-btn-cooldown" id="classic-cd-taunt"></div>
+      <div class="classic-btn-icon">&#10006;</div>
+      <div class="classic-btn-label">Taunt</div>
+      <div class="classic-btn-key">[F]</div>
+    </div>
+  </div>
+  <!-- Announcements -->
+  <div class="classic-announce" id="classic-announce">
+    <div class="classic-announce-main" id="classic-announce-main"></div>
+    <div class="classic-announce-sub" id="classic-announce-sub"></div>
+  </div>
+  <!-- Result screen -->
+  <div class="classic-result" id="classic-result">
+    <div class="classic-result-title" id="classic-result-title"></div>
+    <div class="classic-result-sub" id="classic-result-sub"></div>
+    <div class="classic-result-btn" onclick="closeClassicMode()">BACK TO BRACKET</div>
+  </div>
+</div>
+
+<!-- Classic Mode Unlock Banner -->
+<div id="classic-unlock-banner"><div class="unlock-banner-text">&#9876; CLASSIC MODE UNLOCKED &#9876;</div></div>
 
 <!-- RIGGED OVERLAY (Easter Egg 1) -->
 <div id="rigged-overlay">
@@ -710,6 +900,7 @@ body{background:#000;min-height:100vh;display:flex;justify-content:center;align-
     </div>
   </div>
 
+  <div id="classic-mode-btn" onclick="openClassicMode()">&#9876; CLASSIC MODE &#9876;</div>
   <div class="reset-wrap" id="reset-wrap">
     <button class="reset-btn" id="reset-btn">&#8634; &nbsp; Reset Bracket</button>
     <svg class="reset-ring" viewBox="0 0 100 100">
@@ -746,6 +937,12 @@ const FIGHTERS = {
          <line x1="75" y1="68" x2="78" y2="100" stroke="white" stroke-width="7" stroke-linecap="round"/>
          <line x1="42" y1="52" x2="12" y2="56" stroke="white" stroke-width="7" stroke-linecap="round"/>
          <line x1="12" y1="56" x2="4" y2="80" stroke="white" stroke-width="7" stroke-linecap="round"/>`,
+    joints:{ head:{x:50,y:10}, neck:{x:50,y:20}, shoulder:{x:44,y:30},
+             hip:{x:42,y:52},
+             elbowR:{x:75,y:22}, handR:{x:78,y:20},
+             elbowL:{x:20,y:40}, handL:{x:8,y:25},
+             kneeR:{x:75,y:68}, footR:{x:78,y:100},
+             kneeL:{x:12,y:56}, footL:{x:4,y:80} },
     zombieImg:'https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/KidchoasZombie.png',
     belt:'kidchoasbelt.png' },
   elloco:    { name:'El Loco',    role:'The Madman',     color:'red',  hex:'#FF5555',
@@ -761,6 +958,12 @@ const FIGHTERS = {
          <line x1="14" y1="82" x2="4" y2="116" stroke="white" stroke-width="7" stroke-linecap="round"/>
          <line x1="40" y1="56" x2="64" y2="80" stroke="white" stroke-width="7" stroke-linecap="round"/>
          <line x1="64" y1="80" x2="72" y2="114" stroke="white" stroke-width="7" stroke-linecap="round"/>`,
+    joints:{ head:{x:44,y:12}, neck:{x:44,y:22}, shoulder:{x:42,y:31},
+             hip:{x:40,y:56},
+             elbowR:{x:72,y:20}, handR:{x:78,y:5},
+             elbowL:{x:12,y:42}, handL:{x:8,y:44},
+             kneeR:{x:64,y:80}, footR:{x:72,y:114},
+             kneeL:{x:14,y:82}, footL:{x:4,y:116} },
     zombieImg:'https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/ElLocoZombie.png',
     belt:'ellocobelt.png' },
   hero:      { name:'Hero',       role:'The Veteran',    color:'grey', hex:'#CCCCCC',
@@ -777,6 +980,12 @@ const FIGHTERS = {
          <line x1="24" y1="86" x2="18" y2="116" stroke="white" stroke-width="7" stroke-linecap="round"/>
          <line x1="40" y1="58" x2="56" y2="86" stroke="white" stroke-width="7" stroke-linecap="round"/>
          <line x1="56" y1="86" x2="62" y2="116" stroke="white" stroke-width="7" stroke-linecap="round"/>`,
+    joints:{ head:{x:40,y:10}, neck:{x:40,y:20}, shoulder:{x:40,y:28},
+             hip:{x:40,y:58},
+             elbowR:{x:56,y:36}, handR:{x:52,y:14},
+             elbowL:{x:24,y:36}, handL:{x:28,y:14},
+             kneeR:{x:56,y:86}, footR:{x:62,y:116},
+             kneeL:{x:24,y:86}, footL:{x:18,y:116} },
     zombieImg:'https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/HeroZombie.png',
     belt:'herobelt.png' },
   lasambosa: { name:'La Sambosa', role:'The Final Boss', color:'gold', hex:'#FFE066',
@@ -793,9 +1002,268 @@ const FIGHTERS = {
          <line x1="16" y1="86" x2="6" y2="118" stroke="white" stroke-width="7" stroke-linecap="round"/>
          <line x1="40" y1="60" x2="64" y2="86" stroke="white" stroke-width="7" stroke-linecap="round"/>
          <line x1="64" y1="86" x2="74" y2="118" stroke="white" stroke-width="7" stroke-linecap="round"/>`,
+    joints:{ head:{x:40,y:10}, neck:{x:40,y:20}, shoulder:{x:40,y:28},
+             hip:{x:40,y:60},
+             elbowR:{x:66,y:34}, handR:{x:76,y:18},
+             elbowL:{x:14,y:34}, handL:{x:8,y:52},
+             kneeR:{x:64,y:86}, footR:{x:74,y:118},
+             kneeL:{x:16,y:86}, footL:{x:6,y:118} },
     zombieImg:'https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/lasambosazombie.png',
     belt:'lasambosabelt.png' }
 };
+
+// =============================================
+// JOINT-BASED SVG RENDERING + ANIMATION ENGINE
+// =============================================
+const SVG_NS='http://www.w3.org/2000/svg';
+// Current live joint positions for each side (cloned from fighter.joints on init)
+const liveJoints = { A:null, B:null };
+// Active animation frame IDs per side
+const jointAnimFrames = { A:null, B:null };
+
+function cloneJoints(j){ const c={}; for(const k in j) c[k]={x:j[k].x, y:j[k].y}; return c; }
+
+// Build SVG elements from joint positions — draws the stick figure
+// The skeleton: head circle, torso line (neck→hip), arms (shoulder→elbow→hand + fist circle), legs (hip→knee→foot)
+function renderFromJoints(svgEl, joints){
+  svgEl.innerHTML='';
+  const ln=(x1,y1,x2,y2)=>{
+    const l=document.createElementNS(SVG_NS,'line');
+    l.setAttribute('x1',x1); l.setAttribute('y1',y1);
+    l.setAttribute('x2',x2); l.setAttribute('y2',y2);
+    l.setAttribute('stroke','white'); l.setAttribute('stroke-width','7');
+    l.setAttribute('stroke-linecap','round');
+    return l;
+  };
+  const cr=(cx,cy,r)=>{
+    const c=document.createElementNS(SVG_NS,'circle');
+    c.setAttribute('cx',cx); c.setAttribute('cy',cy); c.setAttribute('r',r);
+    return c;
+  };
+  // Head
+  svgEl.appendChild(cr(joints.head.x, joints.head.y, 10));
+  // Torso (neck → hip)
+  svgEl.appendChild(ln(joints.neck.x, joints.neck.y, joints.hip.x, joints.hip.y));
+  // Right arm: shoulder → elbow → hand + fist
+  svgEl.appendChild(ln(joints.shoulder.x, joints.shoulder.y, joints.elbowR.x, joints.elbowR.y));
+  svgEl.appendChild(ln(joints.elbowR.x, joints.elbowR.y, joints.handR.x, joints.handR.y));
+  svgEl.appendChild(cr(joints.handR.x, joints.handR.y, 6));
+  // Left arm: shoulder → elbow → hand + fist
+  svgEl.appendChild(ln(joints.shoulder.x, joints.shoulder.y, joints.elbowL.x, joints.elbowL.y));
+  svgEl.appendChild(ln(joints.elbowL.x, joints.elbowL.y, joints.handL.x, joints.handL.y));
+  svgEl.appendChild(cr(joints.handL.x, joints.handL.y, 6));
+  // Right leg: hip → knee → foot
+  svgEl.appendChild(ln(joints.hip.x, joints.hip.y, joints.kneeR.x, joints.kneeR.y));
+  svgEl.appendChild(ln(joints.kneeR.x, joints.kneeR.y, joints.footR.x, joints.footR.y));
+  // Left leg: hip → knee → foot
+  svgEl.appendChild(ln(joints.hip.x, joints.hip.y, joints.kneeL.x, joints.kneeL.y));
+  svgEl.appendChild(ln(joints.kneeL.x, joints.kneeL.y, joints.footL.x, joints.footL.y));
+}
+
+// Update existing SVG elements in-place (faster than full rebuild for animations)
+function updateJointsSVG(svgEl, joints){
+  const els=svgEl.children;
+  if(els.length<12){ renderFromJoints(svgEl, joints); return; }
+  // 0: head circle
+  els[0].setAttribute('cx',joints.head.x); els[0].setAttribute('cy',joints.head.y);
+  // 1: torso line (neck→hip)
+  els[1].setAttribute('x1',joints.neck.x); els[1].setAttribute('y1',joints.neck.y);
+  els[1].setAttribute('x2',joints.hip.x); els[1].setAttribute('y2',joints.hip.y);
+  // 2: right upper arm (shoulder→elbowR)
+  els[2].setAttribute('x1',joints.shoulder.x); els[2].setAttribute('y1',joints.shoulder.y);
+  els[2].setAttribute('x2',joints.elbowR.x); els[2].setAttribute('y2',joints.elbowR.y);
+  // 3: right forearm (elbowR→handR)
+  els[3].setAttribute('x1',joints.elbowR.x); els[3].setAttribute('y1',joints.elbowR.y);
+  els[3].setAttribute('x2',joints.handR.x); els[3].setAttribute('y2',joints.handR.y);
+  // 4: right fist
+  els[4].setAttribute('cx',joints.handR.x); els[4].setAttribute('cy',joints.handR.y);
+  // 5: left upper arm (shoulder→elbowL)
+  els[5].setAttribute('x1',joints.shoulder.x); els[5].setAttribute('y1',joints.shoulder.y);
+  els[5].setAttribute('x2',joints.elbowL.x); els[5].setAttribute('y2',joints.elbowL.y);
+  // 6: left forearm (elbowL→handL)
+  els[6].setAttribute('x1',joints.elbowL.x); els[6].setAttribute('y1',joints.elbowL.y);
+  els[6].setAttribute('x2',joints.handL.x); els[6].setAttribute('y2',joints.handL.y);
+  // 7: left fist
+  els[7].setAttribute('cx',joints.handL.x); els[7].setAttribute('cy',joints.handL.y);
+  // 8: right upper leg (hip→kneeR)
+  els[8].setAttribute('x1',joints.hip.x); els[8].setAttribute('y1',joints.hip.y);
+  els[8].setAttribute('x2',joints.kneeR.x); els[8].setAttribute('y2',joints.kneeR.y);
+  // 9: right lower leg (kneeR→footR)
+  els[9].setAttribute('x1',joints.kneeR.x); els[9].setAttribute('y1',joints.kneeR.y);
+  els[9].setAttribute('x2',joints.footR.x); els[9].setAttribute('y2',joints.footR.y);
+  // 10: left upper leg (hip→kneeL)
+  els[10].setAttribute('x1',joints.hip.x); els[10].setAttribute('y1',joints.hip.y);
+  els[10].setAttribute('x2',joints.kneeL.x); els[10].setAttribute('y2',joints.kneeL.y);
+  // 11: left lower leg (kneeL→footL)
+  els[11].setAttribute('x1',joints.kneeL.x); els[11].setAttribute('y1',joints.kneeL.y);
+  els[11].setAttribute('x2',joints.footL.x); els[11].setAttribute('y2',joints.footL.y);
+}
+
+// Smoothly animate joints from current position to target pose over duration (ms)
+// Returns a promise that resolves when animation completes
+function animateToPose(side, targetJoints, duration, easing){
+  if(!easing) easing=t=>t<0.5?2*t*t:(1-(Math.pow(-2*t+2,2))/2); // ease-in-out quad
+  return new Promise(resolve=>{
+    if(jointAnimFrames[side]) cancelAnimationFrame(jointAnimFrames[side]);
+    const current=liveJoints[side];
+    if(!current){ resolve(); return; }
+    const start=cloneJoints(current);
+    const keys=Object.keys(targetJoints);
+    const t0=performance.now();
+    function tick(now){
+      const elapsed=now-t0;
+      const progress=Math.min(elapsed/duration, 1);
+      const t=easing(progress);
+      for(const k of keys){
+        if(!start[k]||!targetJoints[k]) continue;
+        current[k].x=start[k].x+(targetJoints[k].x-start[k].x)*t;
+        current[k].y=start[k].y+(targetJoints[k].y-start[k].y)*t;
+      }
+      const svgEl=document.getElementById('sf-sil-'+side);
+      if(svgEl) updateJointsSVG(svgEl, current);
+      if(progress<1){
+        jointAnimFrames[side]=requestAnimationFrame(tick);
+      } else {
+        jointAnimFrames[side]=null;
+        resolve();
+      }
+    }
+    jointAnimFrames[side]=requestAnimationFrame(tick);
+  });
+}
+
+// Cancel any running joint animation for a side
+function cancelJointAnim(side){
+  if(jointAnimFrames[side]){ cancelAnimationFrame(jointAnimFrames[side]); jointAnimFrames[side]=null; }
+}
+
+// =============================================
+// POSE LIBRARY — absolute joint positions in viewBox 0 0 80 120
+// All fighters animate toward these shared poses.
+// "R" = right (forward/punch side facing opponent), "L" = left (rear side)
+// =============================================
+const POSES = {
+  // Neutral fighting stance — weight centered, guard up
+  idle: {
+    head:{x:40,y:10}, neck:{x:40,y:20}, shoulder:{x:40,y:28},
+    hip:{x:40,y:58},
+    elbowR:{x:56,y:30}, handR:{x:54,y:16},
+    elbowL:{x:24,y:30}, handL:{x:26,y:16},
+    kneeR:{x:52,y:82}, footR:{x:56,y:112},
+    kneeL:{x:28,y:82}, footL:{x:24,y:112}
+  },
+  // Idle bob frames — subtle breathing / sway
+  idleBobUp: {
+    head:{x:40,y:8}, neck:{x:40,y:18}, shoulder:{x:40,y:26},
+    hip:{x:40,y:56},
+    elbowR:{x:57,y:28}, handR:{x:55,y:14},
+    elbowL:{x:23,y:28}, handL:{x:25,y:14},
+    kneeR:{x:52,y:80}, footR:{x:56,y:112},
+    kneeL:{x:28,y:80}, footL:{x:24,y:112}
+  },
+  idleBobDown: {
+    head:{x:40,y:12}, neck:{x:40,y:22}, shoulder:{x:40,y:30},
+    hip:{x:40,y:60},
+    elbowR:{x:55,y:32}, handR:{x:53,y:18},
+    elbowL:{x:25,y:32}, handL:{x:27,y:18},
+    kneeR:{x:52,y:84}, footR:{x:56,y:112},
+    kneeL:{x:28,y:84}, footL:{x:24,y:112}
+  },
+  // ATTACK POSES — finishing combo sequence
+  // 1. Jab — quick straight right punch
+  jab: {
+    head:{x:38,y:10}, neck:{x:38,y:20}, shoulder:{x:38,y:28},
+    hip:{x:36,y:58},
+    elbowR:{x:58,y:22}, handR:{x:78,y:18},
+    elbowL:{x:22,y:32}, handL:{x:24,y:18},
+    kneeR:{x:50,y:82}, footR:{x:54,y:112},
+    kneeL:{x:26,y:82}, footL:{x:22,y:112}
+  },
+  // 2. Cross — powerful left cross, body rotates
+  cross: {
+    head:{x:42,y:10}, neck:{x:42,y:20}, shoulder:{x:42,y:28},
+    hip:{x:44,y:56},
+    elbowR:{x:52,y:34}, handR:{x:48,y:20},
+    elbowL:{x:56,y:22}, handL:{x:78,y:16},
+    kneeR:{x:54,y:80}, footR:{x:58,y:112},
+    kneeL:{x:32,y:84}, footL:{x:26,y:112}
+  },
+  // 3. Hook — wide sweeping right hook
+  hook: {
+    head:{x:36,y:10}, neck:{x:36,y:20}, shoulder:{x:36,y:28},
+    hip:{x:34,y:58},
+    elbowR:{x:64,y:18}, handR:{x:72,y:28},
+    elbowL:{x:20,y:34}, handL:{x:18,y:20},
+    kneeR:{x:48,y:82}, footR:{x:52,y:112},
+    kneeL:{x:24,y:84}, footL:{x:20,y:112}
+  },
+  // 4. Uppercut — crouch then explode upward
+  uppercut: {
+    head:{x:40,y:6}, neck:{x:40,y:16}, shoulder:{x:40,y:24},
+    hip:{x:40,y:54},
+    elbowR:{x:54,y:22}, handR:{x:60,y:4},
+    elbowL:{x:26,y:30}, handL:{x:24,y:16},
+    kneeR:{x:52,y:76}, footR:{x:56,y:112},
+    kneeL:{x:28,y:80}, footL:{x:24,y:112}
+  },
+  // 5. Roundhouse kick — spinning high kick
+  roundhouse: {
+    head:{x:34,y:12}, neck:{x:34,y:22}, shoulder:{x:34,y:30},
+    hip:{x:34,y:60},
+    elbowR:{x:48,y:26}, handR:{x:44,y:14},
+    elbowL:{x:18,y:36}, handL:{x:14,y:22},
+    kneeR:{x:60,y:50}, footR:{x:78,y:44},
+    kneeL:{x:26,y:84}, footL:{x:20,y:112}
+  },
+  // 6. KO blow — leaping final strike, both fists forward
+  koBlow: {
+    head:{x:44,y:4}, neck:{x:44,y:14}, shoulder:{x:44,y:22},
+    hip:{x:42,y:50},
+    elbowR:{x:62,y:14}, handR:{x:78,y:8},
+    elbowL:{x:58,y:18}, handL:{x:74,y:12},
+    kneeR:{x:54,y:72}, footR:{x:60,y:100},
+    kneeL:{x:30,y:76}, footL:{x:24,y:104}
+  },
+  // HIT REACTIONS — opponent recoils
+  hitLight: {
+    head:{x:36,y:12}, neck:{x:38,y:22}, shoulder:{x:38,y:30},
+    hip:{x:40,y:60},
+    elbowR:{x:54,y:36}, handR:{x:50,y:22},
+    elbowL:{x:22,y:38}, handL:{x:16,y:28},
+    kneeR:{x:52,y:84}, footR:{x:56,y:114},
+    kneeL:{x:28,y:84}, footL:{x:24,y:114}
+  },
+  hitHeavy: {
+    head:{x:32,y:16}, neck:{x:34,y:26}, shoulder:{x:36,y:34},
+    hip:{x:40,y:62},
+    elbowR:{x:52,y:42}, handR:{x:44,y:30},
+    elbowL:{x:20,y:44}, handL:{x:10,y:36},
+    kneeR:{x:54,y:86}, footR:{x:58,y:116},
+    kneeL:{x:28,y:86}, footL:{x:22,y:116}
+  },
+  hitKO: {
+    head:{x:28,y:24}, neck:{x:32,y:32}, shoulder:{x:34,y:40},
+    hip:{x:40,y:66},
+    elbowR:{x:50,y:50}, handR:{x:42,y:40},
+    elbowL:{x:18,y:52}, handL:{x:6,y:46},
+    kneeR:{x:56,y:88}, footR:{x:62,y:116},
+    kneeL:{x:28,y:90}, footL:{x:20,y:118}
+  },
+  // BLOCK — arms crossed defensively
+  block: {
+    head:{x:40,y:10}, neck:{x:40,y:20}, shoulder:{x:40,y:28},
+    hip:{x:40,y:58},
+    elbowR:{x:50,y:24}, handR:{x:36,y:14},
+    elbowL:{x:30,y:24}, handL:{x:44,y:14},
+    kneeR:{x:50,y:82}, footR:{x:52,y:112},
+    kneeL:{x:30,y:82}, footL:{x:28,y:112}
+  }
+};
+
+// The finishing combo sequence: pose names in order
+const COMBO_SEQUENCE = ['jab','cross','hook','uppercut','roundhouse','koBlow'];
+// Corresponding hit reactions for the opponent
+const COMBO_HIT_REACTIONS = ['hitLight','hitLight','hitLight','hitHeavy','hitHeavy','hitKO'];
 
 const BELT_COLORS = {
   kidchaos:  { primary:'#4488FF', secondary:'#1a3a80', ribbon:'#2244AA' },
@@ -821,6 +1289,48 @@ let cpuInterval=null, cpuSide=null, humanSide=null, lastHumanTapTime=0, cpuAfkIn
 
 // Combo counter state
 let comboCount=0, lastComboTime=0;
+
+// Idle animation state
+let idleAnimRunning=false;
+let idleAnimTimeouts=[];
+
+function startIdleAnim(){
+  if(idleAnimRunning) return;
+  idleAnimRunning=true;
+  // First transition both fighters from their unique stance to neutral idle
+  ['A','B'].forEach(side=>{
+    if(liveJoints[side]) animateToPose(side, POSES.idle, 400);
+  });
+  // After transition, begin the bob cycle
+  const tid=setTimeout(()=>{ if(idleAnimRunning) idleBobCycle(); }, 450);
+  idleAnimTimeouts.push(tid);
+}
+
+function idleBobCycle(){
+  if(!idleAnimRunning||!sfOpen) return;
+  // Bob up
+  ['A','B'].forEach(side=>{
+    if(liveJoints[side]) animateToPose(side, POSES.idleBobUp, 800);
+  });
+  const t1=setTimeout(()=>{
+    if(!idleAnimRunning||!sfOpen) return;
+    // Bob down
+    ['A','B'].forEach(side=>{
+      if(liveJoints[side]) animateToPose(side, POSES.idleBobDown, 800);
+    });
+    const t2=setTimeout(()=>{
+      if(idleAnimRunning&&sfOpen) idleBobCycle();
+    }, 850);
+    idleAnimTimeouts.push(t2);
+  }, 850);
+  idleAnimTimeouts.push(t1);
+}
+
+function stopIdleAnim(){
+  idleAnimRunning=false;
+  idleAnimTimeouts.forEach(t=>clearTimeout(t));
+  idleAnimTimeouts=[];
+}
 
 // =============================================
 // W/L RECORDS (localStorage persisted)
@@ -991,7 +1501,7 @@ function triggerGroundSlam(side, color){
 function openSFOverlay(){
   if(sfOpen) return; sfOpen=true; finalWLWritten=false;
   const ov=document.getElementById('sf-overlay');
-  ov.classList.remove('active','show-ko','screen-shake');
+  ov.classList.remove('active','show-ko','screen-shake','arena-mode','slow-mo');
   const vsCenter=document.getElementById('sf-vs-center');
   vsCenter.classList.remove('reveal');
 
@@ -1002,6 +1512,7 @@ function openSFOverlay(){
   // Reset tap battle state
   tapA=0; tapB=0; tapActive=false;
   comboCount=0; lastComboTime=0;
+  comboPhaseActive=false; comboPhaseTarget=null; comboStep=0;
   const comboBadge=document.getElementById('combo-badge'); if(comboBadge){comboBadge.className='';comboBadge.style.display='none';}
   stopCPU();
   humanSide=null; cpuSide=null; lastHumanTapTime=0; selectPhase=false;
@@ -1019,7 +1530,9 @@ function openSFOverlay(){
     const fId = state[side];
     const f = FIGHTERS[fId];
     const sil=document.getElementById('sf-sil-'+side);
-    sil.innerHTML = f.svg;
+    // Initialize joint system — render from joints data (identical to static SVG)
+    liveJoints[side]=cloneJoints(f.joints);
+    renderFromJoints(sil, liveJoints[side]);
     sil.style.setProperty('--shimmer-color',f.hex);
     sil.style.filter = `drop-shadow(0 0 22px ${f.hex}) drop-shadow(0 0 50px ${f.hex}88)`;
     // Set portrait image — replay fade-in once loaded (handles GitHub CDN latency)
@@ -1134,18 +1647,20 @@ function selectFighter(chosenSide){
     f.classList.remove('selectable');
     f.onclick=()=>handleTap(s);
   });
-  // Hide choose text, show FIGHT! flash
+  // Hide choose text, show FIGHT! flash, enter arena mode
   document.getElementById('sf-choose-text').classList.remove('show');
+  document.getElementById('sf-overlay').classList.add('arena-mode');
   const flash=document.getElementById('sf-fight-flash');
   flash.classList.remove('show'); void flash.offsetWidth; flash.classList.add('show');
   // Enable tapping + start CPU
   setTimeout(()=>{
-    if(sfOpen){ tapActive=true; lastHumanTapTime=Date.now(); startCPU(); }
+    if(sfOpen){ tapActive=true; lastHumanTapTime=Date.now(); startCPU(); startIdleAnim(); }
   },300);
 }
 
 function closeSFOverlay(){
   sfOpen=false; sfLightningActive=false; tapActive=false; selectPhase=false; stopCPU();
+  stopIdleAnim(); cancelJointAnim('A'); cancelJointAnim('B');
   document.getElementById('sf-choose-text').classList.remove('show');
   ['A','B'].forEach(s=>{ const b=document.getElementById('sf-badge-'+s); b.className='sf-side-badge'; b.textContent=''; document.getElementById('sf-fighter-'+s).classList.remove('selectable'); });
   if(zombieGlitchSliceInterval){clearInterval(zombieGlitchSliceInterval);zombieGlitchSliceInterval=null;}
@@ -1153,7 +1668,7 @@ function closeSFOverlay(){
   // Fade out over 0.5s, THEN remove classes and hide
   ov.classList.add('fading-out');
   setTimeout(()=>{
-    ov.classList.remove('active','show-ko','screen-shake','fading-out');
+    ov.classList.remove('active','show-ko','screen-shake','fading-out','arena-mode','slow-mo');
     document.getElementById('sf-vs-center').classList.remove('reveal');
     document.getElementById('sf-vs-center').style.opacity='';
     ['A','B'].forEach(s=>{
@@ -1202,6 +1717,12 @@ function handleTap(side){
 let rageTriggered={A:false,B:false};
 const RAGE_THRESHOLD=15;
 
+// Finishing combo state
+let comboPhaseActive=false; // true when combo sequence is playing
+let comboPhaseTarget=null;  // side being combo'd (taking damage)
+let comboStep=0;            // current step in COMBO_SEQUENCE (0-5)
+const COMBO_THRESHOLD=0.67; // 67% damage triggers combo phase
+
 function applyTap(side){
   const fId=state[side];
   const mult=TAP_MULTIPLIER[fId]||1.0;
@@ -1221,6 +1742,31 @@ function applyTap(side){
   document.getElementById('sf-count-'+side).textContent=Math.ceil(remaining)+' / '+TAP_TARGET;
   // HURT FACE — red pulse on portrait when HP below 30%
   if(pct>=70) document.getElementById('sf-portrait-'+side).classList.add('hurt');
+  // FINISHING COMBO — enter combo phase when damage crosses threshold
+  if(pct>=COMBO_THRESHOLD*100 && !comboPhaseActive && !comboPhaseTarget){
+    comboPhaseActive=true;
+    comboPhaseTarget=side;
+    comboStep=0;
+    stopIdleAnim();
+    document.getElementById('sf-overlay').classList.add('slow-mo');
+  }
+  // Play combo animation step if in combo phase and this is the target side
+  if(comboPhaseActive && comboPhaseTarget===side && comboStep<COMBO_SEQUENCE.length){
+    const attackerSide=side==='A'?'B':'A';
+    const attackPose=POSES[COMBO_SEQUENCE[comboStep]];
+    const hitPose=POSES[COMBO_HIT_REACTIONS[comboStep]];
+    // Animate attacker to attack pose, defender to hit reaction
+    if(attackPose && liveJoints[attackerSide]) animateToPose(attackerSide, attackPose, 120);
+    if(hitPose && liveJoints[side]) animateToPose(side, hitPose, 100);
+    // Flash effect on each combo hit
+    const fl=document.createElement('div');
+    fl.className='combo-flash';
+    document.getElementById('sf-overlay').appendChild(fl);
+    setTimeout(()=>fl.remove(),200);
+    vib([15,10,25]);
+    comboStep++;
+    // After last combo step, the next tap's KO check will trigger the win
+  }
   // RAGE TRANSFORMATION at halfway damage — fighter transforms!
   if(score>=RAGE_THRESHOLD && !rageTriggered[side]){
     rageTriggered[side]=true;
@@ -1526,7 +2072,11 @@ function stopCPU(){
 
 function triggerTapWin(winningSide){
   vib([50,30,80]);
-  tapActive=false; stopCPU();
+  tapActive=false; stopCPU(); stopIdleAnim();
+  comboPhaseActive=false; comboPhaseTarget=null; comboStep=0;
+  document.getElementById('sf-overlay').classList.remove('slow-mo');
+  // Clean up any combo flash elements
+  document.querySelectorAll('.combo-flash').forEach(el=>el.remove());
   const losingSide=winningSide==='A'?'B':'A';
   const loserEl=document.getElementById('sf-fighter-'+losingSide);
   loserEl.classList.add('knocked'); loserEl.onclick=null;
@@ -1543,6 +2093,7 @@ function triggerTapWin(winningSide){
   record[state[losingSide]].l++; record[state[losingSide]].streak=0;
   addHistory(FIGHTERS[state[winningSide]].name,FIGHTERS[state[losingSide]].name,'KO');
   saveRecords(); updateAllRecords();
+  checkClassicAfterWin();
   // KO FLASH + FREEZE FRAME
   const flash=document.getElementById('rigged-flash');
   flash.style.transition='none'; flash.style.opacity='0.9';
@@ -2360,6 +2911,741 @@ function closeSecretFiles(){
 document.getElementById('secret-files').addEventListener('click', function(e){
   if(e.target === this) closeSecretFiles();
 });
+
+// =============================================
+// CLASSIC MODE — Full Fighting Game
+// =============================================
+let classicOpen=false;
+const CLASSIC_MAX_HP=100;
+const CLASSIC_ROUND_TIME=60;
+const CLASSIC_ROUNDS_TO_WIN=2; // best of 3
+
+// Classic mode state
+const classicState={
+  playerFighter:null, cpuFighter:null,
+  playerHP:CLASSIC_MAX_HP, cpuHP:CLASSIC_MAX_HP,
+  roundNum:1, playerRoundsWon:0, cpuRoundsWon:0,
+  timeLeft:CLASSIC_ROUND_TIME, timerInterval:null,
+  fightActive:false,
+  playerBlocking:false, cpuBlocking:false,
+  playerTaunted:false, cpuTaunted:false,
+  playerCombo:0, cpuCombo:0,
+  cooldowns:{punch:0,kick:0,block:0,taunt:0},
+  cpuAIInterval:null,
+  playerMoveHistory:[]
+};
+
+// Use separate liveJoints for classic mode (left/right instead of A/B)
+const classicLiveJoints={left:null, right:null};
+const classicAnimFrames={left:null, right:null};
+
+function classicAnimateToPose(side, targetJoints, duration, easing){
+  if(!easing) easing=t=>t<0.5?2*t*t:(1-(Math.pow(-2*t+2,2))/2);
+  return new Promise(resolve=>{
+    if(classicAnimFrames[side]) cancelAnimationFrame(classicAnimFrames[side]);
+    const current=classicLiveJoints[side];
+    if(!current){ resolve(); return; }
+    const start=cloneJoints(current);
+    const keys=Object.keys(targetJoints);
+    const t0=performance.now();
+    function tick(now){
+      const elapsed=now-t0;
+      const progress=Math.min(elapsed/duration,1);
+      const t=easing(progress);
+      for(const k of keys){
+        if(!start[k]||!targetJoints[k]) continue;
+        current[k].x=start[k].x+(targetJoints[k].x-start[k].x)*t;
+        current[k].y=start[k].y+(targetJoints[k].y-start[k].y)*t;
+      }
+      const svgEl=document.getElementById('classic-sil-'+side);
+      if(svgEl) updateJointsSVG(svgEl,current);
+      if(progress<1){
+        classicAnimFrames[side]=requestAnimationFrame(tick);
+      } else {
+        classicAnimFrames[side]=null;
+        resolve();
+      }
+    }
+    classicAnimFrames[side]=requestAnimationFrame(tick);
+  });
+}
+
+function cancelClassicAnim(side){
+  if(classicAnimFrames[side]){ cancelAnimationFrame(classicAnimFrames[side]); classicAnimFrames[side]=null; }
+}
+
+// Check if classic mode should be unlocked
+function checkClassicUnlock(){
+  return Object.keys(record).some(id=>record[id].w>=5);
+}
+
+// Show/hide the classic mode button on the poster
+function updateClassicButton(){
+  const btn=document.getElementById('classic-mode-btn');
+  if(btn){
+    if(checkClassicUnlock()) btn.classList.add('unlocked');
+    else btn.classList.remove('unlocked');
+  }
+}
+
+// Show the unlock banner (called once when first unlocked)
+let classicUnlockShown=false;
+function showClassicUnlockBanner(){
+  if(classicUnlockShown) return;
+  try{
+    if(localStorage.getItem('eidBrawlClassicUnlockShown')) { classicUnlockShown=true; return; }
+  }catch(e){}
+  classicUnlockShown=true;
+  try{ localStorage.setItem('eidBrawlClassicUnlockShown','1'); }catch(e){}
+  const banner=document.getElementById('classic-unlock-banner');
+  banner.classList.add('show');
+  setTimeout(()=>banner.classList.remove('show'),4500);
+  updateClassicButton();
+}
+
+// Hook: check after each tap battle win
+function checkClassicAfterWin(){
+  if(checkClassicUnlock()){
+    updateClassicButton();
+    showClassicUnlockBanner();
+  }
+}
+
+// Open Classic Mode
+function openClassicMode(){
+  if(classicOpen||!checkClassicUnlock()) return;
+  classicOpen=true;
+  const ov=document.getElementById('classic-overlay');
+  ov.classList.remove('fading-out');
+  ov.classList.add('active');
+  // Show fighter selection
+  showClassicSelect();
+}
+
+function showClassicSelect(){
+  const sel=document.getElementById('classic-select');
+  sel.classList.remove('hidden');
+  const grid=document.getElementById('classic-select-grid');
+  grid.innerHTML='';
+  Object.keys(FIGHTERS).forEach(id=>{
+    const f=FIGHTERS[id];
+    const card=document.createElement('div');
+    card.className='classic-select-card';
+    card.style.setProperty('--card-color',f.hex);
+    card.style.setProperty('--card-color-alpha',f.hex+'4d');
+    const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+    svg.setAttribute('viewBox','0 0 80 120');
+    svg.setAttribute('fill','white');
+    renderFromJoints(svg, f.joints);
+    card.appendChild(svg);
+    const nameDiv=document.createElement('div');
+    nameDiv.className='classic-select-card-name';
+    nameDiv.textContent=f.name;
+    card.appendChild(nameDiv);
+    const recDiv=document.createElement('div');
+    recDiv.className='classic-select-card-record';
+    recDiv.textContent=record[id].w+'W \u00b7 '+record[id].l+'L';
+    card.appendChild(recDiv);
+    card.onclick=()=>classicSelectFighter(id);
+    grid.appendChild(card);
+  });
+}
+
+function classicSelectFighter(playerId){
+  // Pick a random CPU opponent (different from player)
+  const others=Object.keys(FIGHTERS).filter(id=>id!==playerId);
+  const cpuId=others[Math.floor(Math.random()*others.length)];
+  classicState.playerFighter=playerId;
+  classicState.cpuFighter=cpuId;
+  // Hide selection screen
+  document.getElementById('classic-select').classList.add('hidden');
+  // Initialize the match
+  classicInitMatch();
+}
+
+function classicInitMatch(){
+  const pf=FIGHTERS[classicState.playerFighter];
+  const cf=FIGHTERS[classicState.cpuFighter];
+  // Reset state
+  classicState.roundNum=1;
+  classicState.playerRoundsWon=0;
+  classicState.cpuRoundsWon=0;
+  // Reset round pips
+  for(let i=0;i<3;i++){
+    const pip=document.getElementById('classic-pip-'+i);
+    pip.className='classic-round-pip';
+  }
+  // Set HUD colors
+  const hpLeft=document.getElementById('classic-hp-left');
+  const hpRight=document.getElementById('classic-hp-right');
+  document.getElementById('classic-fill-left').style.setProperty('--hp-color',pf.hex);
+  document.getElementById('classic-fill-right').style.setProperty('--hp-color',cf.hex);
+  hpLeft.style.setProperty('--hp-left-color',pf.hex);
+  hpRight.style.setProperty('--hp-right-color',cf.hex);
+  // Set names with YOU/CPU labels
+  const nameL=document.getElementById('classic-name-left');
+  nameL.textContent=pf.name; nameL.style.color=pf.hex; nameL.classList.add('you-label'); nameL.classList.remove('cpu-label');
+  const nameR=document.getElementById('classic-name-right');
+  nameR.textContent=cf.name; nameR.style.color=cf.hex; nameR.classList.add('cpu-label'); nameR.classList.remove('you-label');
+  // Arena fighter names
+  document.getElementById('classic-fname-left').textContent=pf.name;
+  document.getElementById('classic-fname-right').textContent=cf.name;
+  // Set fighter SVG colors
+  document.getElementById('classic-fighter-left').style.setProperty('--fighter-color',pf.hex);
+  document.getElementById('classic-fighter-right').style.setProperty('--fighter-color',cf.hex);
+  // Render initial stick figures from joints
+  classicLiveJoints.left=cloneJoints(POSES.idle);
+  classicLiveJoints.right=cloneJoints(POSES.idle);
+  renderFromJoints(document.getElementById('classic-sil-left'), classicLiveJoints.left);
+  renderFromJoints(document.getElementById('classic-sil-right'), classicLiveJoints.right);
+  // Hide result
+  document.getElementById('classic-result').classList.remove('show');
+  // Start round 1
+  classicStartRound();
+}
+
+function classicStartRound(){
+  const pf=FIGHTERS[classicState.playerFighter];
+  const cf=FIGHTERS[classicState.cpuFighter];
+  // Reset HP
+  classicState.playerHP=CLASSIC_MAX_HP;
+  classicState.cpuHP=CLASSIC_MAX_HP;
+  classicState.timeLeft=CLASSIC_ROUND_TIME;
+  classicState.fightActive=false;
+  classicState.playerBlocking=false; classicState.cpuBlocking=false;
+  classicState.playerTaunted=false; classicState.cpuTaunted=false;
+  classicState.playerCombo=0; classicState.cpuCombo=0;
+  classicState.cooldowns={punch:0,kick:0,block:0,taunt:0};
+  classicCooldownTimers.punch=0;classicCooldownTimers.kick=0;classicCooldownTimers.block=0;classicCooldownTimers.taunt=0;
+  classicState.playerMoveHistory=[];
+  classicSuddenDeath=false;
+  // Update HUD
+  classicUpdateHP();
+  document.getElementById('classic-timer').textContent=classicState.timeLeft;
+  document.getElementById('classic-timer').classList.remove('urgent');
+  document.getElementById('classic-round-label').textContent='ROUND '+classicState.roundNum;
+  // Reset poses to idle
+  cancelClassicAnim('left'); cancelClassicAnim('right');
+  classicLiveJoints.left=cloneJoints(POSES.idle);
+  classicLiveJoints.right=cloneJoints(POSES.idle);
+  renderFromJoints(document.getElementById('classic-sil-left'),classicLiveJoints.left);
+  renderFromJoints(document.getElementById('classic-sil-right'),classicLiveJoints.right);
+  // Show round announcement
+  classicAnnounce('ROUND '+classicState.roundNum, pf.name+' vs '+cf.name);
+  // After announcement, show FIGHT! and start
+  setTimeout(()=>{
+    classicAnnounce('FIGHT!','');
+    setTimeout(()=>{
+      document.getElementById('classic-announce').classList.remove('show');
+      classicState.fightActive=true;
+      classicStartTimer();
+      classicStartCPU();
+      classicStartCooldownLoop();
+    },600);
+  },1500);
+}
+
+function classicAnnounce(mainText, subText){
+  const el=document.getElementById('classic-announce');
+  const main=document.getElementById('classic-announce-main');
+  const sub=document.getElementById('classic-announce-sub');
+  main.textContent=mainText;
+  sub.textContent=subText||'';
+  el.classList.remove('show');
+  void el.offsetWidth;
+  el.classList.add('show');
+}
+
+function classicUpdateHP(){
+  const pPct=Math.max(classicState.playerHP/CLASSIC_MAX_HP*100,0);
+  const cPct=Math.max(classicState.cpuHP/CLASSIC_MAX_HP*100,0);
+  const fillL=document.getElementById('classic-fill-left');
+  const fillR=document.getElementById('classic-fill-right');
+  fillL.style.width=pPct+'%';
+  fillR.style.width=cPct+'%';
+  // Low HP flash
+  if(pPct<=30) fillL.classList.add('low'); else fillL.classList.remove('low');
+  if(cPct<=30) fillR.classList.add('low'); else fillR.classList.remove('low');
+}
+
+function classicStartTimer(){
+  if(classicState.timerInterval) clearInterval(classicState.timerInterval);
+  classicState.timerInterval=setInterval(()=>{
+    if(!classicState.fightActive||!classicOpen) return;
+    classicState.timeLeft--;
+    const timerEl=document.getElementById('classic-timer');
+    timerEl.textContent=Math.max(classicState.timeLeft,0);
+    if(classicState.timeLeft<=10) timerEl.classList.add('urgent');
+    if(classicState.timeLeft<=0){
+      clearInterval(classicState.timerInterval);
+      classicState.timerInterval=null;
+      classicTimerEnd();
+    }
+  },1000);
+}
+
+function classicTimerEnd(){
+  classicState.fightActive=false;
+  classicStopCPU();
+  classicStopCooldownLoop();
+  // Higher HP wins
+  if(classicState.playerHP>classicState.cpuHP){
+    classicRoundWin('player');
+  } else if(classicState.cpuHP>classicState.playerHP){
+    classicRoundWin('cpu');
+  } else {
+    // Tie — SUDDEN DEATH: first hit wins
+    classicStartSuddenDeath();
+  }
+}
+
+let classicSuddenDeath=false;
+function classicStartSuddenDeath(){
+  classicSuddenDeath=true;
+  classicAnnounce('SUDDEN DEATH!','First hit wins!');
+  setTimeout(()=>{
+    document.getElementById('classic-announce').classList.remove('show');
+    // Set HP to 1 each — next hit is lethal
+    classicState.playerHP=1;
+    classicState.cpuHP=1;
+    classicUpdateHP();
+    // Flash timer red
+    const timerEl=document.getElementById('classic-timer');
+    timerEl.textContent='SD';
+    timerEl.classList.add('urgent');
+    // Resume fighting
+    classicState.fightActive=true;
+    classicStartCPU();
+    classicStartCooldownLoop();
+    // No timer in sudden death — fight until someone lands a hit
+  },1500);
+}
+
+function classicRoundWin(winner){
+  classicState.fightActive=false;
+  classicStopCPU();
+  classicStopCooldownLoop();
+  if(classicState.timerInterval){clearInterval(classicState.timerInterval);classicState.timerInterval=null;}
+  if(winner==='player'){
+    classicState.playerRoundsWon++;
+    // Update pip
+    const pipIdx=classicState.playerRoundsWon-1;
+    const pip=document.getElementById('classic-pip-'+pipIdx);
+    if(pip) pip.classList.add('won-left');
+  } else {
+    classicState.cpuRoundsWon++;
+    const pipIdx=classicState.cpuRoundsWon+classicState.playerRoundsWon-1;
+    const pip=document.getElementById('classic-pip-'+Math.min(pipIdx,2));
+    if(pip) pip.classList.add('won-right');
+  }
+  // Reset sudden death flag
+  classicSuddenDeath=false;
+  // KO flash effect
+  const flash=document.getElementById('classic-ko-flash');
+  if(flash){
+    flash.style.opacity='1';
+    setTimeout(()=>{flash.style.opacity='0';},150);
+  }
+  // Reset opponent combo on round end
+  if(winner==='player') classicState.cpuCombo=0;
+  else classicState.playerCombo=0;
+  // Check match win
+  if(classicState.playerRoundsWon>=CLASSIC_ROUNDS_TO_WIN){
+    classicAnnounce('K.O.','');
+    setTimeout(()=>classicMatchEnd('player'),1500);
+  } else if(classicState.cpuRoundsWon>=CLASSIC_ROUNDS_TO_WIN){
+    classicAnnounce('K.O.','');
+    setTimeout(()=>classicMatchEnd('cpu'),1500);
+  } else {
+    // Next round
+    classicAnnounce(winner==='player'?'ROUND WIN!':'ROUND LOST!','');
+    classicState.roundNum++;
+    setTimeout(()=>{
+      document.getElementById('classic-announce').classList.remove('show');
+      classicStartRound();
+    },2000);
+  }
+}
+
+function classicMatchEnd(winner){
+  document.getElementById('classic-announce').classList.remove('show');
+  const result=document.getElementById('classic-result');
+  const title=document.getElementById('classic-result-title');
+  const sub=document.getElementById('classic-result-sub');
+  const pf=FIGHTERS[classicState.playerFighter];
+  const cf=FIGHTERS[classicState.cpuFighter];
+  if(winner==='player'){
+    title.textContent='VICTORY!';
+    title.style.color=pf.hex;
+    title.style.textShadow='0 0 30px '+pf.hex+',0 0 60px '+pf.hex+'aa';
+    sub.textContent=pf.name+' defeats '+cf.name;
+    record[classicState.playerFighter].w++;
+    record[classicState.playerFighter].streak=(record[classicState.playerFighter].streak||0)+1;
+    record[classicState.cpuFighter].l++;
+    record[classicState.cpuFighter].streak=0;
+  } else {
+    title.textContent='DEFEAT';
+    title.style.color='#FF2200';
+    title.style.textShadow='0 0 30px #FF2200,0 0 60px #FF220088';
+    sub.textContent=cf.name+' defeats '+pf.name;
+    record[classicState.cpuFighter].w++;
+    record[classicState.cpuFighter].streak=(record[classicState.cpuFighter].streak||0)+1;
+    record[classicState.playerFighter].l++;
+    record[classicState.playerFighter].streak=0;
+  }
+  saveRecords(); updateAllRecords();
+  addHistory(
+    winner==='player'?pf.name:cf.name,
+    winner==='player'?cf.name:pf.name,
+    'CLASSIC '+classicState.playerRoundsWon+'-'+classicState.cpuRoundsWon
+  );
+  result.classList.add('show');
+  // Update classic mode button (re-check unlock in case records changed)
+  updateClassicButton();
+}
+
+function closeClassicMode(){
+  if(!classicOpen) return;
+  classicOpen=false;
+  classicState.fightActive=false;
+  classicStopCPU();
+  classicStopCooldownLoop();
+  if(classicState.timerInterval){clearInterval(classicState.timerInterval);classicState.timerInterval=null;}
+  cancelClassicAnim('left'); cancelClassicAnim('right');
+  const ov=document.getElementById('classic-overlay');
+  ov.classList.add('fading-out');
+  setTimeout(()=>{
+    ov.classList.remove('active','fading-out');
+    document.getElementById('classic-select').classList.remove('hidden');
+    document.getElementById('classic-result').classList.remove('show');
+    document.getElementById('classic-announce').classList.remove('show');
+  },500);
+}
+
+// CPU AI — adaptive decision making with pattern detection
+const CPU_BASE_WEIGHTS={punch:0.40, kick:0.25, block:0.25, taunt:0.10};
+const CPU_DECISION_MIN=500;  // ms between decisions
+const CPU_DECISION_MAX=800;
+let cpuDecisionTimeout=null;
+
+function classicStartCPU(){
+  classicStopCPU();
+  cpuScheduleNextMove();
+}
+
+function classicStopCPU(){
+  if(classicState.cpuAIInterval){clearInterval(classicState.cpuAIInterval);classicState.cpuAIInterval=null;}
+  if(cpuDecisionTimeout){clearTimeout(cpuDecisionTimeout);cpuDecisionTimeout=null;}
+}
+
+function cpuScheduleNextMove(){
+  if(!classicState.fightActive||!classicOpen) return;
+  const delay=CPU_DECISION_MIN+Math.random()*(CPU_DECISION_MAX-CPU_DECISION_MIN);
+  // Add ±200ms variation for human feel
+  const jitter=(Math.random()-0.5)*400;
+  const finalDelay=Math.max(300, delay+jitter);
+  cpuDecisionTimeout=setTimeout(()=>{
+    cpuDecisionTimeout=null;
+    if(!classicState.fightActive||!classicOpen) return;
+    const move=cpuPickMove();
+    classicCPUMove(move);
+    cpuScheduleNextMove();
+  }, finalDelay);
+}
+
+function cpuPickMove(){
+  // Start with base weights
+  const w={...CPU_BASE_WEIGHTS};
+
+  // Pattern detection: analyze last 5 player moves
+  const recent=classicState.playerMoveHistory.slice(-5);
+  if(recent.length>=3){
+    const moveCounts={punch:0,kick:0,block:0,taunt:0};
+    for(const entry of recent) moveCounts[entry.move]=(moveCounts[entry.move]||0)+1;
+
+    // If player spams punch (3+ of last 5), increase block weight
+    if(moveCounts.punch>=3){
+      w.block=0.50;
+      w.punch=0.25;
+      w.kick=0.15;
+      w.taunt=0.10;
+    }
+    // If player spams kick, increase block
+    if(moveCounts.kick>=3){
+      w.block=0.50;
+      w.kick=0.15;
+      w.punch=0.25;
+      w.taunt=0.10;
+    }
+    // If player blocks a lot, taunt to set up 2x damage
+    if(moveCounts.block>=3){
+      w.taunt=0.35;
+      w.block=0.10;
+      w.punch=0.30;
+      w.kick=0.25;
+    }
+  }
+
+  // If player just taunted, CPU should try to block (80% chance)
+  if(recent.length>0 && recent[recent.length-1].move==='taunt'){
+    w.block=0.80;
+    w.punch=0.10;
+    w.kick=0.05;
+    w.taunt=0.05;
+  }
+
+  // If CPU HP is low (<30%), get more aggressive
+  const cpuHpPct=classicState.cpuHP/CLASSIC_MAX_HP;
+  if(cpuHpPct<0.30){
+    w.block=0.10;
+    w.taunt=0.05;
+    w.punch=0.35;
+    w.kick=0.50; // heavy hits to try to come back
+  }
+
+  // If player HP is low (<30%), keep pressure but be smart
+  const playerHpPct=classicState.playerHP/CLASSIC_MAX_HP;
+  if(playerHpPct<0.30){
+    w.punch=0.45;
+    w.kick=0.35;
+    w.block=0.10;
+    w.taunt=0.10;
+  }
+
+  // If CPU is currently taunted (has taunt buff), prefer attacking to use it
+  if(classicState.cpuTaunted){
+    w.kick=0.55; // kick with 2x taunt = 10 damage
+    w.punch=0.35;
+    w.block=0.05;
+    w.taunt=0.05;
+  }
+
+  // Weighted random selection
+  const total=w.punch+w.kick+w.block+w.taunt;
+  let r=Math.random()*total;
+  if((r-=w.punch)<0) return 'punch';
+  if((r-=w.kick)<0) return 'kick';
+  if((r-=w.block)<0) return 'block';
+  return 'taunt';
+}
+
+// Move configuration — damage, animation duration, cooldown, pose mapping
+const MOVE_CONFIG={
+  punch: {dmg:3, animMs:200, cooldownMs:400, pose:POSES.jab, hitReact:POSES.hitLight, hitReactDur:100, sound:'punch'},
+  kick:  {dmg:5, animMs:350, cooldownMs:700, pose:POSES.roundhouse, hitReact:POSES.hitHeavy, hitReactDur:150, sound:'kick'},
+  block: {dmg:0, animMs:150, cooldownMs:300, holdMs:800, pose:POSES.block},
+  taunt: {dmg:0, animMs:300, cooldownMs:1000, pose:POSES.idleBobUp}
+};
+const BLOCK_REDUCTION=0.8; // 80% damage reduction
+const TAUNT_MULTIPLIER=2;  // 2x damage after taunt
+const CLASSIC_COMBO_THRESHOLD=3;   // hits needed for combo bonus
+const CLASSIC_COMBO_MULTIPLIER=1.5;
+
+// Cooldown tracking — timestamps when move becomes available again
+const classicCooldownTimers={punch:0,kick:0,block:0,taunt:0};
+let classicCooldownRAF=null;
+
+// Start the cooldown visual loop (runs while fight is active)
+function classicStartCooldownLoop(){
+  classicStopCooldownLoop();
+  function tick(){
+    if(!classicState.fightActive||!classicOpen){ classicCooldownRAF=null; return; }
+    const now=Date.now();
+    for(const move of ['punch','kick','block','taunt']){
+      const btn=document.getElementById('classic-btn-'+move);
+      const cdEl=document.getElementById('classic-cd-'+move);
+      if(!btn) continue;
+      const endTime=classicCooldownTimers[move];
+      if(now<endTime){
+        const totalCd=MOVE_CONFIG[move].cooldownMs;
+        const remaining=endTime-now;
+        const pct=Math.round((remaining/totalCd)*100);
+        btn.classList.add('on-cooldown');
+        if(cdEl) cdEl.style.setProperty('--cd-pct', pct+'%');
+      } else {
+        btn.classList.remove('on-cooldown');
+        if(cdEl) cdEl.style.setProperty('--cd-pct', '0%');
+      }
+    }
+    classicCooldownRAF=requestAnimationFrame(tick);
+  }
+  classicCooldownRAF=requestAnimationFrame(tick);
+}
+function classicStopCooldownLoop(){
+  if(classicCooldownRAF){cancelAnimationFrame(classicCooldownRAF);classicCooldownRAF=null;}
+}
+
+// Show floating damage number
+function classicShowDmgPop(side, dmg, blocked, crit){
+  const arena=document.querySelector('.classic-arena');
+  if(!arena) return;
+  const pop=document.createElement('div');
+  pop.className='classic-dmg-pop'+(blocked?' blocked':'')+(crit?' crit':'');
+  pop.textContent=(blocked?'BLOCK ':'')+'-'+dmg;
+  // Position near the fighter that was hit
+  const fighterEl=document.getElementById('classic-fighter-'+side);
+  if(fighterEl){
+    const rect=fighterEl.getBoundingClientRect();
+    const arenaRect=arena.getBoundingClientRect();
+    pop.style.left=(rect.left-arenaRect.left+rect.width/2)+'px';
+    pop.style.top=(rect.top-arenaRect.top+rect.height*0.3)+'px';
+  } else {
+    pop.style.left=side==='left'?'30%':'70%';
+    pop.style.top='30%';
+  }
+  arena.appendChild(pop);
+  pop.addEventListener('animationend',()=>pop.remove());
+}
+
+// Show combo badge
+function classicShowCombo(count){
+  const arena=document.querySelector('.classic-arena');
+  if(!arena) return;
+  // Remove existing combo badges
+  arena.querySelectorAll('.classic-combo-badge').forEach(el=>el.remove());
+  const badge=document.createElement('div');
+  badge.className='classic-combo-badge';
+  badge.textContent='x'+count+' COMBO!';
+  arena.appendChild(badge);
+  badge.addEventListener('animationend',()=>badge.remove());
+}
+
+// Core move execution — used by both player and CPU
+function classicExecuteMove(attackerSide, moveName){
+  const defenderSide=attackerSide==='left'?'right':'left';
+  const cfg=MOVE_CONFIG[moveName];
+  if(!cfg) return;
+
+  const isPlayer=attackerSide==='left';
+  const attackerBlocking=isPlayer?'playerBlocking':'cpuBlocking';
+  const defenderBlocking=isPlayer?'cpuBlocking':'playerBlocking';
+  const attackerTaunted=isPlayer?'playerTaunted':'cpuTaunted';
+  const defenderHP=isPlayer?'cpuHP':'playerHP';
+  const attackerCombo=isPlayer?'playerCombo':'cpuCombo';
+
+  // BLOCK move
+  if(moveName==='block'){
+    classicState[attackerBlocking]=true;
+    classicAnimateToPose(attackerSide, cfg.pose, cfg.animMs);
+    const holdTime=cfg.holdMs||800;
+    setTimeout(()=>{
+      classicState[attackerBlocking]=false;
+      if(classicState.fightActive) classicAnimateToPose(attackerSide, POSES.idle, 200);
+    }, holdTime);
+    return;
+  }
+
+  // TAUNT move
+  if(moveName==='taunt'){
+    classicState[attackerTaunted]=true;
+    classicAnimateToPose(attackerSide, cfg.pose, cfg.animMs);
+    setTimeout(()=>{
+      if(classicState.fightActive) classicAnimateToPose(attackerSide, POSES.idle, 200);
+    }, cfg.animMs+200);
+    return;
+  }
+
+  // ATTACK move (punch or kick)
+  let dmg=cfg.dmg;
+  const isBlocked=classicState[defenderBlocking];
+  const isTaunted=classicState[attackerTaunted];
+  let isCrit=false;
+
+  if(isBlocked) dmg=Math.ceil(dmg*(1-BLOCK_REDUCTION));
+  if(isTaunted){ dmg*=TAUNT_MULTIPLIER; classicState[attackerTaunted]=false; isCrit=true; }
+
+  // Combo tracking
+  if(!isBlocked){
+    classicState[attackerCombo]++;
+    if(classicState[attackerCombo]>=CLASSIC_COMBO_THRESHOLD){
+      dmg=Math.ceil(dmg*CLASSIC_COMBO_MULTIPLIER);
+      isCrit=true;
+      classicShowCombo(classicState[attackerCombo]);
+    }
+  } else {
+    // Blocked attacks reset combo
+    classicState[attackerCombo]=0;
+  }
+
+  // Apply damage
+  classicState[defenderHP]=Math.max(classicState[defenderHP]-dmg, 0);
+  classicUpdateHP();
+
+  // Show damage number
+  classicShowDmgPop(defenderSide, dmg, isBlocked, isCrit);
+
+  // Animate attacker — attack pose then return to idle
+  classicAnimateToPose(attackerSide, cfg.pose, cfg.animMs).then(()=>{
+    if(classicState.fightActive) classicAnimateToPose(attackerSide, POSES.idle, 200);
+  });
+
+  // Animate defender — hit reaction (if not blocking)
+  if(!isBlocked && dmg>0){
+    const hitPose=dmg>=8?POSES.hitHeavy:cfg.hitReact;
+    classicAnimateToPose(defenderSide, hitPose, cfg.hitReactDur||100).then(()=>{
+      setTimeout(()=>{
+        if(classicState.fightActive && !classicState[defenderBlocking]){
+          classicAnimateToPose(defenderSide, POSES.idle, 200);
+        }
+      },150);
+    });
+  }
+
+  // Flash the attacker button (player only)
+  if(isPlayer){
+    const btn=document.getElementById('classic-btn-'+moveName);
+    if(btn){btn.classList.add('hit-flash');setTimeout(()=>btn.classList.remove('hit-flash'),200);}
+  }
+
+  // Check KO
+  if(classicState[defenderHP]<=0){
+    // KO hit reaction
+    classicAnimateToPose(defenderSide, POSES.hitKO, 200);
+    classicRoundWin(isPlayer?'player':'cpu');
+  }
+}
+
+// Player move — with cooldown check
+function classicMove(moveName){
+  if(!classicState.fightActive||!classicOpen) return;
+  // Check cooldown
+  const now=Date.now();
+  if(now<classicCooldownTimers[moveName]) return;
+  // Set cooldown
+  classicCooldownTimers[moveName]=now+MOVE_CONFIG[moveName].cooldownMs;
+  // Track move history for CPU pattern detection (Task #8)
+  classicState.playerMoveHistory.push({move:moveName, time:now});
+  if(classicState.playerMoveHistory.length>20) classicState.playerMoveHistory.shift();
+  // Execute
+  classicExecuteMove('left', moveName);
+}
+
+// CPU move — no cooldown UI but respects same timing
+function classicCPUMove(moveName){
+  if(!classicState.fightActive||!classicOpen) return;
+  classicExecuteMove('right', moveName);
+}
+
+// Keyboard controls for classic mode
+document.addEventListener('keydown',(e)=>{
+  if(!classicOpen||!classicState.fightActive) return;
+  const map={a:'punch',s:'kick',d:'block',f:'taunt'};
+  const move=map[e.key.toLowerCase()];
+  if(move) classicMove(move);
+});
+
+// ESC to close classic mode
+document.addEventListener('keydown',(e)=>{
+  if(e.key==='Escape' && classicOpen) closeClassicMode();
+});
+
+// On page load: check if classic mode was previously unlocked
+updateClassicButton();
+// Also check after localStorage loads
+try{
+  if(localStorage.getItem('eidBrawlClassicUnlockShown')) classicUnlockShown=true;
+}catch(e){}
+
 </script>
 </body>
 </html>
