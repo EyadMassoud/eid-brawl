@@ -127,7 +127,7 @@ body{background:#000;min-height:100vh;display:flex;justify-content:center;align-
 @keyframes zombie-glitch{0%,100%{transform:none;filter:brightness(1)}15%{transform:skewX(6deg) translateX(-3px);filter:brightness(1.3)}30%{transform:skewX(-4deg) translateX(2px) scaleX(1.02)}50%{transform:skewX(2deg) translateX(-1px);filter:brightness(0.8)}65%{transform:skewX(-5deg) translateX(3px) scaleY(1.01)}80%{transform:skewX(3deg);filter:brightness(1.5)}}
 
 .vs-mini{display:flex;align-items:center;justify-content:center;padding:5px 0}
-.vs-mini-inner{font-family:'Black Ops One',Impact,'Arial Black',sans-serif;font-size:12px;letter-spacing:2px;color:#fff;background:var(--crimson);padding:3px 12px;clip-path:polygon(6px 0%,calc(100% - 6px) 0%,100% 50%,calc(100% - 6px) 100%,6px 100%,0% 50%);animation:heartbeat 1s ease-in-out infinite}
+.vs-mini-inner{font-family:'Black Ops One',Impact,'Arial Black',sans-serif;font-size:12px;letter-spacing:2px;color:#fff;background:var(--crimson);padding:3px 12px;-webkit-clip-path:polygon(6px 0%,calc(100% - 6px) 0%,100% 50%,calc(100% - 6px) 100%,6px 100%,0% 50%);clip-path:polygon(6px 0%,calc(100% - 6px) 0%,100% 50%,calc(100% - 6px) 100%,6px 100%,0% 50%);animation:heartbeat 1s ease-in-out infinite}
 @keyframes heartbeat{0%{transform:scale(1);box-shadow:0 0 6px rgba(204,0,0,0.6)}14%{transform:scale(1.18);box-shadow:0 0 22px rgba(255,0,0,1),0 0 44px rgba(200,0,0,0.5)}28%{transform:scale(1)}42%{transform:scale(1.1);box-shadow:0 0 16px rgba(255,0,0,0.8)}70%,100%{transform:scale(1);box-shadow:0 0 6px rgba(204,0,0,0.4)}}
 .bracket-mid{grid-column:2;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding-top:26px}
 .mid-line-v{width:1px;flex:1;background:linear-gradient(180deg,transparent,rgba(212,175,55,0.35) 20%,rgba(212,175,55,0.35) 80%,transparent)}
@@ -136,8 +136,8 @@ body{background:#000;min-height:100vh;display:flex;justify-content:center;align-
 
 /* FINAL */
 .final-wrap{position:relative;z-index:4;padding:2px 22px 8px}
-.final-box{background:linear-gradient(135deg,rgba(212,175,55,0.07),rgba(139,0,0,0.15),rgba(0,100,180,0.07));border:2px solid var(--gold);padding:14px 20px;position:relative;clip-path:polygon(0 0,calc(100% - 16px) 0,100% 16px,100% 100%,16px 100%,0 calc(100% - 16px));box-shadow:0 0 30px rgba(212,175,55,0.15),inset 0 0 30px rgba(212,175,55,0.04)}
-.final-box::after{content:'';position:absolute;inset:5px;border:1px solid rgba(212,175,55,0.15);clip-path:polygon(0 0,calc(100% - 11px) 0,100% 11px,100% 100%,11px 100%,0 calc(100% - 11px));pointer-events:none}
+.final-box{background:linear-gradient(135deg,rgba(212,175,55,0.07),rgba(139,0,0,0.15),rgba(0,100,180,0.07));border:2px solid var(--gold);padding:14px 20px;position:relative;-webkit-clip-path:polygon(0 0,calc(100% - 16px) 0,100% 16px,100% 100%,16px 100%,0 calc(100% - 16px));clip-path:polygon(0 0,calc(100% - 16px) 0,100% 16px,100% 100%,16px 100%,0 calc(100% - 16px));box-shadow:0 0 30px rgba(212,175,55,0.15),inset 0 0 30px rgba(212,175,55,0.04)}
+.final-box::after{content:'';position:absolute;inset:5px;border:1px solid rgba(212,175,55,0.15);-webkit-clip-path:polygon(0 0,calc(100% - 11px) 0,100% 11px,100% 100%,11px 100%,0 calc(100% - 11px));clip-path:polygon(0 0,calc(100% - 11px) 0,100% 11px,100% 100%,11px 100%,0 calc(100% - 11px));pointer-events:none}
 .final-top{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:10px}
 .final-crown{font-size:20px;filter:drop-shadow(0 0 10px rgba(255,215,0,0.9));animation:crown-bounce 2s ease-in-out infinite}
 @keyframes crown-bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
@@ -282,9 +282,9 @@ body{background:#000;min-height:100vh;display:flex;justify-content:center;align-
 /* SF SHIMMER EFFECT */
 .sf-sil{width:clamp(90px,16vw,160px);height:auto;margin-bottom:16px;transition:filter 0.3s}
 #sf-overlay.active .sf-sil{animation:sf-sil-enter 1s cubic-bezier(0.22,1,0.36,1) forwards,sf-shimmer 2s ease-out 0.5s forwards}
-.sf-sil{clip-path:polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)}
-@keyframes sf-sil-enter{0%{clip-path:polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%);filter:brightness(1)}50%{clip-path:polygon(0% 40%, 100% 40%, 100% 100%, 0% 100%);filter:brightness(2.5)}55%{filter:brightness(1.2)}100%{clip-path:polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);filter:brightness(1)}}
-@keyframes sf-shimmer{0%{filter:url(#elecShimmer) drop-shadow(0 0 22px var(--shimmer-color,#4488FF));opacity:0.7}100%{filter:drop-shadow(0 0 22px var(--shimmer-color,#4488FF)) drop-shadow(0 0 50px var(--shimmer-color,#4488FF));opacity:1}}
+.sf-sil{-webkit-clip-path:polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%);clip-path:polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)}
+@keyframes sf-sil-enter{0%{-webkit-clip-path:polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%);clip-path:polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%);filter:brightness(1)}50%{-webkit-clip-path:polygon(0% 40%, 100% 40%, 100% 100%, 0% 100%);clip-path:polygon(0% 40%, 100% 40%, 100% 100%, 0% 100%);filter:brightness(2.5)}55%{filter:brightness(1.2)}100%{-webkit-clip-path:polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);clip-path:polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);filter:brightness(1)}}
+@keyframes sf-shimmer{0%{filter:drop-shadow(0 0 22px var(--shimmer-color,#4488FF)) brightness(1.8);opacity:0.7}100%{filter:drop-shadow(0 0 22px var(--shimmer-color,#4488FF)) drop-shadow(0 0 50px var(--shimmer-color,#4488FF));opacity:1}}
 
 .sf-fighter.knocked .sf-sil{animation:sf-sil-crumple 1.2s ease-in forwards!important;transform-origin:bottom center}
 @keyframes sf-sil-crumple{0%{transform:rotate(0deg) translateY(0) scale(1);opacity:1;filter:brightness(1)}10%{transform:scale(1.1) translateX(20px);filter:brightness(3) drop-shadow(0 0 20px #fff)}30%{transform:rotate(-15deg) translateY(10px);filter:brightness(1.5)}60%{transform:rotate(-70deg) translateY(40px) scale(0.9);opacity:0.6;filter:brightness(0.7)}80%{transform:rotate(-82deg) translateY(50px) scale(0.85);opacity:0.4}100%{transform:rotate(-85deg) translateY(55px) scale(0.8);opacity:0.25;filter:grayscale(0.8) drop-shadow(0 4px 12px rgba(255,0,0,0.4))}}
@@ -800,7 +800,7 @@ body{background:#000;min-height:100vh;display:flex;justify-content:center;align-
     <img src="https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/belt-header.png" class="belt-svg" alt="Eid Brawl Championship Belt">
     <!-- Hidden bolt tap zone for Easter Egg 1 (same position as old left side plate bolt) -->
     <div id="belt-bolt-left" style="position:absolute;left:15%;top:22%;width:16%;height:56%;cursor:pointer;z-index:6"></div>
-    <div id="swipe-hint"><span>SWIPE</span><span style="font-size:14px">&#x2192;</span></div>
+    <div id="swipe-hint" onclick="showPersonalBelt()"><span>TAP FOR BELT</span><span style="font-size:14px">&#x1F3C6;</span></div>
   </div>
 
   <div class="tap-hint">&#11015; Tap a fighter to eliminate them &#11015;</div>
@@ -1281,7 +1281,7 @@ let finalWLWritten = false;
 
 // Tap Battle state
 let tapA=0, tapB=0, tapActive=false, selectPhase=false;
-const TAP_TARGET=30;
+const TAP_TARGET=40;
 const TAP_MULTIPLIER={kidchaos:1.35, lasambosa:1.3, elloco:1.0, hero:1.0};
 
 // CPU auto-tap state
@@ -1352,6 +1352,10 @@ function resetRecords(){
   Object.keys(record).forEach(k=>{ record[k]={w:0,l:0,streak:0}; });
   saveRecords(); updateAllRecords();
   try{ localStorage.removeItem('eidBrawlHistory'); }catch(e){}
+  // Reset classic mode unlock so it must be re-earned
+  try{ localStorage.removeItem('eidBrawlClassicUnlockShown'); }catch(e){}
+  classicUnlockShown=false;
+  updateClassicButton();
 }
 loadRecords();
 
@@ -1373,10 +1377,7 @@ function eliminate(semi, fighterId){
   eliminated[semi] = fighterId;
   const winnerId = pairs[semi].fighters.find(f=>f!==fighterId);
   state[semi] = winnerId;
-  // W/L update
-  record[fighterId].l++; record[fighterId].streak=0;
-  record[winnerId].w++; record[winnerId].streak=(record[winnerId].streak||0)+1;
-  saveRecords(); updateRecordDisplay(fighterId); updateRecordDisplay(winnerId);
+  // W/L is NOT recorded here — only the final tap battle result counts
   // Secret button nudge on first elimination
   if(typeof window._secretDripNudge==='function') window._secretDripNudge();
   const fs = document.getElementById('final-'+semi);
@@ -1393,7 +1394,6 @@ function resetSemi(semi){
   if(eliminated[semi]){
     const loserId=eliminated[semi];
     const winnerId=state[semi];
-    if(winnerId){ record[winnerId].w--; record[loserId].l--; saveRecords(); updateRecordDisplay(winnerId); updateRecordDisplay(loserId); }
     const sl = document.getElementById('slot-'+loserId);
     sl.classList.remove('eliminated','anim-knees','anim-shatter','zombie');
     // Restore logo if it was zombified
@@ -1442,10 +1442,7 @@ function fullReset(){
   finalWLWritten=false;
   ['A','B'].forEach(s=>{
     if(eliminated[s]){
-      // Reverse W/L for this semi
-      const loserId=eliminated[s], winnerId=state[s];
-      if(winnerId){ record[winnerId].w--; record[loserId].l--; }
-      const sl=document.getElementById('slot-'+loserId);
+      const sl=document.getElementById('slot-'+eliminated[s]);
       sl.classList.remove('eliminated','anim-knees','anim-shatter','zombie');
     }
     eliminated[s]=null; state[s]=null;
@@ -1460,6 +1457,9 @@ function fullReset(){
   cn.style.display=''; // restore text display
   const zc=document.getElementById('zombie-crush-wrap'); if(zc) zc.remove();
   ['A','B'].forEach(s=>{ const fs=document.getElementById('final-'+s); fs.onclick=null; fs.style.cursor=''; fs.style.opacity=''; });
+  // Restore original belt header
+  const beltImg=document.querySelector('.belt-svg');
+  if(beltImg) beltImg.src='https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/belt-header.png';
   saveRecords(); updateAllRecords();
   closeSFOverlay();
   // Clear easter egg states
@@ -1586,6 +1586,7 @@ function openSFOverlay(){
       const el=document.getElementById('sf-fighter-'+s);
       el.style.opacity='1';
       const sil=document.getElementById('sf-sil-'+s);
+      sil.style.webkitClipPath='polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)';
       sil.style.clipPath='polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)';
     });
   }, 1600);
@@ -1647,9 +1648,8 @@ function selectFighter(chosenSide){
     f.classList.remove('selectable');
     f.onclick=()=>handleTap(s);
   });
-  // Hide choose text, show FIGHT! flash, enter arena mode
+  // Hide choose text, show FIGHT! flash
   document.getElementById('sf-choose-text').classList.remove('show');
-  document.getElementById('sf-overlay').classList.add('arena-mode');
   const flash=document.getElementById('sf-fight-flash');
   flash.classList.remove('show'); void flash.offsetWidth; flash.classList.add('show');
   // Enable tapping + start CPU
@@ -1704,24 +1704,27 @@ function handleTap(side){
   const now=Date.now();
   if(now-lastComboTime<350){ comboCount++; } else { comboCount=1; }
   lastComboTime=now;
-  if(comboCount>=3 && [3,5,7,10,15,20,25,30].includes(comboCount)){
+  if(comboCount>=3 && [3,5,7,10,15,20,25,30,35,40].includes(comboCount)){
     const badge=document.getElementById('combo-badge');
     badge.textContent='x'+comboCount+'!';
+    badge.className=''; // clear all classes first
+    badge.style.display='block';
     badge.className=comboCount>=10?'combo-fire':comboCount>=5?'combo-gold':'combo-blue';
-    void badge.offsetWidth;
+    void badge.offsetWidth; // force reflow
     badge.classList.add('pop');
+    setTimeout(()=>{ badge.style.display='none'; badge.className=''; }, 650);
   }
   applyTap(side);
 }
 
 let rageTriggered={A:false,B:false};
-const RAGE_THRESHOLD=15;
+const RAGE_THRESHOLD=20;
 
 // Finishing combo state
 let comboPhaseActive=false; // true when combo sequence is playing
 let comboPhaseTarget=null;  // side being combo'd (taking damage)
 let comboStep=0;            // current step in COMBO_SEQUENCE (0-5)
-const COMBO_THRESHOLD=0.67; // 67% damage triggers combo phase
+const COMBO_THRESHOLD=0.75; // 75% damage triggers combo phase
 
 function applyTap(side){
   const fId=state[side];
@@ -1765,7 +1768,10 @@ function applyTap(side){
     setTimeout(()=>fl.remove(),200);
     vib([15,10,25]);
     comboStep++;
-    // After last combo step, the next tap's KO check will trigger the win
+    // After last combo step, exit slow-mo so remaining taps feel normal
+    if(comboStep >= COMBO_SEQUENCE.length){
+      document.getElementById('sf-overlay').classList.remove('slow-mo');
+    }
   }
   // RAGE TRANSFORMATION at halfway damage — fighter transforms!
   if(score>=RAGE_THRESHOLD && !rageTriggered[side]){
@@ -1798,7 +1804,7 @@ function applyTap(side){
 
 // Second rage at ~80% damage
 let rage2Triggered={A:false,B:false};
-const RAGE2_THRESHOLD=24;
+const RAGE2_THRESHOLD=32;
 
 function triggerRageTransform(side,newImgSrc){
   vib([30,20,50]);
@@ -2164,6 +2170,13 @@ function triggerTapWin(winningSide){
       cn.textContent=winF.name;
       cn.style.color=winF.hex;
       cn.style.textShadow=`0 0 30px ${winF.hex},0 0 60px ${winF.hex}aa,0 0 100px ${winF.hex}66,4px 4px 0 var(--blood)`;
+      // Swap belt header to winner's personalized belt
+      const beltImg=document.querySelector('.belt-svg');
+      if(beltImg && winF.belt){
+        beltImg.src='https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/'+winF.belt;
+        beltImg.classList.add('belt-swap');
+        setTimeout(()=>beltImg.classList.remove('belt-swap'),700);
+      }
     }
     document.getElementById('champion-reveal').classList.add('show');
     // Show swipe hint for personal belt (not for rigged/zombie)
@@ -2438,7 +2451,7 @@ function triggerRoyalRumble(){
     fighters.classList.add('fade-out');
     const groupImg=document.createElement('img');
     groupImg.className='rumble-group-img';
-    groupImg.src='https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/Group.png';
+    groupImg.src='https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/Group-small.jpg';
     groupImg.alt='All Fighters Group Shot';
     ov.appendChild(groupImg);
   },2000);
@@ -2499,7 +2512,7 @@ function showPersonalBelt(){
   const bc=BELT_COLORS[winnerId];
   const content=document.getElementById('personal-belt-content');
   // At 5+ wins, show the real personalized belt PNG instead of SVG
-  if(record[winnerId].w>=5 && f.belt){
+  if(record[winnerId].w>=2 && f.belt){
     content.innerHTML=`
       <img src="https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/${f.belt}" alt="${f.name} Championship Belt" style="width:100%;max-width:560px;filter:drop-shadow(0 0 30px ${bc.primary}60)">
       <div style="font-family:'Black Ops One',sans-serif;font-size:clamp(18px,4vw,28px);color:${bc.primary};text-shadow:0 0 20px ${bc.primary};margin-top:12px">${f.name}</div>
@@ -2745,17 +2758,12 @@ updateAllRecords();
     if(revealed) return;
     // Light up any unlit logos
     fighterIds.forEach(lightLogo);
-    // Wait for full render before revealing (rAF double-nested + readyState)
-    function whenReady(){
+    // Double-rAF ensures at least one paint cycle before reveal (Safari-safe)
+    requestAnimationFrame(()=>{
       requestAnimationFrame(()=>{
-        requestAnimationFrame(()=>{
-          if(document.readyState==='complete') reveal();
-          else window.addEventListener('load',reveal,{once:true});
-        });
+        reveal();
       });
-    }
-    if(document.readyState==='complete') whenReady();
-    else window.addEventListener('load',whenReady,{once:true});
+    });
   }
 
   function reveal(){
@@ -2768,20 +2776,26 @@ updateAllRecords();
     },200);
   }
 
-  // Preload fighter images
+  // Preload fighter images (Safari-safe: set handlers before src, check .complete after)
   fighterIds.forEach(id=>{
     groups[id].srcs.forEach(src=>{
       const img=new Image();
-      img.onload=img.onerror=()=>tick(id);
+      let done=false;
+      const cb=()=>{ if(!done){done=true;tick(id);} };
+      img.onload=cb; img.onerror=cb;
       img.src=src;
+      if(img.complete) cb(); // Safari cache: onload may not fire
     });
   });
 
   // Preload static images
   staticSrcs.forEach(src=>{
     const img=new Image();
-    img.onload=img.onerror=()=>tick(null);
+    let done=false;
+    const cb=()=>{ if(!done){done=true;tick(null);} };
+    img.onload=cb; img.onerror=cb;
     img.src=src;
+    if(img.complete) cb();
   });
 
   // Wait for fonts
@@ -2976,7 +2990,7 @@ function cancelClassicAnim(side){
 
 // Check if classic mode should be unlocked
 function checkClassicUnlock(){
-  return Object.keys(record).some(id=>record[id].w>=5);
+  return Object.keys(record).some(id=>record[id].w>=2);
 }
 
 // Show/hide the classic mode button on the poster
