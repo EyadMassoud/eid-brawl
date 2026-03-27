@@ -595,10 +595,10 @@ body{background:#000;min-height:100vh;display:flex;justify-content:center;align-
 <div id="loading-screen">
   <div class="load-title">EID BRAWL</div>
   <div class="load-logos">
-    <img class="load-logo" id="load-logo-kidchaos" src="https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/kidchaos-logo.png" alt="Kid Chaos">
-    <img class="load-logo" id="load-logo-elloco" src="https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/elloco-logo.png" alt="El Loco">
-    <img class="load-logo" id="load-logo-hero" src="https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/hero-logo.png" alt="Hero">
-    <img class="load-logo" id="load-logo-lasambosa" src="https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/lasambosa-logo.png" alt="La Sambosa">
+    <img class="load-logo" id="load-logo-kidchaos" src="https://raw.githubusercontent.com/EyadMassoud/eid-brawl/main/kidchaos-logo.png" alt="Kid Chaos">
+    <img class="load-logo" id="load-logo-elloco" src="https://raw.githubusercontent.com/EyadMassoud/eid-brawl/main/elloco-logo.png" alt="El Loco">
+    <img class="load-logo" id="load-logo-hero" src="https://raw.githubusercontent.com/EyadMassoud/eid-brawl/main/hero-logo.png" alt="Hero">
+    <img class="load-logo" id="load-logo-lasambosa" src="https://raw.githubusercontent.com/EyadMassoud/eid-brawl/main/lasambosa-logo.png" alt="La Sambosa">
   </div>
   <div class="load-sub">Loading fighters...</div>
 </div>
@@ -797,7 +797,7 @@ body{background:#000;min-height:100vh;display:flex;justify-content:center;align-
 
   <!-- BELT HEADER -->
   <div class="belt-header" style="position:relative">
-    <img src="https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/belt-header.png" class="belt-svg" alt="Eid Brawl Championship Belt">
+    <img src="https://raw.githubusercontent.com/EyadMassoud/eid-brawl/main/belt-header.png" class="belt-svg" alt="Eid Brawl Championship Belt">
     <!-- Hidden bolt tap zone for Easter Egg 1 (same position as old left side plate bolt) -->
     <div id="belt-bolt-left" style="position:absolute;left:15%;top:22%;width:16%;height:56%;cursor:pointer;z-index:6"></div>
     <div id="swipe-hint" onclick="showPersonalBelt()"><span>TAP FOR BELT</span><span style="font-size:14px">&#x1F3C6;</span></div>
@@ -814,7 +814,7 @@ body{background:#000;min-height:100vh;display:flex;justify-content:center;align-
         <!-- Kid Chaos -->
         <div class="f-slot blue" id="slot-kidchaos" onclick="eliminate('A','kidchaos')">
           <div class="elim-x">&#10005;</div>
-          <img class="f-logo" src="https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/kidchaos-logo.png" alt="Kid Chaos">
+          <img class="f-logo" src="https://raw.githubusercontent.com/EyadMassoud/eid-brawl/main/kidchaos-logo.png" alt="Kid Chaos">
           <div class="f-seed">Seed #1</div>
           <div class="f-name blue">Kid Chaos</div>
           <div class="f-sub"><div class="f-role">The Prodigy</div><div class="f-badge badge-blue">The Son</div></div>
@@ -824,7 +824,7 @@ body{background:#000;min-height:100vh;display:flex;justify-content:center;align-
         <!-- El Loco -->
         <div class="f-slot red" id="slot-elloco" onclick="eliminate('A','elloco')">
           <div class="elim-x">&#10005;</div>
-          <img class="f-logo" src="https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/elloco-logo.png" alt="El Loco">
+          <img class="f-logo" src="https://raw.githubusercontent.com/EyadMassoud/eid-brawl/main/elloco-logo.png" alt="El Loco">
           <div class="f-seed">Seed #2</div>
           <div class="f-name red">El Loco</div>
           <div class="f-sub"><div class="f-role">The Madman</div><div class="f-badge badge-red">The Father</div></div>
@@ -838,7 +838,7 @@ body{background:#000;min-height:100vh;display:flex;justify-content:center;align-
         <!-- Hero -->
         <div class="f-slot grey" id="slot-hero" onclick="eliminate('B','hero')">
           <div class="elim-x">&#10005;</div>
-          <img class="f-logo" src="https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/hero-logo.png" alt="Hero">
+          <img class="f-logo" src="https://raw.githubusercontent.com/EyadMassoud/eid-brawl/main/hero-logo.png" alt="Hero">
           <div class="f-seed">Seed #3</div>
           <div class="f-name grey">Hero</div>
           <div class="f-sub"><div class="f-role">The Veteran</div><div class="f-badge badge-grey">The Grandfather</div></div>
@@ -848,7 +848,7 @@ body{background:#000;min-height:100vh;display:flex;justify-content:center;align-
         <!-- La Sambosa -->
         <div class="f-slot gold" id="slot-lasambosa" onclick="eliminate('B','lasambosa')">
           <div class="elim-x">&#10005;</div>
-          <img class="f-logo" src="https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/lasambosa-logo.png" alt="La Sambosa">
+          <img class="f-logo" src="https://raw.githubusercontent.com/EyadMassoud/eid-brawl/main/lasambosa-logo.png" alt="La Sambosa">
           <div class="f-seed">Seed #4</div>
           <div class="f-name gold">La Sambosa</div>
           <div class="f-sub"><div class="f-role">The Final Boss</div><div class="f-badge badge-gold">The Uncle</div></div>
@@ -925,7 +925,7 @@ function vib(pattern){if(navigator.vibrate)navigator.vibrate(pattern);}
 // =============================================
 const FIGHTERS = {
   kidchaos:  { name:'Kid Chaos',  role:'The Prodigy',    color:'blue', hex:'#4488FF',
-    img1:'https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/kidchaos-1.png', img2:'https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/kidchaos-2.png', img3:'https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/kidchaos-3.png',
+    img1:'https://raw.githubusercontent.com/EyadMassoud/eid-brawl/main/kidchaos-1.png', img2:'https://raw.githubusercontent.com/EyadMassoud/eid-brawl/main/kidchaos-2.png', img3:'https://raw.githubusercontent.com/EyadMassoud/eid-brawl/main/kidchaos-3.png',
     svg:`<circle cx="50" cy="10" r="10"/>
          <line x1="50" y1="20" x2="42" y2="52" stroke="white" stroke-width="7" stroke-linecap="round"/>
          <line x1="44" y1="28" x2="75" y2="22" stroke="white" stroke-width="7" stroke-linecap="round"/>
@@ -943,10 +943,10 @@ const FIGHTERS = {
              elbowL:{x:20,y:40}, handL:{x:8,y:25},
              kneeR:{x:75,y:68}, footR:{x:78,y:100},
              kneeL:{x:12,y:56}, footL:{x:4,y:80} },
-    zombieImg:'https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/KidchoasZombie.png',
+    zombieImg:'https://raw.githubusercontent.com/EyadMassoud/eid-brawl/main/KidchoasZombie.png',
     belt:'kidchoasbelt.png' },
   elloco:    { name:'El Loco',    role:'The Madman',     color:'red',  hex:'#FF5555',
-    img1:'https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/elloco-1.png', img2:'https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/elloco-2.png', img3:'https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/elloco-3.png',
+    img1:'https://raw.githubusercontent.com/EyadMassoud/eid-brawl/main/elloco-1.png', img2:'https://raw.githubusercontent.com/EyadMassoud/eid-brawl/main/elloco-2.png', img3:'https://raw.githubusercontent.com/EyadMassoud/eid-brawl/main/elloco-3.png',
     svg:`<circle cx="44" cy="12" r="10"/>
          <line x1="44" y1="22" x2="40" y2="56" stroke="white" stroke-width="7" stroke-linecap="round"/>
          <line x1="42" y1="30" x2="72" y2="20" stroke="white" stroke-width="7" stroke-linecap="round"/>
@@ -964,10 +964,10 @@ const FIGHTERS = {
              elbowL:{x:12,y:42}, handL:{x:8,y:44},
              kneeR:{x:64,y:80}, footR:{x:72,y:114},
              kneeL:{x:14,y:82}, footL:{x:4,y:116} },
-    zombieImg:'https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/ElLocoZombie.png',
+    zombieImg:'https://raw.githubusercontent.com/EyadMassoud/eid-brawl/main/ElLocoZombie.png',
     belt:'ellocobelt.png' },
   hero:      { name:'Hero',       role:'The Veteran',    color:'grey', hex:'#CCCCCC',
-    img1:'https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/hero-1.png', img2:'https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/hero-2.png', img3:'https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/hero-3.png',
+    img1:'https://raw.githubusercontent.com/EyadMassoud/eid-brawl/main/hero-1.png', img2:'https://raw.githubusercontent.com/EyadMassoud/eid-brawl/main/hero-2.png', img3:'https://raw.githubusercontent.com/EyadMassoud/eid-brawl/main/hero-3.png',
     svg:`<circle cx="40" cy="10" r="10"/>
          <line x1="40" y1="20" x2="40" y2="58" stroke="white" stroke-width="7" stroke-linecap="round"/>
          <line x1="40" y1="28" x2="24" y2="36" stroke="white" stroke-width="7" stroke-linecap="round"/>
@@ -986,10 +986,10 @@ const FIGHTERS = {
              elbowL:{x:24,y:36}, handL:{x:28,y:14},
              kneeR:{x:56,y:86}, footR:{x:62,y:116},
              kneeL:{x:24,y:86}, footL:{x:18,y:116} },
-    zombieImg:'https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/HeroZombie.png',
+    zombieImg:'https://raw.githubusercontent.com/EyadMassoud/eid-brawl/main/HeroZombie.png',
     belt:'herobelt.png' },
   lasambosa: { name:'La Sambosa', role:'The Final Boss', color:'gold', hex:'#FFE066',
-    img1:'https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/lasambosa-1.png', img2:'https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/lasambosa-2.png', img3:'https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/lasambosa-3.png',
+    img1:'https://raw.githubusercontent.com/EyadMassoud/eid-brawl/main/lasambosa-1.png', img2:'https://raw.githubusercontent.com/EyadMassoud/eid-brawl/main/lasambosa-2.png', img3:'https://raw.githubusercontent.com/EyadMassoud/eid-brawl/main/lasambosa-3.png',
     svg:`<circle cx="40" cy="10" r="10"/>
          <line x1="40" y1="20" x2="40" y2="60" stroke="white" stroke-width="7" stroke-linecap="round"/>
          <line x1="40" y1="28" x2="14" y2="34" stroke="white" stroke-width="7" stroke-linecap="round"/>
@@ -1008,7 +1008,7 @@ const FIGHTERS = {
              elbowL:{x:14,y:34}, handL:{x:8,y:52},
              kneeR:{x:64,y:86}, footR:{x:74,y:118},
              kneeL:{x:16,y:86}, footL:{x:6,y:118} },
-    zombieImg:'https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/lasambosazombie.png',
+    zombieImg:'https://raw.githubusercontent.com/EyadMassoud/eid-brawl/main/lasambosazombie.png',
     belt:'lasambosabelt.png' }
 };
 
@@ -1459,7 +1459,7 @@ function fullReset(){
   ['A','B'].forEach(s=>{ const fs=document.getElementById('final-'+s); fs.onclick=null; fs.style.cursor=''; fs.style.opacity=''; });
   // Restore original belt header
   const beltImg=document.querySelector('.belt-svg');
-  if(beltImg) beltImg.src='https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/belt-header.png';
+  if(beltImg) beltImg.src='https://raw.githubusercontent.com/EyadMassoud/eid-brawl/main/belt-header.png';
   saveRecords(); updateAllRecords();
   closeSFOverlay();
   // Clear easter egg states
@@ -2173,7 +2173,7 @@ function triggerTapWin(winningSide){
       // Swap belt header to winner's personalized belt
       const beltImg=document.querySelector('.belt-svg');
       if(beltImg && winF.belt){
-        beltImg.src='https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/'+winF.belt;
+        beltImg.src='https://raw.githubusercontent.com/EyadMassoud/eid-brawl/main/'+winF.belt;
         beltImg.classList.add('belt-swap');
         setTimeout(()=>beltImg.classList.remove('belt-swap'),700);
       }
@@ -2451,7 +2451,7 @@ function triggerRoyalRumble(){
     fighters.classList.add('fade-out');
     const groupImg=document.createElement('img');
     groupImg.className='rumble-group-img';
-    groupImg.src='https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/Group-small.jpg';
+    groupImg.src='https://raw.githubusercontent.com/EyadMassoud/eid-brawl/main/Group-small.jpg';
     groupImg.alt='All Fighters Group Shot';
     ov.appendChild(groupImg);
   },2000);
@@ -2514,7 +2514,7 @@ function showPersonalBelt(){
   // At 5+ wins, show the real personalized belt PNG instead of SVG
   if(record[winnerId].w>=2 && f.belt){
     content.innerHTML=`
-      <img src="https://raw.githubusercontent.com/EyadMassoud/eid-brawl/master/${f.belt}" alt="${f.name} Championship Belt" style="width:100%;max-width:560px;filter:drop-shadow(0 0 30px ${bc.primary}60)">
+      <img src="https://raw.githubusercontent.com/EyadMassoud/eid-brawl/main/${f.belt}" alt="${f.name} Championship Belt" style="width:100%;max-width:560px;filter:drop-shadow(0 0 30px ${bc.primary}60)">
       <div style="font-family:'Black Ops One',sans-serif;font-size:clamp(18px,4vw,28px);color:${bc.primary};text-shadow:0 0 20px ${bc.primary};margin-top:12px">${f.name}</div>
       <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:12px;letter-spacing:6px;color:rgba(255,255,255,0.4);margin-top:4px">MASSOUD FAMILY CHAMPION \u00b7 2026</div>
     `;
