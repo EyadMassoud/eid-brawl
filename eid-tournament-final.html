@@ -8,6 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Black+Ops+One&family=Barlow+Condensed:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+.f-slot,.sf-fighter,.classic-btn,.reset-btn,#swipe-hint,.sf-close-btn,.classic-close-btn{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 :root{--gold:#D4AF37;--gold2:#FFE066;--crimson:#CC0000;--blood:#8B0000;--dark:#06060A}
 body{background:#000;min-height:100vh;display:flex;justify-content:center;align-items:center;padding:20px}
 .poster-scaler{width:100%;max-width:680px}
@@ -42,12 +43,13 @@ body{background:#000;min-height:100vh;display:flex;justify-content:center;align-
 .corner-bl{bottom:8px;left:8px;transform:scaleY(-1)}.corner-br{bottom:8px;right:8px;transform:scale(-1,-1)}
 
 /* LIGHTNING — constrained height to belt zone, behind all content */
-#lightning-canvas{position:absolute;top:0;left:0;width:100%;height:30%;z-index:2;pointer-events:none}
+#lightning-canvas{position:absolute;top:0;left:0;width:100%;height:30%;z-index:2;pointer-events:none;will-change:contents}
 
 /* BELT HEADER */
 .belt-header{position:relative;z-index:4;padding:16px 14px 6px}
 .belt-svg{width:100%;height:auto;filter:drop-shadow(0 0 18px rgba(212,175,55,0.45)) drop-shadow(0 6px 22px rgba(0,0,0,0.95));animation:belt-breathe 3s ease-in-out infinite}
 @keyframes belt-breathe{0%,100%{filter:drop-shadow(0 0 18px rgba(212,175,55,0.35)) drop-shadow(0 6px 22px rgba(0,0,0,0.95))}50%{filter:drop-shadow(0 0 28px rgba(212,175,55,0.6)) drop-shadow(0 0 50px rgba(255,220,50,0.25)) drop-shadow(0 6px 22px rgba(0,0,0,0.95))}}
+@media (pointer:coarse){.belt-svg{animation:belt-breathe-lite 3s ease-in-out infinite}@keyframes belt-breathe-lite{0%,100%{opacity:0.92}50%{opacity:1}}}
 .belt-svg.belt-swap{animation:belt-swap-pulse 0.6s cubic-bezier(0.22,1,0.36,1)}
 @keyframes belt-swap-pulse{0%{transform:scale(1)}30%{transform:scale(1.08);filter:brightness(1.5) drop-shadow(0 0 30px rgba(212,175,55,0.8))}100%{transform:scale(1)}}
 
@@ -224,11 +226,11 @@ body{background:#000;min-height:100vh;display:flex;justify-content:center;align-
 .reset-records-btn:hover{color:rgba(212,175,55,0.5)}
 
 /* SF OVERLAY */
-#sf-overlay{display:none;position:fixed;inset:0;z-index:1000;background:#000;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;opacity:1;transition:opacity 0.5s ease-out}
+#sf-overlay{display:none;position:fixed;inset:0;z-index:1000;background:#000;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;opacity:1;transition:opacity 0.5s ease-out;will-change:transform,opacity}
 #sf-overlay.active{display:flex}
 #sf-overlay.fading-out{opacity:0;pointer-events:none}
 #sf-overlay::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 50%,rgba(160,0,0,0.5) 0%,transparent 70%),repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(255,255,255,0.015) 3px,rgba(255,255,255,0.015) 4px);z-index:0}
-#sf-canvas{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
+#sf-canvas{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;will-change:contents}
 .sf-title{position:relative;z-index:3;text-align:center;margin-bottom:20px;animation:sf-title-in 0.6s cubic-bezier(0.22,1,0.36,1) both}
 @keyframes sf-title-in{0%{transform:scaleY(4) translateY(-30px);opacity:0}100%{transform:scaleY(1) translateY(0);opacity:1}}
 .sf-round-text{font-family:'Barlow Condensed','Arial Narrow',Arial,sans-serif;font-weight:900;font-size:clamp(12px,2.5vw,16px);letter-spacing:10px;color:var(--gold);text-shadow:0 0 16px rgba(255,215,0,0.8);display:block;margin-bottom:4px;text-transform:uppercase}
@@ -247,9 +249,9 @@ body{background:#000;min-height:100vh;display:flex;justify-content:center;align-
 @keyframes sf-walk-in-b{0%{opacity:0;transform:translateX(160px) scaleX(-1) scaleY(0.7)}60%{opacity:1;transform:translateX(-10px) scaleX(-1) scaleY(1.04)}75%{transform:translateX(4px) scaleX(-1) scaleY(0.98)}100%{opacity:1;transform:translateX(0) scaleX(-1) scaleY(1)}}
 
 /* Ground slam shockwave */
-.sf-ground-slam{position:absolute;bottom:-10px;left:50%;width:0;height:4px;background:radial-gradient(ellipse at center,var(--slam-color,#4488FF) 0%,transparent 70%);border-radius:50%;transform:translateX(-50%);opacity:0;pointer-events:none;z-index:0}
+.sf-ground-slam{position:absolute;bottom:-10px;left:50%;width:400px;height:6px;background:radial-gradient(ellipse at center,var(--slam-color,#4488FF) 0%,transparent 70%);border-radius:50%;transform:translateX(-50%) scaleX(0);opacity:0;pointer-events:none;z-index:0;will-change:transform,opacity}
 .sf-ground-slam.fire{animation:ground-slam 0.6s ease-out forwards}
-@keyframes ground-slam{0%{width:0;opacity:0.9;height:4px;filter:blur(2px)}50%{width:280px;opacity:0.7;height:6px;filter:blur(4px)}100%{width:400px;opacity:0;height:2px;filter:blur(8px)}}
+@keyframes ground-slam{0%{transform:translateX(-50%) scaleX(0);opacity:0.9;filter:blur(2px)}50%{transform:translateX(-50%) scaleX(0.7);opacity:0.7;filter:blur(4px)}100%{transform:translateX(-50%) scaleX(1);opacity:0;filter:blur(8px)}}
 
 /* VS badge entrance — hidden until triggered */
 .sf-vs-center{flex-shrink:0;display:flex;align-items:center;justify-content:center;padding:0 10px;opacity:0;transform:scale(0)}
@@ -381,8 +383,8 @@ body{background:#000;min-height:100vh;display:flex;justify-content:center;align-
 .secret-close:hover{color:var(--gold)}
 
 /* ZOMBIE NBA SWOOSH — logo flies across screen */
-.zombie-swoosh{position:fixed;top:50%;z-index:999;height:200px;width:auto;pointer-events:none;filter:drop-shadow(0 0 20px rgba(0,255,68,0.8)) drop-shadow(0 0 40px rgba(0,255,68,0.4));mix-blend-mode:lighten;animation:zombie-swoosh 1.8s cubic-bezier(0.25,0.1,0.25,1) forwards}
-@keyframes zombie-swoosh{0%{left:-220px;transform:translateY(-50%) scale(0.6) rotate(-10deg);opacity:0}15%{opacity:1;transform:translateY(-50%) scale(1) rotate(0deg)}50%{transform:translateY(-50%) scale(1.15) rotate(2deg);opacity:1}85%{opacity:1;transform:translateY(-50%) scale(1) rotate(0deg)}100%{left:calc(100vw + 220px);transform:translateY(-50%) scale(0.6) rotate(10deg);opacity:0}}
+.zombie-swoosh{position:fixed;top:50%;left:0;z-index:999;height:200px;width:auto;pointer-events:none;filter:drop-shadow(0 0 20px rgba(0,255,68,0.8)) drop-shadow(0 0 40px rgba(0,255,68,0.4));mix-blend-mode:lighten;will-change:transform,opacity;animation:zombie-swoosh 1.8s cubic-bezier(0.25,0.1,0.25,1) forwards}
+@keyframes zombie-swoosh{0%{transform:translateX(-220px) translateY(-50%) scale(0.6) rotate(-10deg);opacity:0}15%{opacity:1;transform:translateX(calc(50vw - 110px)) translateY(-50%) scale(1) rotate(0deg)}50%{transform:translateX(calc(50vw - 110px)) translateY(-50%) scale(1.15) rotate(2deg);opacity:1}85%{opacity:1;transform:translateX(calc(50vw - 110px)) translateY(-50%) scale(1) rotate(0deg)}100%{transform:translateX(calc(100vw + 220px)) translateY(-50%) scale(0.6) rotate(10deg);opacity:0}}
 
 /* ZOMBIE TAKEOVER — old image shatters, new image takes over */
 .zombie-takeover{position:fixed;inset:0;z-index:998;background:rgba(0,0,0,0.9);display:flex;align-items:center;justify-content:center;pointer-events:none;opacity:0;animation:zto-in 0.3s ease-out forwards}
@@ -423,8 +425,9 @@ body{background:#000;min-height:100vh;display:flex;justify-content:center;align-
 .sf-progress-wrap{display:none;margin-top:0;margin-bottom:10px;width:100%;max-width:clamp(100px,18vw,150px);text-align:center}
 .sf-progress-wrap.visible{display:block;animation:fade-in 0.3s ease-out}
 @keyframes fade-in{0%{opacity:0}100%{opacity:1}}
-.sf-progress-bar{width:100%;height:10px;background:rgba(255,255,255,0.08);border-radius:5px;overflow:hidden;border:1px solid rgba(255,255,255,0.12)}
-.sf-progress-fill{height:100%;width:0%;border-radius:5px;transition:width 0.08s linear;background:linear-gradient(90deg,var(--bar-color,#4488FF),#fff)}
+.sf-progress-bar{position:relative;width:100%;height:10px;background:rgba(255,255,255,0.08);border-radius:5px;overflow:hidden;border:1px solid rgba(255,255,255,0.12)}
+.sf-progress-ghost{position:absolute;top:0;left:0;height:100%;width:100%;border-radius:5px;transform-origin:left center;transition:transform 0.6s ease-out;background:rgba(255,255,255,0.35);will-change:transform}
+.sf-progress-fill{position:relative;height:100%;width:100%;border-radius:5px;transform-origin:left center;transition:transform 0.08s linear;background:linear-gradient(90deg,var(--bar-color,#4488FF),#fff);will-change:transform}
 .sf-tap-count{font-family:'Bebas Neue',Impact,sans-serif;font-size:13px;color:rgba(255,255,255,0.5);margin-top:2px;letter-spacing:2px}
 
 /* FIGHT FLASH */
@@ -468,13 +471,24 @@ body{background:#000;min-height:100vh;display:flex;justify-content:center;align-
 #sf-overlay.arena-mode .sf-title .sf-fight-text{font-size:clamp(30px,7vw,50px)}
 #sf-overlay.arena-mode .sf-vs-center{display:none}
 
+/* AFTERIMAGE GHOST */
+.afterimage-ghost{pointer-events:none!important;z-index:0!important}
+
 /* SLOW-MO COMBO PHASE — dramatic finishing sequence */
-#sf-overlay.slow-mo::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 50%,transparent 0%,rgba(0,0,0,0.5) 100%);z-index:2;pointer-events:none;animation:slowmo-vignette 0.5s ease-out forwards}
+#sf-overlay.slow-mo::before{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(0,0,0,0.3) 0%,transparent 30%,transparent 70%,rgba(0,0,0,0.4) 100%);animation:slowmo-bars-in 0.6s ease-out forwards}
+#sf-overlay.slow-mo::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 55% 45% at 50% 50%,transparent 0%,rgba(0,0,0,0.65) 100%);z-index:2;pointer-events:none;animation:slowmo-vignette 0.5s ease-out forwards}
 @keyframes slowmo-vignette{0%{opacity:0}100%{opacity:1}}
-#sf-overlay.slow-mo .sf-fighters{z-index:4}
+@keyframes slowmo-bars-in{0%{opacity:0}100%{opacity:1}}
+#sf-overlay.slow-mo .sf-fighters{z-index:4;filter:contrast(1.15) saturate(1.2)}
 #sf-overlay.slow-mo .sf-title{z-index:4}
-.combo-flash{position:absolute;inset:0;background:rgba(255,255,255,0.15);z-index:3;pointer-events:none;animation:combo-flash-out 0.15s ease-out forwards}
-@keyframes combo-flash-out{0%{opacity:1}100%{opacity:0}}
+#sf-overlay.slow-mo .sf-portrait{filter:drop-shadow(0 0 20px rgba(255,100,0,0.5)) contrast(1.2)!important}
+#sf-overlay.slow-mo .sf-sil{filter:drop-shadow(0 0 12px rgba(255,200,50,0.6));transition:filter 0.3s}
+.combo-flash{position:absolute;inset:0;background:radial-gradient(circle at 50% 50%,rgba(255,255,255,0.25) 0%,rgba(255,200,100,0.1) 40%,transparent 70%);z-index:3;pointer-events:none;animation:combo-flash-out 0.25s ease-out forwards}
+@keyframes combo-flash-out{0%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1.05)}}
+/* KO CINEMATIC — tighter vignette, dramatic atmosphere */
+#sf-overlay.ko-cinematic::after{background:radial-gradient(ellipse 45% 35% at 50% 50%,transparent 0%,rgba(0,0,0,0.75) 100%)!important}
+#sf-overlay.ko-cinematic .sf-fighters{filter:contrast(1.25) saturate(1.4)!important}
+#sf-overlay.ko-cinematic .sf-sil{filter:drop-shadow(0 0 18px rgba(255,150,0,0.8))!important}
 
 /* TAP PULSE */
 .sf-fighter.tap-pulse-a{animation:tap-pulse-a 0.1s ease-out}
@@ -519,11 +533,14 @@ body{background:#000;min-height:100vh;display:flex;justify-content:center;align-
 .classic-hp-wrap{flex:1;display:flex;flex-direction:column;gap:2px}
 .classic-hp-wrap.right{align-items:flex-end}
 .classic-hp-wrap.right .classic-hp-bar{direction:rtl}
+.classic-hp-wrap.right .classic-hp-fill{transform-origin:right center}
 .classic-hp-name{font-family:'Black Ops One',Impact,'Arial Black',sans-serif;font-size:clamp(12px,2.5vw,18px);text-transform:uppercase;letter-spacing:2px;text-shadow:0 0 10px currentColor}
 .classic-hp-name.you-label::after{content:' (YOU)';font-size:0.7em;opacity:0.6}
 .classic-hp-name.cpu-label::after{content:' (CPU)';font-size:0.7em;opacity:0.6}
-.classic-hp-bar{width:100%;height:clamp(10px,2vw,16px);background:rgba(255,255,255,0.08);border-radius:3px;overflow:hidden;border:1px solid rgba(255,255,255,0.15)}
-.classic-hp-fill{height:100%;width:100%;border-radius:3px;transition:width 0.15s ease-out;background:linear-gradient(90deg,var(--hp-color,#4488FF),#fff)}
+.classic-hp-bar{position:relative;width:100%;height:clamp(10px,2vw,16px);background:rgba(255,255,255,0.08);border-radius:3px;overflow:hidden;border:1px solid rgba(255,255,255,0.15)}
+.classic-hp-ghost{position:absolute;top:0;left:0;height:100%;width:100%;border-radius:3px;transform-origin:left center;transition:transform 0.6s ease-out;background:rgba(255,255,255,0.3);will-change:transform}
+.classic-hp-wrap.right .classic-hp-ghost{transform-origin:right center}
+.classic-hp-fill{position:relative;height:100%;width:100%;border-radius:3px;transform-origin:left center;transition:transform 0.15s ease-out;background:linear-gradient(90deg,var(--hp-color,#4488FF),#fff);will-change:transform}
 .classic-hp-fill.low{background:linear-gradient(90deg,#FF2200,#FF6644)!important;animation:hp-low-pulse 0.5s ease-in-out infinite}
 @keyframes hp-low-pulse{0%,100%{opacity:1}50%{opacity:0.7}}
 .classic-center{flex-shrink:0;display:flex;flex-direction:column;align-items:center;padding:0 12px;min-width:70px}
@@ -587,6 +604,9 @@ body{background:#000;min-height:100vh;display:flex;justify-content:center;align-
 .classic-result-sub{font-family:'Barlow Condensed','Arial Narrow',Arial,sans-serif;font-weight:900;font-size:clamp(12px,2.5vw,18px);letter-spacing:4px;color:rgba(255,255,255,0.5);text-transform:uppercase;margin-bottom:24px}
 .classic-result-btn{font-family:'Bebas Neue',Impact,sans-serif;font-size:16px;letter-spacing:5px;color:var(--gold2);background:transparent;border:1px solid var(--gold);padding:10px 30px;cursor:pointer;text-transform:uppercase;transition:all 0.3s}
 .classic-result-btn:hover{box-shadow:0 0 16px rgba(212,175,55,0.4)}
+@media (prefers-reduced-motion:reduce){
+  .belt-svg,.vs-mini-inner,.final-crown,.sf-tap-hint,.f-name.gold,.champ-name,.zombie-crater-name,.f-slot.zombie .f-name,.sf-corrupt-scanlines,.sf-corrupt-noise{animation:none!important}
+}
 </style>
 </head>
 <body>
@@ -637,7 +657,7 @@ body{background:#000;min-height:100vh;display:flex;justify-content:center;align-
       <div class="sf-ground-slam" id="sf-slam-A"></div>
       <img class="sf-portrait" id="sf-portrait-A" src="" alt="">
       <div class="sf-progress-wrap" id="sf-progress-A">
-        <div class="sf-progress-bar"><div class="sf-progress-fill" id="sf-fill-A"></div></div>
+        <div class="sf-progress-bar"><div class="sf-progress-ghost" id="sf-ghost-A"></div><div class="sf-progress-fill" id="sf-fill-A"></div></div>
         <div class="sf-tap-count" id="sf-count-A">30 / 30</div>
       </div>
       <svg class="sf-sil" id="sf-sil-A" viewBox="0 0 80 120" fill="white" xmlns="http://www.w3.org/2000/svg"></svg>
@@ -653,7 +673,7 @@ body{background:#000;min-height:100vh;display:flex;justify-content:center;align-
       <div class="sf-ground-slam" id="sf-slam-B"></div>
       <img class="sf-portrait" id="sf-portrait-B" src="" style="transform:scaleX(-1)" alt="">
       <div class="sf-progress-wrap" id="sf-progress-B" style="transform:scaleX(-1)">
-        <div class="sf-progress-bar"><div class="sf-progress-fill" id="sf-fill-B"></div></div>
+        <div class="sf-progress-bar"><div class="sf-progress-ghost" id="sf-ghost-B"></div><div class="sf-progress-fill" id="sf-fill-B"></div></div>
         <div class="sf-tap-count" id="sf-count-B">30 / 30</div>
       </div>
       <svg class="sf-sil" id="sf-sil-B" viewBox="0 0 80 120" fill="white" xmlns="http://www.w3.org/2000/svg"></svg>
@@ -691,7 +711,7 @@ body{background:#000;min-height:100vh;display:flex;justify-content:center;align-
   <div class="classic-hud">
     <div class="classic-hp-wrap" id="classic-hp-left">
       <div class="classic-hp-name" id="classic-name-left" style="color:#4488FF">---</div>
-      <div class="classic-hp-bar"><div class="classic-hp-fill" id="classic-fill-left"></div></div>
+      <div class="classic-hp-bar"><div class="classic-hp-ghost" id="classic-ghost-left"></div><div class="classic-hp-fill" id="classic-fill-left"></div></div>
     </div>
     <div class="classic-center">
       <div class="classic-timer" id="classic-timer">60</div>
@@ -700,7 +720,7 @@ body{background:#000;min-height:100vh;display:flex;justify-content:center;align-
     </div>
     <div class="classic-hp-wrap right" id="classic-hp-right">
       <div class="classic-hp-name" id="classic-name-right" style="color:#FF5555">---</div>
-      <div class="classic-hp-bar"><div class="classic-hp-fill" id="classic-fill-right"></div></div>
+      <div class="classic-hp-bar"><div class="classic-hp-ghost" id="classic-ghost-right"></div><div class="classic-hp-fill" id="classic-fill-right"></div></div>
     </div>
   </div>
   <!-- Arena -->
@@ -921,6 +941,91 @@ body{background:#000;min-height:100vh;display:flex;justify-content:center;align-
 function vib(pattern){if(navigator.vibrate)navigator.vibrate(pattern);}
 
 // =============================================
+// CANVAS PARTICLE SYSTEM — replaces DOM-based sparks
+// =============================================
+const particles = [];
+let particleCanvas = null;
+let particleCtx = null;
+let particleRAF = null;
+
+function initParticleCanvas() {
+  particleCanvas = document.createElement('canvas');
+  particleCanvas.id = 'particle-canvas';
+  particleCanvas.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9998';
+  document.body.appendChild(particleCanvas);
+  particleCtx = particleCanvas.getContext('2d');
+  function resize() {
+    particleCanvas.width = window.innerWidth;
+    particleCanvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+  particleLoop();
+}
+
+function particleLoop() {
+  if (!particleCtx) return;
+  particleCtx.clearRect(0, 0, particleCanvas.width, particleCanvas.height);
+  for (let i = particles.length - 1; i >= 0; i--) {
+    const p = particles[i];
+    p.x += p.vx;
+    p.y += p.vy;
+    p.vy += p.gravity;
+    p.life -= 16; // ~60fps
+    if (p.life <= 0) { particles.splice(i, 1); continue; }
+    const alpha = Math.min(p.life / p.maxLife, 1);
+    const size = p.size * (0.5 + 0.5 * alpha);
+    particleCtx.save();
+    particleCtx.globalAlpha = alpha;
+    particleCtx.fillStyle = p.color;
+    particleCtx.shadowColor = p.color;
+    particleCtx.shadowBlur = p.glow || 0;
+    particleCtx.beginPath();
+    if (p.shape === 'line') {
+      particleCtx.strokeStyle = p.color;
+      particleCtx.lineWidth = size * 0.5;
+      particleCtx.lineCap = 'round';
+      particleCtx.moveTo(p.x, p.y);
+      particleCtx.lineTo(p.x - p.vx * 3, p.y - p.vy * 3);
+      particleCtx.stroke();
+    } else {
+      particleCtx.arc(p.x, p.y, size, 0, Math.PI * 2);
+      particleCtx.fill();
+    }
+    particleCtx.restore();
+  }
+  particleRAF = requestAnimationFrame(particleLoop);
+}
+
+// Spawn particles — drop-in replacement for old spawnSparkBurst
+function spawnSparkBurst(cx, cy, count, colors, spreadX, spreadY, opts) {
+  if (!particleCanvas) initParticleCanvas();
+  const minDur = opts && opts.minDur || 0.4, maxDur = opts && opts.maxDur || 0.7;
+  const size = opts && opts.size || 3, lifeMs = opts && opts.life || 1200;
+  const shape = opts && opts.shape || 'circle';
+  const glow = opts && opts.glow || 4;
+  for (let i = 0; i < count; i++) {
+    const angle = Math.random() * Math.PI * 2;
+    const speed = 1 + Math.random() * 4;
+    const vx = (Math.random() - 0.5) * spreadX * 0.06;
+    const vy = opts && opts.tyBias !== undefined
+      ? (opts.tyBias * 0.04 + Math.random() * spreadY * 0.04)
+      : ((Math.random() - 0.5) * spreadY * 0.06);
+    const life = (minDur + Math.random() * (maxDur - minDur)) * 1000;
+    particles.push({
+      x: cx, y: cy,
+      vx: vx, vy: vy,
+      gravity: 0.08 + Math.random() * 0.06,
+      size: opts && opts.randSize ? (2 + Math.random() * 4) : size,
+      color: colors[(Math.random() * colors.length) | 0],
+      life: life, maxLife: life,
+      shape: shape,
+      glow: glow
+    });
+  }
+}
+
+// =============================================
 // FIGHTER DATA + UNIQUE SF STANCES
 // =============================================
 const FIGHTERS = {
@@ -1099,28 +1204,102 @@ function updateJointsSVG(svgEl, joints){
   els[11].setAttribute('x2',joints.footL.x); els[11].setAttribute('y2',joints.footL.y);
 }
 
+// =============================================
+// GLOBAL TIME SCALE — for slow-mo effects
+// =============================================
+let gameTimeScale = 1.0;
+
+// =============================================
+// HITLAG — freeze all motion on impact
+// =============================================
+let hitlagActive = false;
+let hitlagEnd = 0;
+
+function hitlag(ms) {
+  hitlagActive = true;
+  hitlagEnd = performance.now() + ms;
+}
+
+function isHitlagActive(now) {
+  if (!hitlagActive) return false;
+  if (now >= hitlagEnd) { hitlagActive = false; return false; }
+  return true;
+}
+
+// =============================================
+// AFTERIMAGE SYSTEM — ghosted SVG clones on fast moves
+// =============================================
+let afterimageEnabled = false;
+const AFTERIMAGE_COUNT = 3;
+const AFTERIMAGE_FADE_MS = 150;
+
+function spawnAfterimage(side, joints, svgId) {
+  if (!afterimageEnabled) return;
+  const src = document.getElementById(svgId);
+  if (!src) return;
+  const clone = src.cloneNode(true);
+  clone.removeAttribute('id');
+  clone.classList.add('afterimage-ghost');
+  clone.style.position = 'absolute';
+  clone.style.top = src.style.top || '0';
+  clone.style.left = src.style.left || '0';
+  clone.style.width = getComputedStyle(src).width;
+  clone.style.height = getComputedStyle(src).height;
+  clone.style.opacity = '0.35';
+  clone.style.filter = 'blur(1.5px) brightness(1.8)';
+  clone.style.pointerEvents = 'none';
+  clone.style.zIndex = '0';
+  clone.style.transition = 'opacity ' + AFTERIMAGE_FADE_MS + 'ms ease-out';
+  src.parentNode.insertBefore(clone, src);
+  requestAnimationFrame(() => { clone.style.opacity = '0'; });
+  setTimeout(() => clone.remove(), AFTERIMAGE_FADE_MS + 20);
+}
+
 // Smoothly animate joints from current position to target pose over duration (ms)
 // Returns a promise that resolves when animation completes
-function animateToPose(side, targetJoints, duration, easing){
+// Supports per-joint timing offsets via jointDelays: {jointName: delayFraction (0-1)}
+function animateToPose(side, targetJoints, duration, easing, opts){
   if(!easing) easing=t=>t<0.5?2*t*t:(1-(Math.pow(-2*t+2,2))/2); // ease-in-out quad
+  const jointDelays = opts && opts.jointDelays || null;
+  const isAttack = opts && opts.isAttack || false;
   return new Promise(resolve=>{
     if(jointAnimFrames[side]) cancelAnimationFrame(jointAnimFrames[side]);
     const current=liveJoints[side];
     if(!current){ resolve(); return; }
     const start=cloneJoints(current);
     const keys=Object.keys(targetJoints);
+    const scaledDuration = duration / gameTimeScale;
     const t0=performance.now();
+    const svgEl=document.getElementById('sf-sil-'+side);
+    if(!svgEl){ resolve(); return; }
+    let lastAfterimageT = 0;
     function tick(now){
+      // Hitlag: freeze in place, keep RAF alive
+      if(isHitlagActive(now)){
+        jointAnimFrames[side]=requestAnimationFrame(tick);
+        return;
+      }
       const elapsed=now-t0;
-      const progress=Math.min(elapsed/duration, 1);
+      const progress=Math.min(elapsed/scaledDuration, 1);
       const t=easing(progress);
       for(const k of keys){
         if(!start[k]||!targetJoints[k]) continue;
-        current[k].x=start[k].x+(targetJoints[k].x-start[k].x)*t;
-        current[k].y=start[k].y+(targetJoints[k].y-start[k].y)*t;
+        let jt = t;
+        if(jointDelays && jointDelays[k] !== undefined){
+          // Per-joint timing: delay this joint's start
+          const delay = jointDelays[k];
+          const localProgress = Math.max(0, (progress - delay) / (1 - delay));
+          jt = easing(Math.min(localProgress, 1));
+        }
+        current[k].x=start[k].x+(targetJoints[k].x-start[k].x)*jt;
+        current[k].y=start[k].y+(targetJoints[k].y-start[k].y)*jt;
       }
-      const svgEl=document.getElementById('sf-sil-'+side);
-      if(svgEl) updateJointsSVG(svgEl, current);
+      updateJointsSVG(svgEl, current);
+      // Afterimages during fast attacks
+      if(isAttack && afterimageEnabled && progress - lastAfterimageT > 0.25){
+        lastAfterimageT = progress;
+        spawnAfterimage(side, current, 'sf-sil-'+side);
+      }
       if(progress<1){
         jointAnimFrames[side]=requestAnimationFrame(tick);
       } else {
@@ -1259,6 +1438,162 @@ const POSES = {
     kneeL:{x:30,y:82}, footL:{x:28,y:112}
   }
 };
+
+// WIND-UP POSES — anticipation before strikes
+POSES.jabWindup = {
+  head:{x:42,y:11}, neck:{x:42,y:21}, shoulder:{x:42,y:29},
+  hip:{x:42,y:59},
+  elbowR:{x:48,y:28}, handR:{x:42,y:14}, // pull back
+  elbowL:{x:24,y:30}, handL:{x:26,y:16},
+  kneeR:{x:52,y:83}, footR:{x:56,y:112},
+  kneeL:{x:28,y:83}, footL:{x:24,y:112}
+};
+POSES.crossWindup = {
+  head:{x:38,y:11}, neck:{x:38,y:21}, shoulder:{x:38,y:29},
+  hip:{x:38,y:59},
+  elbowR:{x:52,y:34}, handR:{x:48,y:20},
+  elbowL:{x:16,y:28}, handL:{x:12,y:16}, // rear hand pulls back
+  kneeR:{x:54,y:82}, footR:{x:58,y:112},
+  kneeL:{x:28,y:84}, footL:{x:24,y:112}
+};
+POSES.hookWindup = {
+  head:{x:42,y:10}, neck:{x:42,y:20}, shoulder:{x:42,y:28},
+  hip:{x:42,y:58},
+  elbowR:{x:52,y:18}, handR:{x:42,y:12}, // cock arm back
+  elbowL:{x:20,y:34}, handL:{x:18,y:20},
+  kneeR:{x:48,y:82}, footR:{x:52,y:112},
+  kneeL:{x:28,y:84}, footL:{x:22,y:112}
+};
+POSES.uppercutWindup = {
+  head:{x:40,y:16}, neck:{x:40,y:26}, shoulder:{x:40,y:34}, // crouch down
+  hip:{x:40,y:64},
+  elbowR:{x:50,y:40}, handR:{x:48,y:50}, // hand drops low
+  elbowL:{x:26,y:36}, handL:{x:24,y:22},
+  kneeR:{x:54,y:84}, footR:{x:56,y:112},
+  kneeL:{x:26,y:84}, footL:{x:22,y:112}
+};
+POSES.roundhouseWindup = {
+  head:{x:42,y:11}, neck:{x:42,y:21}, shoulder:{x:42,y:29},
+  hip:{x:42,y:59},
+  elbowR:{x:48,y:26}, handR:{x:44,y:14},
+  elbowL:{x:22,y:36}, handL:{x:18,y:22},
+  kneeR:{x:46,y:74}, footR:{x:42,y:90}, // pull leg up
+  kneeL:{x:28,y:84}, footL:{x:22,y:112}
+};
+POSES.koBlowWindup = {
+  head:{x:40,y:14}, neck:{x:40,y:24}, shoulder:{x:40,y:32}, // coil
+  hip:{x:40,y:62},
+  elbowR:{x:46,y:28}, handR:{x:38,y:16}, // both fists pulled way back
+  elbowL:{x:34,y:28}, handL:{x:26,y:16},
+  kneeR:{x:52,y:82}, footR:{x:56,y:112},
+  kneeL:{x:28,y:84}, footL:{x:22,y:112}
+};
+
+// RECOVERY POSES — overshoot/settle after strikes
+POSES.jabRecover = {
+  head:{x:39,y:10}, neck:{x:39,y:20}, shoulder:{x:39,y:28},
+  hip:{x:38,y:58},
+  elbowR:{x:55,y:26}, handR:{x:62,y:17}, // arm partially retracted
+  elbowL:{x:24,y:30}, handL:{x:26,y:16},
+  kneeR:{x:52,y:82}, footR:{x:56,y:112},
+  kneeL:{x:28,y:82}, footL:{x:24,y:112}
+};
+POSES.kickRecover = {
+  head:{x:36,y:12}, neck:{x:36,y:22}, shoulder:{x:36,y:30},
+  hip:{x:36,y:60},
+  elbowR:{x:48,y:26}, handR:{x:44,y:14},
+  elbowL:{x:18,y:36}, handL:{x:14,y:22},
+  kneeR:{x:54,y:66}, footR:{x:62,y:78}, // leg retracting
+  kneeL:{x:26,y:84}, footL:{x:20,y:112}
+};
+POSES.victoryPose = {
+  head:{x:40,y:4}, neck:{x:40,y:14}, shoulder:{x:40,y:22},
+  hip:{x:40,y:52},
+  elbowR:{x:60,y:10}, handR:{x:68,y:2}, // arms raised triumphant
+  elbowL:{x:20,y:10}, handL:{x:12,y:2},
+  kneeR:{x:52,y:76}, footR:{x:56,y:108},
+  kneeL:{x:28,y:76}, footL:{x:24,y:108}
+};
+
+// EASING FUNCTIONS
+const EASE_IN = t => t * t * t;
+const EASE_OUT = t => 1 - Math.pow(1 - t, 3);
+const EASE_IN_OUT = t => t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2, 3)/2;
+const EASE_SNAP = t => 1 - Math.pow(1 - t, 5); // very fast start, gentle end
+const EASE_LINEAR = t => t;
+
+// PER-JOINT TIMING DELAYS — hand leads, body follows
+const JOINT_DELAYS_PUNCH = {
+  handR: 0, elbowR: 0.05, shoulder: 0.12, neck: 0.15, head: 0.2,
+  hip: 0.18, handL: 0.1, elbowL: 0.1,
+  kneeR: 0.2, footR: 0.25, kneeL: 0.2, footL: 0.25
+};
+const JOINT_DELAYS_KICK = {
+  footR: 0, kneeR: 0.05, hip: 0.1, shoulder: 0.15, neck: 0.18, head: 0.22,
+  handR: 0.12, elbowR: 0.12, handL: 0.12, elbowL: 0.12,
+  kneeL: 0.2, footL: 0.25
+};
+const JOINT_DELAYS_CROSS = {
+  handL: 0, elbowL: 0.05, shoulder: 0.1, neck: 0.15, head: 0.2,
+  hip: 0.12, handR: 0.1, elbowR: 0.1,
+  kneeR: 0.2, footR: 0.25, kneeL: 0.2, footL: 0.25
+};
+
+// MULTI-KEYFRAME POSE CHAINS — wind-up → snap → hitlag → recover → idle
+// Each step: { pose, ms, ease, hitlag?, jointDelays?, isAttack? }
+const POSE_CHAINS = {
+  jab: [
+    { pose: 'jabWindup',  ms: 40,  ease: EASE_IN },
+    { pose: 'jab',        ms: 30,  ease: EASE_SNAP, hitlag: 50, isAttack: true, jointDelays: JOINT_DELAYS_PUNCH },
+    { pose: 'jabRecover',  ms: 60,  ease: EASE_OUT },
+    { pose: 'idle',        ms: 100, ease: EASE_IN_OUT }
+  ],
+  cross: [
+    { pose: 'crossWindup', ms: 45,  ease: EASE_IN },
+    { pose: 'cross',       ms: 35,  ease: EASE_SNAP, hitlag: 55, isAttack: true, jointDelays: JOINT_DELAYS_CROSS },
+    { pose: 'jabRecover',  ms: 70,  ease: EASE_OUT },
+    { pose: 'idle',        ms: 100, ease: EASE_IN_OUT }
+  ],
+  hook: [
+    { pose: 'hookWindup',  ms: 50,  ease: EASE_IN },
+    { pose: 'hook',        ms: 35,  ease: EASE_SNAP, hitlag: 60, isAttack: true, jointDelays: JOINT_DELAYS_PUNCH },
+    { pose: 'jabRecover',  ms: 80,  ease: EASE_OUT },
+    { pose: 'idle',        ms: 110, ease: EASE_IN_OUT }
+  ],
+  uppercut: [
+    { pose: 'uppercutWindup', ms: 60, ease: EASE_IN },
+    { pose: 'uppercut',       ms: 30, ease: EASE_SNAP, hitlag: 70, isAttack: true, jointDelays: JOINT_DELAYS_PUNCH },
+    { pose: 'jabRecover',     ms: 90, ease: EASE_OUT },
+    { pose: 'idle',           ms: 120, ease: EASE_IN_OUT }
+  ],
+  roundhouse: [
+    { pose: 'roundhouseWindup', ms: 55, ease: EASE_IN },
+    { pose: 'roundhouse',       ms: 35, ease: EASE_SNAP, hitlag: 65, isAttack: true, jointDelays: JOINT_DELAYS_KICK },
+    { pose: 'kickRecover',      ms: 80, ease: EASE_OUT },
+    { pose: 'idle',             ms: 120, ease: EASE_IN_OUT }
+  ],
+  koBlow: [
+    { pose: 'koBlowWindup', ms: 70, ease: EASE_IN },
+    { pose: 'koBlow',       ms: 25, ease: EASE_SNAP, hitlag: 90, isAttack: true, jointDelays: JOINT_DELAYS_PUNCH },
+    { pose: 'idle',          ms: 150, ease: EASE_OUT }
+  ]
+};
+
+// Animate a full pose chain — returns promise
+async function animatePoseChain(side, chainName, animFn) {
+  const chain = POSE_CHAINS[chainName];
+  if (!chain) return;
+  if (!animFn) animFn = animateToPose;
+  for (const step of chain) {
+    const pose = POSES[step.pose];
+    if (!pose) continue;
+    await animFn(side, pose, step.ms, step.ease, {
+      jointDelays: step.jointDelays || null,
+      isAttack: step.isAttack || false
+    });
+    if (step.hitlag) hitlag(step.hitlag);
+  }
+}
 
 // The finishing combo sequence: pose names in order
 const COMBO_SEQUENCE = ['jab','cross','hook','uppercut','roundhouse','koBlow'];
@@ -1563,10 +1898,12 @@ function openSFOverlay(){
     aura.style.opacity='0';
     // Reset ground slam
     document.getElementById('sf-slam-'+side).classList.remove('fire');
-    // Reset progress bars
+    // Reset progress bars + ghost bars
     const fill=document.getElementById('sf-fill-'+side);
-    fill.style.width='100%';
+    fill.style.transform='scaleX(1)';
     fill.style.setProperty('--bar-color',f.hex);
+    const ghost=document.getElementById('sf-ghost-'+side);
+    if(ghost) ghost.style.transform='scaleX(1)';
     document.getElementById('sf-count-'+side).textContent=TAP_TARGET+' / '+TAP_TARGET;
     const pw=document.getElementById('sf-progress-'+side);
     pw.classList.remove('visible');
@@ -1710,8 +2047,7 @@ function handleTap(side){
     badge.className=''; // clear all classes first
     badge.style.display='block';
     badge.className=comboCount>=10?'combo-fire':comboCount>=5?'combo-gold':'combo-blue';
-    void badge.offsetWidth; // force reflow
-    badge.classList.add('pop');
+    requestAnimationFrame(()=>{ badge.classList.add('pop'); });
     setTimeout(()=>{ badge.style.display='none'; badge.className=''; }, 650);
   }
   applyTap(side);
@@ -1732,47 +2068,44 @@ function applyTap(side){
   const tapVal=mult*(0.85+Math.random()*0.3);
   if(side==='A') tapA+=tapVal; else tapB+=tapVal;
   const score=side==='A'?tapA:tapB;
-  // Visual pulse
+  // HITLAG — freeze on impact (50ms base, scales with combo)
+  const hitlagMs = comboPhaseActive ? 70 : 40;
+  hitlag(hitlagMs);
+  // Visual pulse — use rAF to restart animation without forced reflow
   const fighter=document.getElementById('sf-fighter-'+side);
   const pulseClass=side==='A'?'tap-pulse-a':'tap-pulse-b';
   fighter.classList.remove(pulseClass);
-  void fighter.offsetWidth;
-  fighter.classList.add(pulseClass);
+  requestAnimationFrame(()=>{ fighter.classList.add(pulseClass); });
   // Update health bar — counts DOWN from TAP_TARGET to 0
   const remaining=Math.max(TAP_TARGET-score,0);
   const pct=Math.min(score/TAP_TARGET*100,100);
-  document.getElementById('sf-fill-'+side).style.width=(100-pct)+'%';
+  document.getElementById('sf-fill-'+side).style.transform='scaleX('+(1-pct/100)+')';
+  // Ghost bar trails behind (delayed CSS transition handles the juice)
+  const ghost=document.getElementById('sf-ghost-'+side);
+  if(ghost) ghost.style.transform='scaleX('+(1-pct/100)+')';
   document.getElementById('sf-count-'+side).textContent=Math.ceil(remaining)+' / '+TAP_TARGET;
   // HURT FACE — red pulse on portrait when HP below 30%
   if(pct>=70) document.getElementById('sf-portrait-'+side).classList.add('hurt');
-  // FINISHING COMBO — enter combo phase when damage crosses threshold
+  // FINISHING COMBO — auto-play cinematic when damage crosses threshold
   if(pct>=COMBO_THRESHOLD*100 && !comboPhaseActive && !comboPhaseTarget){
     comboPhaseActive=true;
     comboPhaseTarget=side;
     comboStep=0;
-    stopIdleAnim();
-    document.getElementById('sf-overlay').classList.add('slow-mo');
-  }
-  // Play combo animation step if in combo phase and this is the target side
-  if(comboPhaseActive && comboPhaseTarget===side && comboStep<COMBO_SEQUENCE.length){
     const attackerSide=side==='A'?'B':'A';
-    const attackPose=POSES[COMBO_SEQUENCE[comboStep]];
-    const hitPose=POSES[COMBO_HIT_REACTIONS[comboStep]];
-    // Animate attacker to attack pose, defender to hit reaction
-    if(attackPose && liveJoints[attackerSide]) animateToPose(attackerSide, attackPose, 120);
-    if(hitPose && liveJoints[side]) animateToPose(side, hitPose, 100);
-    // Flash effect on each combo hit
-    const fl=document.createElement('div');
-    fl.className='combo-flash';
-    document.getElementById('sf-overlay').appendChild(fl);
-    setTimeout(()=>fl.remove(),200);
-    vib([15,10,25]);
-    comboStep++;
-    // After last combo step, exit slow-mo so remaining taps feel normal
-    if(comboStep >= COMBO_SEQUENCE.length){
-      document.getElementById('sf-overlay').classList.remove('slow-mo');
-    }
+    // Lock taps — this is a cinematic, not interactive
+    tapActive=false;
+    stopCPU();
+    stopIdleAnim();
+    // Slow-mo + afterimages
+    gameTimeScale = 0.25;
+    afterimageEnabled = true;
+    const ov=document.getElementById('sf-overlay');
+    ov.classList.add('slow-mo');
+    // Auto-play the full combo sequence
+    runComboSequence(attackerSide, side);
   }
+  // If combo is playing, ignore taps (they're locked above)
+  if(comboPhaseActive) return;
   // RAGE TRANSFORMATION at halfway damage — fighter transforms!
   if(score>=RAGE_THRESHOLD && !rageTriggered[side]){
     rageTriggered[side]=true;
@@ -1822,18 +2155,7 @@ function triggerRageTransform(side,newImgSrc){
   // Spawn shards from portrait position
   const rect=portrait.getBoundingClientRect();
   const cx=rect.left+rect.width/2, cy=rect.top+rect.height/2;
-  const shardColors=[f.hex,'#fff','#FF4400','#FFE066','#FF8800'];
-  for(let i=0;i<12;i++){
-    const sh=document.createElement('div');sh.className='spark';
-    sh.style.left=cx+'px';sh.style.top=cy+'px';
-    sh.style.width=rand(6,14)+'px';sh.style.height=rand(6,14)+'px';
-    sh.style.background=shardColors[Math.floor(Math.random()*shardColors.length)];
-    sh.style.setProperty('--tx',(Math.random()-0.5)*200+'px');
-    sh.style.setProperty('--ty',(Math.random()-0.5)*150+'px');
-    sh.style.setProperty('--dur',(0.3+Math.random()*0.4)+'s');
-    document.body.appendChild(sh);
-    setTimeout(()=>sh.remove(),800);
-  }
+  spawnSparkBurst(cx,cy,12,[f.hex,'#fff','#FF4400','#FFE066','#FF8800'],200,150,{minDur:0.3,maxDur:0.7,randSize:true,life:800});
   // After shatter, swap image with rage-slam-in
   setTimeout(()=>{
     portrait.classList.remove('rage-shatter');
@@ -1937,17 +2259,7 @@ function triggerZombieTakeover(){
       const rect=zImg.getBoundingClientRect();
       const cx=rect.left+rect.width/2, cy=rect.top+rect.height/2;
       const zombieColors=['#00FF44','#00CC33','#88FF88','#00FF68','#33FF99','#ffffff'];
-      for(let i=0;i<50;i++){
-        const s=document.createElement('div');s.className='spark';
-        s.style.left=cx+'px';s.style.top=cy+'px';
-        s.style.background=zombieColors[Math.floor(Math.random()*zombieColors.length)];
-        s.style.width=rand(4,10)+'px';s.style.height=rand(4,10)+'px';
-        s.style.setProperty('--tx',(Math.random()-0.5)*400+'px');
-        s.style.setProperty('--ty',(Math.random()-0.5)*300+'px');
-        s.style.setProperty('--dur',(0.4+Math.random()*0.8)+'s');
-        document.body.appendChild(s);
-        setTimeout(()=>s.remove(),1500);
-      }
+      spawnSparkBurst(cx,cy,isMobile?25:50,zombieColors,400,300,{minDur:0.4,maxDur:1.2,randSize:true,life:1500});
       // Show "INFECTED" text instead of K.O.
       const infected=document.getElementById('sf-infected');
       infected.style.display='block';
@@ -2022,17 +2334,7 @@ function triggerZombieTakeover(){
         setTimeout(()=>{
           const revRect=reveal.getBoundingClientRect();
           const cx2=revRect.left+revRect.width/2,cy2=revRect.top+revRect.height/2;
-          for(let i=0;i<40;i++){
-            const s=document.createElement('div');s.className='spark';
-            s.style.left=cx2+'px';s.style.top=cy2+'px';
-            s.style.background=zombieColors[Math.floor(Math.random()*zombieColors.length)];
-            s.style.width='6px';s.style.height='6px';
-            s.style.setProperty('--tx',(Math.random()-0.5)*300+'px');
-            s.style.setProperty('--ty',(Math.random()-0.5)*200+'px');
-            s.style.setProperty('--dur',(0.5+Math.random()*0.7)+'s');
-            document.body.appendChild(s);
-            setTimeout(()=>s.remove(),1500);
-          }
+          spawnSparkBurst(cx2,cy2,isMobile?20:40,zombieColors,300,200,{life:1500});
         },300);
       },2000);
     },1500);
@@ -2076,38 +2378,196 @@ function stopCPU(){
   if(cpuAfkInterval){ clearInterval(cpuAfkInterval); cpuAfkInterval=null; }
 }
 
-function triggerTapWin(winningSide){
+// =============================================
+// SLOW-MO COMBO SEQUENCE — auto-played cinematic finishing combo
+// =============================================
+async function runComboSequence(attackerSide, defenderSide) {
+  const ov = document.getElementById('sf-overlay');
+  // Escalating delay between hits (slow start, accelerating to final blow)
+  const hitTimings = [600, 500, 450, 350, 300, 250];
+
+  for (let i = 0; i < COMBO_SEQUENCE.length; i++) {
+    if (!sfOpen) return; // bail if overlay closed
+    const comboName = COMBO_SEQUENCE[i];
+    const hitReactName = COMBO_HIT_REACTIONS[i];
+
+    // Wait between hits (scaled by slow-mo)
+    await new Promise(r => setTimeout(r, hitTimings[i]));
+    if (!sfOpen) return;
+
+    // Attacker: full pose chain with wind-up → snap → recover
+    if (POSE_CHAINS[comboName] && liveJoints[attackerSide]) {
+      animatePoseChain(attackerSide, comboName, animateToPose);
+    }
+
+    // Defender: hit reaction at slow-mo speed
+    const hitPose = POSES[hitReactName];
+    if (hitPose && liveJoints[defenderSide]) {
+      animateToPose(defenderSide, hitPose, 120 / gameTimeScale, null, { isAttack: false });
+    }
+
+    // Impact flash (directional — from attacker toward defender)
+    const fl = document.createElement('div');
+    fl.className = 'combo-flash';
+    ov.appendChild(fl);
+    setTimeout(() => fl.remove(), 400);
+
+    // Hitlag (escalating — longer on later hits)
+    hitlag(50 + i * 10);
+
+    // Haptic (escalating intensity)
+    vib(i >= 4 ? [30, 20, 50] : [15, 10, 25]);
+
+    // Screen shake on heavy hits (last 3)
+    if (i >= 3) {
+      ov.classList.remove('screen-shake');
+      void ov.offsetWidth;
+      ov.classList.add('screen-shake');
+    }
+
+    // Sparks on each hit
+    const defEl = document.getElementById('sf-fighter-' + defenderSide);
+    if (defEl) {
+      const rect = defEl.getBoundingClientRect();
+      spawnSparkBurst(
+        rect.left + rect.width / 2, rect.top + rect.height / 3,
+        isMobile ? 6 : 12,
+        ['#FF4400', '#FF8800', '#FFE066', '#fff'],
+        100 + i * 20, 80 + i * 15,
+        { minDur: 0.2, maxDur: 0.5, life: 500, glow: 6 }
+      );
+    }
+
+    // Combo badge
+    const badge = document.getElementById('combo-badge');
+    badge.textContent = 'x' + (i + 1) + '!';
+    badge.className = '';
+    badge.style.display = 'block';
+    badge.className = i >= 4 ? 'combo-fire' : i >= 2 ? 'combo-gold' : 'combo-blue';
+    requestAnimationFrame(() => { badge.classList.add('pop'); });
+    setTimeout(() => { badge.style.display = 'none'; badge.className = ''; }, 600);
+
+    // Apply damage per combo hit (fills bar smoothly during sequence)
+    const damagePerHit = (TAP_TARGET * (1 - COMBO_THRESHOLD)) / COMBO_SEQUENCE.length;
+    if (defenderSide === 'A') tapA += damagePerHit; else tapB += damagePerHit;
+    const score = defenderSide === 'A' ? tapA : tapB;
+    const pctNow = Math.min(score / TAP_TARGET * 100, 100);
+    document.getElementById('sf-fill-' + defenderSide).style.transform = 'scaleX(' + (1 - pctNow / 100) + ')';
+    const ghost = document.getElementById('sf-ghost-' + defenderSide);
+    if (ghost) ghost.style.transform = 'scaleX(' + (1 - pctNow / 100) + ')';
+    document.getElementById('sf-count-' + defenderSide).textContent = Math.ceil(Math.max(TAP_TARGET - score, 0)) + ' / ' + TAP_TARGET;
+
+    comboStep = i + 1;
+  }
+
+  // Combo finished — SNAP back to normal speed
+  gameTimeScale = 1.5; // brief speed burst feel
+  afterimageEnabled = false;
+  ov.classList.remove('slow-mo');
+  setTimeout(() => { gameTimeScale = 1.0; }, 200);
+
+  // Re-enable tapping for remaining HP (if any)
+  comboPhaseActive = false;
+  comboPhaseTarget = null;
+  comboStep = 0;
+  const finalScore = defenderSide === 'A' ? tapA : tapB;
+  if (finalScore >= TAP_TARGET) {
+    triggerTapWin(attackerSide);
+  } else {
+    tapActive = true;
+    startCPU();
+    startIdleAnim();
+  }
+}
+
+async function triggerTapWin(winningSide){
   vib([50,30,80]);
   tapActive=false; stopCPU(); stopIdleAnim();
   comboPhaseActive=false; comboPhaseTarget=null; comboStep=0;
   document.getElementById('sf-overlay').classList.remove('slow-mo');
-  // Clean up any combo flash elements
   document.querySelectorAll('.combo-flash').forEach(el=>el.remove());
   const losingSide=winningSide==='A'?'B':'A';
   const loserEl=document.getElementById('sf-fighter-'+losingSide);
-  loserEl.classList.add('knocked'); loserEl.onclick=null;
+  loserEl.onclick=null;
   const winnerEl=document.getElementById('sf-fighter-'+winningSide);
   winnerEl.onclick=null;
-  winnerEl.classList.add('victor');
-  // Screen shake on KO hit
   const ov=document.getElementById('sf-overlay');
-  ov.classList.remove('screen-shake'); void ov.offsetWidth; ov.classList.add('screen-shake');
+
+  // === KO CINEMATIC SEQUENCE ===
+  // Phase 1: Slow-mo enters — winner locks in, loser can't act
+  gameTimeScale = 0.2;
+  afterimageEnabled = true;
+  ov.classList.add('slow-mo');
+  ov.classList.add('ko-cinematic');
+
+  // Phase 2: Winner performs cinematic finishing combo (3 devastating hits)
+  const koSequence = [
+    { attack: 'hook', hitReact: 'hitLight', delay: 200 },
+    { attack: 'uppercut', hitReact: 'hitHeavy', delay: 300 },
+    { attack: 'koBlow', hitReact: 'hitKO', delay: 400 }
+  ];
+
+  for (let i = 0; i < koSequence.length; i++) {
+    const step = koSequence[i];
+    await new Promise(r => setTimeout(r, step.delay / gameTimeScale));
+    // Animate attacker with full pose chain
+    if (POSE_CHAINS[step.attack] && liveJoints[winningSide]) {
+      animatePoseChain(winningSide, step.attack, animateToPose);
+    }
+    // Defender recoils
+    if (liveJoints[losingSide]) {
+      animateToPose(losingSide, POSES[step.hitReact], 80 / gameTimeScale);
+    }
+    // Impact effects
+    hitlag(i === 2 ? 120 : 70); // final blow gets longest hitlag
+    vib(i === 2 ? [50,30,80] : [15,10,25]);
+    // Screen shake (escalating)
+    ov.classList.remove('screen-shake'); void ov.offsetWidth; ov.classList.add('screen-shake');
+    // Flash on each hit
+    const fl = document.createElement('div');
+    fl.className = 'combo-flash';
+    ov.appendChild(fl);
+    setTimeout(() => fl.remove(), 400);
+    // Spawn sparks on each hit
+    const loserRect = loserEl.getBoundingClientRect();
+    spawnSparkBurst(
+      loserRect.left + loserRect.width/2,
+      loserRect.top + loserRect.height/3,
+      isMobile ? 8 : 15,
+      ['#FF4400','#FF8800','#FFE066','#ffffff'],
+      120, 100,
+      {minDur:0.3, maxDur:0.6, life:600}
+    );
+  }
+
+  // Phase 3: Final KO impact — SNAP back to normal speed
+  await new Promise(r => setTimeout(r, 300));
+  gameTimeScale = 1.5; // speed burst
+  afterimageEnabled = false;
+  ov.classList.remove('slow-mo');
+  setTimeout(() => { gameTimeScale = 1.0; }, 200);
+  ov.classList.remove('ko-cinematic');
+
+  // Now do the standard KO aftermath
+  loserEl.classList.add('knocked');
+  winnerEl.classList.add('victor');
+  // Winner victory pose
+  if (liveJoints[winningSide]) animateToPose(winningSide, POSES.victoryPose, 300, EASE_OUT);
   spawnSparks(loserEl);
-  // W/L for the final
+  // W/L
   finalWLWritten=true;
   record[state[winningSide]].w++; record[state[winningSide]].streak=(record[state[winningSide]].streak||0)+1;
   record[state[losingSide]].l++; record[state[losingSide]].streak=0;
   addHistory(FIGHTERS[state[winningSide]].name,FIGHTERS[state[losingSide]].name,'KO');
   saveRecords(); updateAllRecords();
   checkClassicAfterWin();
-  // KO FLASH + FREEZE FRAME
+  // KO FLASH
   const flash=document.getElementById('rigged-flash');
   flash.style.transition='none'; flash.style.opacity='0.9';
   setTimeout(()=>{ flash.style.transition='opacity 0.4s'; flash.style.opacity='0'; },80);
-  // Freeze both fighters for 400ms
-  ['A','B'].forEach(s=>{ document.getElementById('sf-fighter-'+s).style.animationPlayState='paused'; });
+  // Show KO text after brief freeze
+  hitlag(100);
   setTimeout(()=>{
-    ['A','B'].forEach(s=>{ document.getElementById('sf-fighter-'+s).style.animationPlayState=''; });
     document.getElementById('sf-overlay').classList.add('show-ko');
   },400);
   setTimeout(()=>{
@@ -2152,31 +2612,14 @@ function triggerTapWin(winningSide){
         }
         // Green spark burst instead of gold
         const cx=revRect.left+revRect.width/2, cy=revRect.top+revRect.height/2;
-        const zombieColors=['#00FF44','#00CC33','#88FF88','#00FF68','#ffffff'];
-        for(let i=0;i<40;i++){
-          const s=document.createElement('div'); s.className='spark';
-          s.style.left=cx+'px'; s.style.top=cy+'px';
-          s.style.background=zombieColors[Math.floor(Math.random()*zombieColors.length)];
-          s.style.width='6px'; s.style.height='6px';
-          s.style.setProperty('--tx',(Math.random()-0.5)*300+'px');
-          s.style.setProperty('--ty',(Math.random()-0.5)*200+'px');
-          s.style.setProperty('--dur',(0.5+Math.random()*0.7)+'s');
-          document.body.appendChild(s);
-          setTimeout(()=>s.remove(),1500);
-        }
+        spawnSparkBurst(cx,cy,isMobile?20:40,['#00FF44','#00CC33','#88FF88','#00FF68','#ffffff'],300,200,{life:1500});
       },500); // delay for the slam to land
     } else {
       const winF=FIGHTERS[state[winningSide]];
       cn.textContent=winF.name;
       cn.style.color=winF.hex;
       cn.style.textShadow=`0 0 30px ${winF.hex},0 0 60px ${winF.hex}aa,0 0 100px ${winF.hex}66,4px 4px 0 var(--blood)`;
-      // Swap belt header to winner's personalized belt
-      const beltImg=document.querySelector('.belt-svg');
-      if(beltImg && winF.belt){
-        beltImg.src='https://raw.githubusercontent.com/EyadMassoud/eid-brawl/main/'+winF.belt;
-        beltImg.classList.add('belt-swap');
-        setTimeout(()=>beltImg.classList.remove('belt-swap'),700);
-      }
+      // Belt stays as generic — personal belt is the easter egg via TAP FOR BELT
     }
     document.getElementById('champion-reveal').classList.add('show');
     // Show swipe hint for personal belt (not for rigged/zombie)
@@ -2188,18 +2631,7 @@ function triggerTapWin(winningSide){
       const champEl=document.getElementById('champ-name');
       const rect=champEl.getBoundingClientRect();
       const cx=rect.left+rect.width/2, cy=rect.top+rect.height/2;
-      const goldColors=['#FFE066','#FFD700','#FFF0A0','#FFAA00','#ffffff'];
-      for(let i=0;i<30;i++){
-        const s=document.createElement('div'); s.className='spark';
-        s.style.left=cx+'px'; s.style.top=cy+'px';
-        s.style.background=goldColors[Math.floor(Math.random()*goldColors.length)];
-        s.style.width='6px'; s.style.height='6px';
-        s.style.setProperty('--tx',(Math.random()-0.5)*240+'px');
-        s.style.setProperty('--ty',(Math.random()-0.5)*160+'px');
-        s.style.setProperty('--dur',(0.5+Math.random()*0.7)+'s');
-        document.body.appendChild(s);
-        setTimeout(()=>s.remove(),1500);
-      }
+      spawnSparkBurst(cx,cy,isMobile?15:30,['#FFE066','#FFD700','#FFF0A0','#FFAA00','#ffffff'],240,160,{life:1500});
     },200);
   },2700);
 }
@@ -2207,17 +2639,7 @@ function triggerTapWin(winningSide){
 function spawnSparks(el){
   const rect=el.getBoundingClientRect();
   const cx=rect.left+rect.width/2, cy=rect.top+rect.height/3;
-  const colors=['#FF4400','#FF8800','#FFE066','#ffffff','#FF0000'];
-  for(let i=0;i<20;i++){
-    const s=document.createElement('div'); s.className='spark';
-    s.style.left=cx+'px'; s.style.top=cy+'px';
-    s.style.background=colors[Math.floor(Math.random()*colors.length)];
-    s.style.setProperty('--tx',(Math.random()-0.5)*180+'px');
-    s.style.setProperty('--ty',(Math.random()*-130-20)+'px');
-    s.style.setProperty('--dur',(0.4+Math.random()*0.5)+'s');
-    document.body.appendChild(s);
-    setTimeout(()=>s.remove(),1000);
-  }
+  spawnSparkBurst(cx,cy,isMobile?12:20,['#FF4400','#FF8800','#FFE066','#ffffff','#FF0000'],180,130,{minDur:0.4,maxDur:0.9,tyBias:-20,life:1000});
 }
 
 // =============================================
@@ -2596,6 +3018,9 @@ const ctx=canvas.getContext('2d');
 function resize(){ canvas.width=canvas.offsetWidth; canvas.height=canvas.offsetHeight; }
 resize();
 function rand(a,b){ return a+Math.random()*(b-a); }
+// Mobile detection — reduce canvas shadowBlur for GPU perf
+const isMobile=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)||(navigator.maxTouchPoints>1&&window.innerWidth<900);
+const SHADOW_SCALE=isMobile?0.3:1; // 30% shadowBlur on mobile
 function buildPts(x1,y1,x2,y2,r,d){
   if(d===0) return [[x1,y1],[x2,y2]];
   const mx=(x1+x2)/2+rand(-r,r), my=(y1+y2)/2+rand(-r*0.3,r*0.3);
@@ -2603,11 +3028,11 @@ function buildPts(x1,y1,x2,y2,r,d){
 }
 function drawBolt(b,c=ctx){
   const p=b.pts; if(!p||p.length<2) return;
-  c.save(); c.globalAlpha=b.alpha*0.45; c.strokeStyle=b.color; c.lineWidth=b.width*6; c.shadowColor=b.color; c.shadowBlur=30; c.lineCap='round'; c.lineJoin='round';
+  c.save(); c.globalAlpha=b.alpha*0.45; c.strokeStyle=b.color; c.lineWidth=b.width*6; c.shadowColor=b.color; c.shadowBlur=30*SHADOW_SCALE; c.lineCap='round'; c.lineJoin='round';
   c.beginPath(); c.moveTo(p[0][0],p[0][1]); for(let i=1;i<p.length;i++) c.lineTo(p[i][0],p[i][1]); c.stroke(); c.restore();
-  c.save(); c.globalAlpha=b.alpha*0.8; c.strokeStyle=b.color; c.lineWidth=b.width*2.5; c.shadowColor=b.color; c.shadowBlur=12; c.lineCap='round'; c.lineJoin='round';
+  c.save(); c.globalAlpha=b.alpha*0.8; c.strokeStyle=b.color; c.lineWidth=b.width*2.5; c.shadowColor=b.color; c.shadowBlur=12*SHADOW_SCALE; c.lineCap='round'; c.lineJoin='round';
   c.beginPath(); c.moveTo(p[0][0],p[0][1]); for(let i=1;i<p.length;i++) c.lineTo(p[i][0],p[i][1]); c.stroke(); c.restore();
-  c.save(); c.globalAlpha=b.alpha*0.9; c.strokeStyle='#fff'; c.lineWidth=b.width*0.6; c.shadowColor='#fff'; c.shadowBlur=6; c.lineCap='round'; c.lineJoin='round';
+  c.save(); c.globalAlpha=b.alpha*0.9; c.strokeStyle='#fff'; c.lineWidth=b.width*0.6; c.shadowColor='#fff'; c.shadowBlur=6*SHADOW_SCALE; c.lineCap='round'; c.lineJoin='round';
   c.beginPath(); c.moveTo(p[0][0],p[0][1]); for(let i=1;i<p.length;i++) c.lineTo(p[i][0],p[i][1]); c.stroke(); c.restore();
   if(b.branches) for(const br of b.branches) drawBolt({...br,alpha:b.alpha*br.alpha},c);
 }
@@ -2642,7 +3067,7 @@ function drawImpacts(){
     ctx.save(); ctx.globalAlpha=im.alpha*0.8; ctx.beginPath(); ctx.arc(im.x,im.y,im.r,0,Math.PI*2);
     const g=ctx.createRadialGradient(im.x,im.y,0,im.x,im.y,im.r);
     g.addColorStop(0,'#ffffff'); g.addColorStop(0.4,im.color); g.addColorStop(1,'transparent');
-    ctx.fillStyle=g; ctx.shadowColor=im.color; ctx.shadowBlur=16; ctx.fill(); ctx.restore();
+    ctx.fillStyle=g; ctx.shadowColor=im.color; ctx.shadowBlur=16*SHADOW_SCALE; ctx.fill(); ctx.restore();
     im.alpha-=0.12; im.r+=2;
     if(im.alpha<=0) impacts.splice(i,1);
   }
@@ -2771,6 +3196,7 @@ updateAllRecords();
     setTimeout(()=>{
       scaler.classList.add('ready');
       poster.classList.add('loaded');
+      resize(); // ensure lightning canvas gets dimensions now that poster is laid out
       screen.classList.add('done');
       setTimeout(()=>screen.remove(),600);
     },200);
@@ -2953,8 +3379,10 @@ const classicState={
 const classicLiveJoints={left:null, right:null};
 const classicAnimFrames={left:null, right:null};
 
-function classicAnimateToPose(side, targetJoints, duration, easing){
+function classicAnimateToPose(side, targetJoints, duration, easing, opts){
   if(!easing) easing=t=>t<0.5?2*t*t:(1-(Math.pow(-2*t+2,2))/2);
+  const jointDelays = opts && opts.jointDelays || null;
+  const isAttack = opts && opts.isAttack || false;
   return new Promise(resolve=>{
     if(classicAnimFrames[side]) cancelAnimationFrame(classicAnimFrames[side]);
     const current=classicLiveJoints[side];
@@ -2962,17 +3390,35 @@ function classicAnimateToPose(side, targetJoints, duration, easing){
     const start=cloneJoints(current);
     const keys=Object.keys(targetJoints);
     const t0=performance.now();
+    const svgEl=document.getElementById('classic-sil-'+side);
+    if(!svgEl){ resolve(); return; }
+    let lastAfterimageT = 0;
     function tick(now){
+      // Hitlag: freeze in place
+      if(isHitlagActive(now)){
+        classicAnimFrames[side]=requestAnimationFrame(tick);
+        return;
+      }
       const elapsed=now-t0;
       const progress=Math.min(elapsed/duration,1);
       const t=easing(progress);
       for(const k of keys){
         if(!start[k]||!targetJoints[k]) continue;
-        current[k].x=start[k].x+(targetJoints[k].x-start[k].x)*t;
-        current[k].y=start[k].y+(targetJoints[k].y-start[k].y)*t;
+        let jt = t;
+        if(jointDelays && jointDelays[k] !== undefined){
+          const delay = jointDelays[k];
+          const localProgress = Math.max(0, (progress - delay) / (1 - delay));
+          jt = easing(Math.min(localProgress, 1));
+        }
+        current[k].x=start[k].x+(targetJoints[k].x-start[k].x)*jt;
+        current[k].y=start[k].y+(targetJoints[k].y-start[k].y)*jt;
       }
-      const svgEl=document.getElementById('classic-sil-'+side);
-      if(svgEl) updateJointsSVG(svgEl,current);
+      updateJointsSVG(svgEl,current);
+      // Afterimages during fast attacks
+      if(isAttack && afterimageEnabled && progress - lastAfterimageT > 0.25){
+        lastAfterimageT = progress;
+        spawnAfterimage(side, current, 'classic-sil-'+side);
+      }
       if(progress<1){
         classicAnimFrames[side]=requestAnimationFrame(tick);
       } else {
@@ -3175,8 +3621,13 @@ function classicUpdateHP(){
   const cPct=Math.max(classicState.cpuHP/CLASSIC_MAX_HP*100,0);
   const fillL=document.getElementById('classic-fill-left');
   const fillR=document.getElementById('classic-fill-right');
-  fillL.style.width=pPct+'%';
-  fillR.style.width=cPct+'%';
+  fillL.style.transform='scaleX('+(pPct/100)+')';
+  fillR.style.transform='scaleX('+(cPct/100)+')';
+  // Ghost bars trail behind (juice effect)
+  const ghostL=document.getElementById('classic-ghost-left');
+  const ghostR=document.getElementById('classic-ghost-right');
+  if(ghostL) ghostL.style.transform='scaleX('+(pPct/100)+')';
+  if(ghostR) ghostR.style.transform='scaleX('+(cPct/100)+')';
   // Low HP flash
   if(pPct<=30) fillL.classList.add('low'); else fillL.classList.remove('low');
   if(cPct<=30) fillR.classList.add('low'); else fillR.classList.remove('low');
@@ -3588,10 +4039,21 @@ function classicExecuteMove(attackerSide, moveName){
   // Show damage number
   classicShowDmgPop(defenderSide, dmg, isBlocked, isCrit);
 
-  // Animate attacker — attack pose then return to idle
-  classicAnimateToPose(attackerSide, cfg.pose, cfg.animMs).then(()=>{
-    if(classicState.fightActive) classicAnimateToPose(attackerSide, POSES.idle, 200);
-  });
+  // HITLAG — freeze on impact (longer for crits/heavy hits)
+  if(!isBlocked && dmg>0){
+    const hMs = isCrit ? 70 : (dmg>=5 ? 55 : 40);
+    hitlag(hMs);
+  }
+
+  // Animate attacker — use pose chain if available, else single pose
+  const chainName = moveName === 'punch' ? 'jab' : (moveName === 'kick' ? 'roundhouse' : null);
+  if(chainName && POSE_CHAINS[chainName]){
+    animatePoseChain(attackerSide, chainName, classicAnimateToPose);
+  } else {
+    classicAnimateToPose(attackerSide, cfg.pose, cfg.animMs, null, {isAttack:true}).then(()=>{
+      if(classicState.fightActive) classicAnimateToPose(attackerSide, POSES.idle, 200);
+    });
+  }
 
   // Animate defender — hit reaction (if not blocking)
   if(!isBlocked && dmg>0){
